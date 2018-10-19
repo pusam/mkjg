@@ -1,0 +1,72 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="kr.co.sist.mkjg.protector.dao.examMapper2">
+	
+	<!-- 고객센터 -->
+	<sql id="AskQuery">
+		select qtitle,rstatus,qdate
+		from question_gc
+		where pid=#{pid}
+		union all
+		select qtitle,rstatus,qdate
+		from question_ua
+		where wid=#{pid}
+		order by qdate
+	</sql>
+	<!-- 문의사항 리스트 (병원,관리자 문의) 조회 -->
+	<select id="selectAskList" parameterType="kr.co.sist.mkjg.protector.vo.SelCntVO" resultType="kr.co.sist.mkjg.protector.domain.AskList">
+		select qtitle,decode(rstatus,'N','미답변','Y','답변') rstatus,to_char(qdate,'yyyy-MM-dd') qdate from
+		(<include refid="AskQuery"/>)
+		<where>
+		<if test="keyword!=null and !''.equals(keyword)"> 
+			${fieldName} like '%'||#{ keyword}||'%'
+		</if>
+		</where>
+	</select>
+	
+	<select id="selectAskCnt"  parameterType="kr.co.sist.mkjg.protector.vo.SelCntVO" resultType="int">
+		select count(*) cnt from
+		(<include refid="AskQuery"/>)
+		<where>
+		 <!-- <if test="vo의getter명.equals('비교값')">
+		 		실행할 쿼리 -->
+		<if test="keyword!=null and !''.equals(fieldName)">
+		 	${fieldName} like '%'||#{ keyword}||'%' 
+		</if>
+		</where>
+	</select>
+	
+	<!-- 신고 리스트 조회 -->
+	<select id="selectReportList" parameterType="kr.co.sist.mkjg.protector.vo.SelCntVO" resultType="kr.co.sist.mkjg.protector.domain.ReportList">
+		select cl_title, decode(cl_status,'R','미처리','Y','답변','N','미답변') cl_status, wdate
+		from claim
+		where wtype='G' and wid=#{pid};
+		<where>
+		<if test="keyword!=null and !''.equals(keyword)"> 
+			${fieldName} like '%'||#{ keyword}||'%'
+		</if>
+		</where>
+	</select>
+	
+	
+	<!-- 마이페이지  -->
+	
+	<!-- 이용내역 조회  -->
+	<select id="selectHistory" parameterType="kr.co.sist.mkjg.protector.vo.SelCntVO" resultType="kr.co.sist.mkjg.protector.domain.History">
+		select decode(bkl.pet_type,'C','고양이','D','개','E','기타') pet_type ,bkl.pet_name, c.msg,cln.cln_name,bkl.bdate
+		from book_list bkl, clinic cln, care c
+		where bkl.bln=cln.bln and bkl.pid=c.pid;
+	</select>
+	
+	<!-- 블랙리스트 조회  -->
+	<select id="selectBlackList" parameterType="kr.co.sist.mkjg.protector.vo.BlackVO" resultType="kr.co.sist.mkjg.protector.domain.BlackList">
+		select distinct cln.cln_name, clm.cl_date
+		from bl_list bl, clinic cln, claim clm
+		where clm.cl_status='Y' and bl.bln=#{business} and bl.pid=#{wid}
+		order by clm.cl_date
+	</select>
+
+	
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ 	메인화면, 알림, 병원찾기
+ -->
+<mapper namespace="kr.co.sist.mkjg.protector.sql.mainNoticeMapper">
+	<!-- 신규등록 병원 5 -->
+	<select id="selectMainCln" resultType="kr.co.sist.mkjg.protector.domain.MainNewCln">
+	select cln_name, sido, sigungu, bln
+	from (select rownum rnum, cln_name, sido, sigungu, bln
+			from clinic
+			where aprvl_yn = 'Y'
+			order by aprvl_date desc)
+	where rnum between 1 and 5
+	</select>
+
+	<!-- 야간병원 5 -->
+	<select id="selectMainNight" resultType="kr.co.sist.mkjg.protector.domain.MainNightCln">
+	select cln_name, sido, sigungu, bln
+	from (select rownum rnum, cln_name, sido, sigungu, bln
+			from clinic
+			where aprvl_yn = 'Y' and night_yn = 'A'
+			order by aprvl_date desc)
+	where rnum between 1 and 5
+	</select>
+
+	
+	<!-- 신규 알림 -->
+	<select id="selectMainNotice" resultType="kr.co.sist.mkjg.protector.domain.MainNotice">
+	select ntitle, reciever, not_seq
+	from (select rownum rnum, ntitle, reciever, not_seq
+			from notice
+			order by reg_date desc)
+	where rnum between 1 and 5
+	</select>
+	
+	<!-- 알림 조회 -->
+	<select id="selectNotice" resultType="kr.co.sist.mkjg.protector.domain.Notice">
+	select 	ntitle, to_char(reg_date, 'yyyy-mm-dd') reg_date, reciever, not_seq
+	from 	notice
+	where	reciever = 0 or reciever = 1
+	order by reg_date desc
+	</select>
+	
+	<!-- 게시글 수 -->
+	<select id="cntNotice" resultType="Integer">
+	select count(*) cnt 
+	from notice
+	where reciever = 0 or reciever =1
+	</select>
+		
+	<!-- 알림 읽기 -->
+	<select id="selectNoticeRead" resultType="kr.co.sist.mkjg.protector.domain.NoticeRead" parameterType="String">
+	select 	ntitle, to_char(reg_date, 'yyyy-mm-dd') reg_date, reciever, not_seq, ntext
+	from 	notice
+	where	not_seq = #{notice_num}
+	</select>
+	
+
+</mapper>

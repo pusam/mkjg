@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ 	병원찾기, 상세페이지(병원정보, 문의, 예약, 리뷰)
+ -->
+<mapper namespace="kr.co.sist.mkjg.protector.sql.searchClnMapper">
+	<!-- 지역 select -->
+	<select id="sidoSelect" resultType="String">
+ 	select distinct sido
+ 	from clinic
+ 	</select>
+	<select id="sigunguSelect" resultType="String" parameterType="String">
+ 	select distinct sigungu
+ 	from clinic
+ 	where sido = #{sido}
+ 	</select>
+	
+	<!-- 모든 병원 조회 -->
+	<select id="selectAllCln" resultType="kr.co.sist.mkjg.protector.domain.AllClnList" 
+		parameterType="kr.co.sist.mkjg.protector.vo.SectionVO">
+	select bln, cln_name, sido, sigungu, emd
+	from (select bln, cln_name, sido, sigungu, emd,aprvl_date
+		from clinic
+		where aprvl_yn = 'Y' )
+	where	sido = #{sido} and sigungu = #{sigungu}
+	order by  aprvl_date desc
+	</select>
+
+	<!-- 모든 병원 맵 -->
+	<select id="selectAllMap" resultType="kr.co.sist.mkjg.protector.vo.MapVO" 
+		parameterType="kr.co.sist.mkjg.protector.vo.SectionVO">
+	select bln, x, y
+	from (select bln, x, y,aprvl_date
+		from clinic
+		where aprvl_yn = 'Y' )
+	where	sido = #{sido} and sigungu = #{sigungu}
+	order by  aprvl_date desc
+	</select>
+
+	<!-- 야간진료 병원 조회 -->
+	<select id="selectNightCln" resultType="kr.co.sist.mkjg.protector.domain.NightClnList"
+		parameterType="kr.co.sist.mkjg.protector.vo.SectionVO">
+	select bln, cln_name, night_yn, sido, sigungu, emd
+	from (select nc.bln, c.cln_name, c.night_yn, c.sido, c.sigungu, c.emd,aprvl_date
+			from clinic c, night_care nc
+			where c.bln=nc.bln
+					and day_of_week = decode(to_char(sysdate, 'day'),'월요일',1,'화요일',2,'수요일',3,'목요일',4,'금요일',5)
+			union
+			select bln, cln_name, night_yn, sido, sigungu, emd,aprvl_date
+			from clinic
+			where night_yn = 'A')
+	where sido = #{sido} and sigungu = #{sigungu}
+	</select>
+ 
+	<!-- 야간진료 병원 맵 -->
+	<select id="selectNightMap" resultType="kr.co.sist.mkjg.protector.domain.NightClnList"
+		parameterType="kr.co.sist.mkjg.protector.vo.SectionVO">
+	select bln, x, y,aprvl_date
+	from (select nc.bln, c.x, c.y,aprvl_date
+			from clinic c, night_care nc
+			where c.bln=nc.bln
+					and day_of_week = decode(to_char(sysdate, 'day'),'월요일',1,'화요일',2,'수요일',3,'목요일',4,'금요일',5)
+			union
+			select bln, x, y,aprvl_date
+			from clinic
+			where night_yn = 'A')
+	where sido = #{sido} and sigungu = #{sigungu}
+	</select>
+ 
+
+</mapper>

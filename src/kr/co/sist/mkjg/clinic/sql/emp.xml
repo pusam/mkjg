@@ -1,0 +1,128 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="emp.selectMapper" >
+	<select id="EmpListAll" resultType="kr.co.sist.mkjg.clinic.domain.EmpListDomain">
+	<![CDATA[
+		SELECT num, bln, ename, eid, email, tel, addr, addr_detail
+			FROM(
+		SELECT rownum rnum, num, bln, ename, eid, email, tel, addr, addr_detail
+			FROM(
+		SELECT rownum num, bln, ename, eid, email, tel, addr, addr_detail
+			FROM emp
+		WHERE bln=#{bln}
+			ORDER BY num desc)
+			ORDER BY rnum desc)
+		WHERE rnum between #{start} and #{end}
+	]]> 
+	</select>
+	
+	<select id="totalEmpCount" resultType="int">
+		SELECT count(*) from emp
+		where bln=#{bln}
+	</select>	
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+			SELECT count(*)
+				FROM emp
+			WHERE eid=#{eid}
+	</select>
+	
+	<insert id="insertEmp">
+		INSERT INTO emp
+		VALUES ( #{eid}, #{pw}, #{bln}, #{ename}, #{post}, #{addr}, #{addr_detail}, #{email}, #{birthday}, #{tel}, '127.0.0.1', sysdate, 'N' )
+	</insert>
+	
+	<select id="ViewEmp" resultType="kr.co.sist.mkjg.clinic.vo.EmpMember">
+		SELECT eid, pw, ename, birthday, tel, email, post, addr, addr_detail
+			FROM emp
+		WHERE eid=#{eid}
+	</select>
+	
+	<update id="UpdateEmp">
+		UPDATE emp
+			SET pw=#{pw}, tel=#{tel}, email=#{email}, post=#{post}, addr=#{addr}, addr_detail=#{addr_detail}
+		WHERE eid=#{eid}
+	</update>
+	
+	<select id="hogListAll" resultType="kr.co.sist.mkjg.clinic.domain.HogListDomain">
+	<![CDATA[
+		SELECT num, pid, pname, pet_name, tel, to_char(bdate,'yyyy-mm-dd') as bdate , bln, cl_status, cl_seq
+			FROM(
+		SELECT rownum rnum,num, pid, pname, pet_name, tel, bdate, bln, cl_status, cl_seq
+			FROM(
+		SELECT rownum num, bll.pid, pro.pname, bk.pet_name, pro.tel, bk.bdate, bll.bln, cl.cl_status,bll.cl_seq
+			FROM protector pro, bl_list bll, book_list bk,admin ad, claim cl
+		WHERE pro.pid = bll.pid and pro.pid = bk.pid and ad.aid = bll.aid and cl.cl_seq = bll.cl_seq and bll.bln=#{bln}
+			ORDER BY num desc)
+			ORDER BY rnum desc)
+		WHERE rnum between #{start} and #{end}
+		]]> 
+	</select>
+	
+	<select id="totalHogCount" resultType="int">
+		SELECT count(*) from bl_list
+		where bln=#{bln}
+	</select>	
+	
+	<select id="hogView" resultType="kr.co.sist.mkjg.clinic.vo.hogInfo">
+		SELECT pid, pname, pet_name, tel, to_char(wdate,'yyyy-mm-dd') as wdate, cl_text, msg, cl_seq, bln
+			FROM(
+		SELECT pro.pid, pro.pname, bk.pet_name, pro.tel, cl.wdate, cl.cl_text, cl.msg, bll.cl_seq, bll.bln
+			FROM protector pro, bl_list bll, book_list bk, claim cl
+		WHERE pro.pid=bll.pid and pro.pid=bk.pid and cl.cl_seq = bll.cl_seq and bll.bln=#{bln} )
+		WHERE cl_seq=#{cl_seq}
+	</select>
+	
+	<select id="clnView" resultType="kr.co.sist.mkjg.clinic.vo.clnInfoView">
+	SELECT cln_name, bln, director, tel, email, open_time, close_time, night_yn, post, sido, 
+				sigungu, emd, addr_detail, cut_yn, hstl_yn, intro, nopen, nclose
+	FROM(
+	SELECT cl.cln_name, cl.bln, cl.director, cl.tel, cl.email, cl.open_time, cl.close_time, cl.night_yn, cl.post, cl.sido, cl.sigungu, cl.emd,
+			  cl.addr_detail, cl.cut_yn, cl.hstl_yn, cl.intro, nc.nopen, nc.nclose
+		FROM clinic cl, night_care nc
+	WHERE cl.bln = nc.bln)
+	WHERE bln=#{bln}
+	</select>
+	 
+ 	<update id="UpdateCln">
+	UPDATE clinic
+		SET tel=#{tel}, email=#{email},night_yn=#{night_yn} ,hstl_yn=#{hstl_yn}, cut_yn=#{cut_yn},
+			 open_time=#{open_time}, close_time=#{close_time},
+			 subject=#{subject}, intro=#{intro}, addr=#{addr}, addr_detail=#{addr_detail}
+	WHERE bln=#{bln}
+	</update>
+	
+	<update id="UpdateClnN">
+	UPDATE night_care
+		SET nopen=#{nopen}, nclose=#{nclose}, day_of_week=#{day_of_week}
+	WHERE bln=#{bln}
+	</update>
+	
+	<select id="totalNoticeCount" resultType="int">
+		SELECT count(*) FROM notice
+		WHERE reciever = '2' or reciever = '0'
+	</select>	
+	
+	<select id="noticeListAll" resultType="kr.co.sist.mkjg.clinic.domain.NoticeListDomain">
+		select num, ntitle, to_char(reg_date,'yyyy-mm-dd') as reg_date, not_seq, aid
+			from(
+		select rownum rnum, num, ntitle, reg_date, not_seq, aid
+			from(
+		select rownum num, ntitle, reg_date, not_seq, aid
+			from notice
+		where reciever = '0' or reciever = '2'
+			order by num desc)
+			order by rnum desc)
+		where rnum between #{start} and #{end}
+	</select>
+	
+			
+	<select id="noticeView" resultType="kr.co.sist.mkjg.clinic.vo.NoticeView">
+		SELECT not_seq, ntitle, aid, to_char(reg_date,'yyyy-mm-dd') as reg_date, ntext
+			FROM notice
+		WHERE not_seq = #{not_seq}
+	</select>
+	
+</mapper>

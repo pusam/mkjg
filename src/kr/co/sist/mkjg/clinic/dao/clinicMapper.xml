@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.mkjg.clinic.dao.clinicMapper">
+	<select id="selectNoticeTitle" resultType="kr.co.sist.mkjg.clinic.domain.NoticeTitle">
+	SELECT NTITLE
+	FROM (SELECT ROWNUM AS RNUM, NTITLE, REG_DATE
+			FROM (SELECT NTITLE, REG_DATE
+					FROM NOTICE
+					WHERE RECIEVER != 1 
+					ORDER BY REG_DATE DESC))
+	WHERE RNUM BETWEEN 1 AND 4
+	</select>
+	<select id="selectTodayReg" resultType="kr.co.sist.mkjg.clinic.domain.TodayReg">
+	SELECT rnum, pid, btime, bdate
+	FROM	(SELECT ROWNUM rnum, PID, BTIME, bdate
+				FROM (SELECT PID, BTIME, TO_CHAR(BDATE,'YYYY-MM-DD') AS BDATE, TO_CHAR(SYSDATE,'YYYY-MM-DD') AS TODAY
+				FROM BOOK_LIST
+				WHERE BLN = #{bln}
+				ORDER BY BTIME desc)
+				WHERE BDATE = TODAY)
+	WHERE RNUM BETWEEN 1 AND 4
+	</select>
+	<select id="selectCeoBln" resultType="String">
+	SELECT MIN(BLN) AS BLN
+	FROM  CLINIC
+	WHERE CID = #{CID}
+	</select>
+	<select id="selectEmpBln" resultType="String">
+	SELECT BLN
+	FROM EMP
+	WHERE EID = #{CID}
+	</select>
+	<select id="selectCeoName" resultType="String">
+	SELECT CNAME
+	FROM CEO
+	WHERE CID = #{CID}
+	</select>
+	<select id="selectEmpName" resultType="String">
+	SELECT ENAME
+	FROM EMP
+	WHERE EID = #{CID}
+	</select>
+	<select id="selectWeekRegDayCnt" resultType="kr.co.sist.mkjg.clinic.domain.WeekRegDayCnt">
+	<![CDATA[
+	SELECT DAY, COUNT(*) AS CNT
+	FROM	(SELECT TO_CHAR(BDATE,'DY') AS DAY, TO_CHAR(BDATE,'YYYY-MM-DD') AS BDATE
+			FROM BOOK_LIST
+			WHERE BDATE >= TRUNC(SYSDATE, 'IW')
+			AND BDATE < TRUNC(SYSDATE, 'IW') + 7
+			AND BLN = #{BLN} )
+	GROUP BY DAY,BDATE
+	]]>
+	</select>
+	<select id="selectCIdCheck" resultType="int">
+	SELECT NVL(COUNT(*),0)
+	FROM CEO
+	WHERE CID = #{CID}
+	</select>
+	<insert id="insertCeo" parameterType="kr.co.sist.mkjg.clinic.vo.CeoAddJoin" statementType="CALLABLE">
+	insert into CEO (CID, PW, CNAME, POST, ADDR, ADDR_DETAIL, EMAIL, BIRTHDAY, TEL, CIP, LOC_X, LOC_Y)
+	values( #{cId}, #{cPass}, #{cName}, #{cPost}, #{cAddr1}, #{cAddr2}, #{cMail}, #{cBirth}, #{cPhone}, #{cIp}, #{loc_X}, #{loc_Y} )
+	</insert>
+	<select id="selectRevList" resultType="kr.co.sist.mkjg.clinic.domain.RevList" parameterType="kr.co.sist.mkjg.clinic.vo.RevPage">
+	select rnum, pname, tel, pet_name, pet_type, bdate, btime, aprvl_yn, bseq
+	from	(select rownum rnum, r, pname, tel, pet_name, pet_type, bdate, btime, aprvl_yn, bseq
+				from		(select rownum as r, pname, tel, pet_name,
+							 	case when pet_type ='c' then '고양이'
+									  when pet_type ='d' then '강아지'
+										else '기타' end pet_type
+										, bdate, btime, aprvl_yn, bseq
+							from (select p.pname, p.tel, bl.pet_name, bl.pet_type, to_char(bl.bdate,'yyyy-mm-dd') as bdate, bl.btime, bl.aprvl_yn, to_char(bl.reg_date,'yyyy-mm_dd') as reg_date, to_char(sysdate,'yyyy-mm-dd') as today, bseq
+										from book_list bl, protector p
+										where bl.pid = p.pid and bln = #{bln}
+										order by bdate, btime, aprvl_yn desc)
+							where bdate >= today
+							order by r desc))
+	where r between #{startNum} and #{endNum}
+	order by r asc
+	</select>
+	<select id="selectRegCnt" resultType="int">
+	SELECT count(*) as totalNum
+	FROM (SELECT TO_CHAR(BL.BDATE,'YYYY-MM-DD') AS BDATE, TO_CHAR(SYSDATE,'YYYY-MM-DD') AS TODAY
+			FROM BOOK_LIST BL, PROTECTOR P
+			WHERE BL.PID = P.PID AND BLN = #{bln})
+	WHERE BDATE >= TODAY
+	</select>
+	<select id="selectWeekQgcCnt" resultType="kr.co.sist.mkjg.clinic.domain.WeekQGCDayCnt">
+	<![CDATA[
+SELECT CASE WHEN DAY='월' THEN 1
+				 WHEN DAY='화' THEN 2
+				WHEN DAY='수' THEN 3
+				WHEN DAY='목' THEN 4
+				WHEN DAY='금' THEN 5
+				WHEN DAY='토' THEN 6
+				WHEN DAY='일' THEN 7
+			END AS DAY, COUNT(*) AS CNT
+FROM		(SELECT TO_CHAR(RDATE,'DY') AS DAY, TO_CHAR(RDATE,'YYYY-MM-DD') AS RDATE
+			FROM QUESTION_GC
+			WHERE RDATE >= TRUNC(SYSDATE, 'IW')
+			AND RDATE < TRUNC(SYSDATE, 'IW') + 7
+			AND BLN =#{bln})
+GROUP BY DAY, RDATE
+	]]>
+	</select>
+	<update id="updateBookAprvl" parameterType="String">
+	update book_list
+	set aprvl_yn = #{aprvl}
+	where bseq = #{bseq}
+	</update>
+	<select id="selectUseHistory" resultType="kr.co.sist.mkjg.clinic.domain.UseHistoryList" parameterType="kr.co.sist.mkjg.clinic.vo.UseHistory">
+	<![CDATA[
+	select num, pname, tel, pet_name, case when pet_type ='c' then '고양이'
+										  when pet_type ='d' then '강아지'
+											else '기타' end pet_type, bdate
+	from	(select rownum num, rnum, pname, tel, pet_name, pet_type, bdate, bseq
+			from	(select rownum rnum, pname, tel, pet_name, pet_type, bdate, bseq
+					from	(select pname, tel, pet_name, pet_type, to_char(bdate,'yyyy-mm-dd') bdate, to_char(sysdate,'yyyy-mm-dd') as today, bseq
+							from book_list bl, protector p
+							where bl.pid = p.pid
+							and bln = #{bln}
+							order by bdate desc)
+					where bdate <= today
+					order by rnum desc))
+	where rnum between #{startNum} and #{endNum}
+	order by num desc
+	]]>	
+	</select>
+	<select id="selectUseHistoryCnt" resultType="int">
+	<![CDATA[	
+	select count(*) as cnt
+	from	(select to_char(bdate,'yyyy-mm-dd') bdate, to_char(sysdate,'yyyy-mm-dd') as today
+			from book_list bl, protector p
+			where bl.pid = p.pid
+			and bln = #{bln})
+	where bdate <= today
+	]]>		
+	</select>
+	<select id="selectMtrList" resultType="kr.co.sist.mkjg.clinic.domain.MtrList">
+	<![CDATA[	
+	select rnum, pname, tel, pet_name, case when pet_type ='c' then '고양이'
+										  when pet_type ='d' then '강아지'
+											else '기타' end pet_type, bdate, msg, mid
+	from	(select rownum as r, rnum, pname, tel, pet_name, pet_type, bdate, msg, mid
+			from	(select rownum rnum, pname, tel, pet_name, pet_type, bdate, msg, mid
+					from	(select p.pname, p.tel, bl.pet_name, bl.pet_type, msg, mseq, to_char(bdate,'yyyy-mm-dd') bdate, to_char(sysdate,'yyyy-mm-dd') as today, mid
+							from MNTR m, book_List bl, PROTECTOR p
+							where m.bseq = bl.bseq and bl.pid = p.pid
+							and bl.bln = #{bln}
+							order by bdate)
+					where bdate <= today
+					order by rnum desc))
+	where r between #{startNum} and #{endNum}
+		]]>
+	</select>
+	<select id="selectMtrTotalCnt" resultType="int">
+	<![CDATA[		
+	select count(*) as cnt
+	from	(select p.pname, p.tel, bl.pet_name, bl.pet_type, msg, mseq, to_char(bdate,'yyyy-mm-dd') bdate, to_char(sysdate,'yyyy-mm-dd') as today, mid
+			from MNTR m, book_List bl, PROTECTOR p
+			where m.bseq = bl.bseq and bl.pid = p.pid
+			and bl.bln = #{bln}
+			order by bdate)
+	where bdate <= today
+	]]>
+	</select>
+	<select id="selectUserQnaList" resultType="kr.co.sist.mkjg.clinic.domain.UserQnaList">
+	select rnum, pname, qtitle, qtype, to_char(qdate, 'yyyy-mm-dd') as qdate, rstatus, qgc_seq
+	from	(select rownum r, rnum, pname, qtitle, qtype, qdate, rstatus, qgc_seq
+			from	(select rownum rnum, pname, qtitle, qtype, qdate, rstatus, qgc_seq
+					from (select p.pname, qg.qtitle, qg.qtype, qg.qdate, qg.rstatus ,qg.qgc_seq
+							from QUESTION_GC qg, protector p
+							where qg.pid = p.pid and bln = #{bln}
+							order by qdate)
+					order by rnum desc))
+	where r between #{startNum} and #{endNum}
+	</select>
+	<select id="selectUserQnaTotalCnt" resultType="int">
+	select count(*) as cnt
+	from QUESTION_GC
+	where bln = #{bln}
+	</select>
+	<select id="selectMgrQnaList" resultType="kr.co.sist.mkjg.clinic.domain.MgrQnaList">
+	select rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
+	from	(select rownum r, rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
+			from	(select  rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
+					from	(select rownum rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
+							from	(select qtitle, qtype, wid, rdate, rstatus, qua_seq
+									from QUESTION_UA
+									order by rdate))
+					order by rdate desc))
+	where r between #{startNum} and #{endNum} and wid = #{cId}
+	</select>
+	<select id="selectMgrQnaTotalCnt" resultType="int">
+	select count(*) cnt
+	from QUESTION_UA
+	where wid = #{cId}
+	</select>
+	<insert id="insertClinic" parameterType="kr.co.sist.mkjg.clinic.vo.ClnRegData" statementType="CALLABLE">
+	INSERT INTO CLINIC	( BLN,CID,CLN_NAME,DIRECTOR,TEL,EMAIL,
+		OPEN_TIME,	CLOSE_TIME,POST,SIDO,SIGUNGU,EMD,X,Y,ADDR_DETAIL,
+		SUBJECT,NIGHT_YN,INTRO,CUT_YN,HSTL_YN,CIP,APRVL_DATE	)
+	VALUES
+	(#{cBln},#{cId},#{hName},#{cName},#{cPhone},#{cMail},
+		rpad(#{openTime},5,0),rpad(#{endTime},5,0),#{cPost},'서울','관악구', '봉천동', #{loc_x},#{loc_y},#{cAddr2}, #{subject}, #{night},
+		#{intro}, #{beauty}, #{hosCare}, '127.0.0.1', sysdate)
+	</insert>
+	<insert id="insertNightClinic" parameterType="kr.co.sist.mkjg.clinic.vo.ClnRegData" statementType="CALLABLE">
+		INSERT	INTO NIGHT_CARE(BLN,NOPEN,NCLOSE,DAY_OF_WEEK)
+		VALUES (#{cBln},#{openNightTime},#{endNightTime},#{week})
+	</insert>
+	<select id="idPwCheck" parameterType="kr.co.sist.mkjg.clinic.vo.IdPw" resultType="int">
+	select count(*) cnt
+	from ceo
+	where cid =#{cId}
+	and pw = #{pass} 
+	</select>
+</mapper>
