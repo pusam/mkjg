@@ -46,6 +46,36 @@
 	#endDate{background-color: #F5F5F5;}
 	#appendedInputButton{background-color: #F5F5F5;}
 	</style>
+	<script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
+ <script type="text/javascript">
+ $(function(){
+	$("#searchClick").click(function() {
+		$("#frm").submit();
+	});
+	
+	$("#add").click(function() {
+		location.href="mgr_qna_answer.do";
+	});
+	
+	$(".ansView").click(function() {
+		var aprvl = $(this).text();
+		var qua_seq=$(this).find("input").val();
+		var msg = "";
+		if(aprvl=='N'){
+		 msg = "답변이 등록되지 않았습니다. 확인하시겠습니까?";
+		}else{
+			msg = "답변을 확인하시겠습니까?";
+		}
+		if(confirm(msg) == true){
+			location.href="mgr_qna_answer_view.do";
+			$("#frm2").submit();
+		}else{
+			return
+		}
+	});
+	
+ });//ready
+ </script>
 </head>
 
 <body>
@@ -80,6 +110,18 @@
             <div class="page-header">
               <h3>관리자 문의 답변</h3>
             </div>
+            <div class="input-append" style="float: right;">
+            <form id="frm" name="frm">
+            		<select name="status" id="status" style="width: 150px; font-size: 14px; margin-right: 70px">
+						<option value="문의타입" ${mgr_qna_status eq "문의타입" ? "selected" :""}>문의타입</option>
+						<option value="문의자" ${mgr_qna_status eq "문의자" ? "selected" :""}>문의자</option>
+						<option value="문의날짜" ${mgr_qna_status eq "문의날짜" ? "selected" :""}>문의날짜</option>
+						<option value="답변유무" ${mgr_qna_status eq "답변유무" ? "selected" :""}>답변유무</option>
+					</select>
+        	    <input class="span2" id="search" name="search"  type="text" value="${mgr_qna_search }">
+					<button class="btn btn-inverse" type="submit" id="searchClick">검색</button>
+			</form>
+            </div>
               <table class="table table-hover">
                 <thead>
                   <tr style="font-size: 16px;">
@@ -98,8 +140,11 @@
 						<td>${mq.qtitle}</td>
 						<td>${mq.qtype}</td>
 						<td>${mq.wid}</td>
-						<td>${mq.rdate}</td>
-						<td>${mq.rstatus}<input type="hidden" value="${mq.qua_seq}"></td>
+						<td>${mq.qdate}</td>
+						<form id = "frm2" name="frm2" action="mgr_qna_answer_view.do" method="POST">
+						<td><a href="#void" class="ansView">${mq.rstatus}
+						<input type="hidden" value="${mq.qua_seq}" id="qua_seq" name="qua_seq"></a></td>
+						</form>
 					</tr>
 					</c:forEach>
                 </tbody>
@@ -110,7 +155,7 @@
             </ul>
           </div>
              <div style="float: right;">
-            	<button type="button" class="btn btn-inverse" id="add">문의하기</button>
+            	<button type="button" class="btn btn-inverse" id="add" name="add">문의하기</button>
               </div>
           </section>
 	</div>

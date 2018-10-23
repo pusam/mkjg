@@ -60,18 +60,18 @@ $(function(){
 		$.ajax({
 			type : "POST",
             data : {
-            	aprvl, bseq	
+            	aprvl, bseq
             },
 			url : "revAprvl.do",
 			dataType:"json",
-			success: function(json) {
+			success: function(json) { 
 				var msg="";
-				if(json.data==1){
+				if(json.data==1){ 
 					if(aprvl=='Y'){
-					alert("예약 거절")
+					alert("예약 거절"); 
 						 msg="N" 
 					}else{
-					alert("예약 성공")
+					alert("예약 성공"); 
 						 msg="Y" 
 					}
 						 location.href="reservation_list.do";
@@ -87,9 +87,13 @@ $(function(){
 			error: function(xvr){
 				alert("당연안됨 "+ xvr.status + " / " + xvr.statusText)
 			}//end 
-		});//end ajax
+		});//end ajax 
 		}//end if
-	});
+	});//click
+	
+	$("#searchClick").click(function(){
+		$("#frm").submit();
+	});//click
 });//ready
 </script>
 <body>
@@ -126,13 +130,15 @@ $(function(){
             </div>
             
             <div class="input-append" style="float: right;">
+            <form id="frm" name="frm">
             		<select name="status" id="status" style="width: 150px; font-size: 14px; margin-right: 70px">
-						<option selected="selected" style="line-height: 25px; border: 1px solid #6093e7; margin-bottom: 20px; height: 28px; border-radius: 3px"> 등록완료</option>
-						<option>처리대기</option>
-						<option>관리자거절</option>
+						<option value="고객명" ${revStatus eq "고객명" ? "selected" :""}>고객명</option>
+						<option value="전화번호" ${revStatus eq "전화번호" ? "selected" :""}>전화번호</option>
+						<option value="예약날짜" ${revStatus eq "예약날짜" ? "selected" :""}>예약날짜</option>
 					</select>
-        	    <input class="span2" id="appendedInputButton" type="text"  placeholder="이름">
-					<button class="btn btn-inverse" type="submit" id="search">검색</button>
+        	    <input class="span2" id="search" name="search" type="text"  placeholder="이름" value="${revSearch }">
+					<button class="btn btn-inverse" type="submit" id="searchClick">검색</button>
+			</form>
             </div>
               <table class="table table-hover">
                 <thead>

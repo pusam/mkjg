@@ -442,9 +442,9 @@
           <li class="portfolio-item" data-id="id-0" data-type="web">
             	 <div>
                 <div class="image-wrapp">
-                  <img src="http://localhost:8080/mkjg/images/ok.png" alt="Portfolio name" title="" />
+                  <img src="http://localhost:8080/mkjg/assets/images/ok.png" alt="Portfolio name" title="" />
                   <article class="da-animate da-slideFromRight">
-                    <a class="zoom" data-pretty="prettyPhoto" href="http://localhost:8080/mkjg/images/ok.png">
+                    <a class="zoom" data-pretty="prettyPhoto" href="http://localhost:8080/mkjg/assets/images/ok.png">
 							<i class="icon-bg-light icon-zoom-in icon-circled icon-2x"></i>
 					</a>
                   </article>

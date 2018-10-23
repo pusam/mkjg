@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class MtrBlnCurrentPage {
-	private String bln;
+	private String bln, status, search;
 	private int currentPage;
 }

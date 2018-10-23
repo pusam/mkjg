@@ -102,7 +102,7 @@ var qgcCnt= ${week_QGC_Day_Cnt}
 				<li>${nt.ntitle }</li>
 			</c:forEach>	
 			</ul>
-			<span style="margin-left: 300px;"><a href="#">더보기</a></span><br/>
+			<span style="margin-left: 300px;"><a href="notice_list.do">더보기</a></span><br/>
         </div>
         <div style="height: 180px;">
         	<h4>금일 예약 현황</h4>
@@ -154,11 +154,9 @@ var qgcCnt= ${week_QGC_Day_Cnt}
               <h3 style="text-align: center;">${cName} 고객님</h3>
               <table style="margin: auto;">
               	<tr>
-              		<td><a href="#">회원 정보 수정</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-              		<td><a href="#">직원 관리</a></td>
+              		<td><a href="employee_list.do">직원 관리</a></td>
               	</tr>
               	<tr>
-              		<td><a href="#">업체 정보 수정</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>
               		<td><a href="logout.do">로그 아웃</a></td>
               	</tr>
               </table>

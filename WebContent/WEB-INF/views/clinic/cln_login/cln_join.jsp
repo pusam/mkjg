@@ -289,7 +289,22 @@
 	<header>
 		<!-- Navbar
     ================================================== -->
-	<c:import url="/WEB-INF/views/clinic/common/header.jsp"/>
+	<div class=" cbp-af-header">
+			<div class=" cbp-af-inner">
+				<div class="container">
+					<div class="row">
+
+						<div class="span4">
+							<!-- logo -->
+							<a class="logo" href="index_cln.do">
+								<h1>Plato</h1> <!-- <img src="assets/img/logo.png" alt="" /> -->
+							</a>
+							<!-- end logo -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</header>
 	<!-- Subhead
 ================================================== -->

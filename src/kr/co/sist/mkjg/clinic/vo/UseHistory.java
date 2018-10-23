@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class UseHistory {
-	private String bln;
+	private String bln, status, search;
 	private int startNum, endNum; 
 }

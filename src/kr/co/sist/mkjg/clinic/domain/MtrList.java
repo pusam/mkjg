@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class MtrList {
-	private String rnum, pname, tel, pet_name, pet_type, bdate, msg, mid;
+	private String rnum, pname, tel, pet_name, pet_type, mdate, msg, mid;
 }

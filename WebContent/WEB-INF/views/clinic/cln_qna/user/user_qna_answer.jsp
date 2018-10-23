@@ -46,7 +46,27 @@
 	#endDate{background-color: #F5F5F5;}
 	#appendedInputButton{background-color: #F5F5F5;}
 	</style>
-</head>
+	<script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
+ <script type="text/javascript">
+ $(function(){
+	$("#btnList").click(function() {
+		var con = confirm("목록으로 돌아가시겠습니까?");
+		if(con == true){
+		location.href="user_qna_list.do";
+		}else{
+			return
+		}//end else
+	});//end click
+	$("#btnAnswer").click(function() {
+		if(confirm("답변 하시겠습니까?")==true){
+			$("#frm").submit();
+		}else{
+			return
+		}
+	});//end click
+ });
+</script>
+</head> 
 
 <body>
 	<header>
@@ -60,13 +80,13 @@
     <div class="container">
       <div class="row">
         <div class="span4">
-          <h3>mkjg<strong> 신고관리 </strong></h3>
+          <h3>mkjg<strong> 문의답변 </strong></h3>
         </div>
         <div class="span8">
           <ul class="breadcrumb notop">
             <li><a href="#">Home</a><span class="divider">/</span></li>
-            <li class="active">신고관리<span class="divider">/</span></li>
-            <li class="active">목록</li>
+            <li class="active">문의답변<span class="divider">/</span></li>
+            <li class="active">사용자 문의답변</li>
           </ul>
         </div>
       </div>
@@ -82,43 +102,47 @@
             </div>
             <div align="center">
             <table style="border: 1px solid #333; width: 500px;">
+            <c:forEach var="uq" items="${user_qna}">
             	<tr>
-            		<td>
-						<input type="text" value="ㅎㅎ"/>
-            		</td>
+            		<th>${uq.pid}님의 문의 내역</th>
             	</tr>
             	<tr>
-            		<td>
-            			<input type="text" value="작성자 : 쿠쿠쿠"/>
-            		</td>
+            		<td>문의 타입 : ${uq.qtype}</td>
             	</tr>
             	<tr>
-            		<td>
-            			<textarea rows="8" cols="40" style="width: 500px"></textarea>
-            		</td>
-            	</tr>
-            </table>
-            </div>
-            <br/>
-            <br/>
-			<div align="center">
-            <table style="border: 1px solid #333;  width: 500px;">
-            	<tr>
-            		<td>
-						<input type="text" value="ㅎㅎ"/>
-            		</td>
+            		<td>문의 일시 : ${uq.qdate}</td>
             	</tr>
             	<tr>
-            		<td>
-            			<input type="text" value="작성자 : 쿠쿠쿠"/>
-            		</td>
+            		<td>제목 : ${uq.qtitle}</td>
             	</tr>
             	<tr>
-            		<td>
-            			<textarea rows="8" cols="40" style="width: 500px"></textarea>
+            		<td style="text-align: left">
+            			<textarea rows="8" cols="40" style="width: 500px; text-align: left;" id="text" name="text" readonly="readonly">
+            			${uq.qtext}
+            			</textarea>
             		</td>
             	</tr>
             </table>
+            <br/>
+            <form id="frm" name="frm" action="insert_user_qna_answer.do" method="POST">
+            <table style="border: 1px solid #333; width: 500px;">
+            	<tr>
+            		<th>답변하기</th>
+            	</tr>
+            	<tr>
+            		<td>
+            			<textarea rows="8" cols="40" style="width: 500px" id="reply" name="reply">
+            			</textarea>
+            		</td>
+            	</tr>
+            	<tr>
+            		<td><input type="button" value="답변하기" id="btnAnswer" style="float: right;">
+            		<input type="button" value="목록보기" id="btnList" style="float: right;"></td>
+            	</tr>
+            </table>
+            <input type="hidden" id="qgc_seq" name="qgc_seq" value="${uq.qgc_seq}">
+            </form>
+            </c:forEach>
             </div>
           </section>
 	</div>

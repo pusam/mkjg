@@ -39,15 +39,31 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
-/* 	$("#login").click(function() {
-		var obj = document.frm;
-		var id = obj.id.value;
-		var pass =obj.pass.value;
-		$("#frm").submit();
-	});*/
 		$("#login").click(function() {
-			$("#frm").submit();
+            var login_data = {
+                	cId : $("#cId").val(),
+                	pass : $("#pass").val(),
+                	check : $("input[type=radio][name=check]:checked").val()
+                };
+			$.ajax({
+				type : "POST",
+	            data : login_data,
+				url : "login.do",
+				success: function(data) {
+					if(data==0){
+						alert('아이디 또는 패스워드를 확인해 주세요.')
+					}else{
+						location.replace("main.do");
+					}
+				},
+				error: function(xvr){
+					alert(xvr.status)
+				}//end 
+			});//end ajax
 		});//click
+/*		$("#login").click(function() {
+			$("#frm").submit();
+		});//click*/
 });//ready
 </script>
 <style type="text/css">
@@ -69,7 +85,7 @@ $(function(){
 
 						<div class="span4">
 							<!-- logo -->
-							<a class="logo" href="index.do">
+							<a class="logo" href="index_cln.do">
 								<h1>Plato</h1> <!-- <img src="assets/img/logo.png" alt="" /> -->
 							</a>
 							<!-- end logo -->
@@ -103,7 +119,7 @@ $(function(){
 				</div>
 				<div id="containerDiv">
 				<form action="index_cln.do" method="post" name="frm" id="frm">
-				<input type="radio" id="check" name="check" value="ceo" checked="checked">사업자&nbsp;&nbsp;&nbsp;
+				<input type="radio" id="check" name="check" value="ceo">사업자&nbsp;&nbsp;&nbsp;
 				<input type="radio" id="check" name="check" value="emp">직원<br/><br/>
 				<input type="text" placeholder="아이디" id="cId" name="cId" class="input-xxlarge"><br/>
 				<input type="password" placeholder="비밀번호" id="pass" name="pass" class="input-xxlarge"><br/>
@@ -111,7 +127,7 @@ $(function(){
 				</form>
              	</div>
              	<div>
-				<a href="#">아이디 찾기</a> |
+				<a href="id_search.do">아이디 찾기</a> |
 				<a href="#">비밀번호 찾기</a> |
 				<a href="join.do">회원가입</a>
 				</div>

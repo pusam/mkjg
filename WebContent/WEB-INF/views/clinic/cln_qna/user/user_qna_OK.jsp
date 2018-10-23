@@ -72,10 +72,10 @@
       <div class="row">
         <div class="span12">
           <div class="centered">
-            <img src="http://localhost:8080/mkjg/images/ok.png">
+            <img src="http://localhost:8080/mkjg/assets/images/ok.png">
             <h1><strong>문의 답변이 완료되었습니다.</strong></h1>
                 <div style="text-align: center;" >
-            	<button type="button" class="btn btn-large btn-color" id="home">HOME</button>
+            	<a href="user_qna_list.do"><button type="button" class="btn btn-large btn-color" id="home">목록으로</button></a>
             	<br/>
              </div>
           </div>

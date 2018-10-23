@@ -72,7 +72,7 @@
       <div class="row">
         <div class="span12">
           <div class="centered">
-            <img src="http://localhost:8080/mkjg/images/ok.png">
+            <img src="http://localhost:8080/mkjg/assets/images/ok.png">
             <h1><strong>모니터링 등록이 완료되었습니다.</strong></h1>
                 <div style="text-align: center;" >
             	<button type="button" class="btn btn-large btn-color" id="join">HOME</button>

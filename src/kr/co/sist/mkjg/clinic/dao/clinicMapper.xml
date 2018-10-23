@@ -76,14 +76,21 @@
 										order by bdate, btime, aprvl_yn desc)
 							where bdate >= today
 							order by r desc))
-	where r between #{startNum} and #{endNum}
+	where r between #{startNum} and #{endNum}<include refid="revSearch"></include>
 	order by r asc
 	</select>
+	<sql id="revSearch">
+		<if test="status != null">
+			<if test="status=='고객명'"> and pname like '%' || #{search} || '%'</if>
+			<if test="status=='예약날짜'"> and bdate like '%' || #{search} || '%'</if>
+			<if test="status=='전화번호'"> and tel like '%' || #{search} || '%'</if>
+		</if>
+	</sql>
 	<select id="selectRegCnt" resultType="int">
 	SELECT count(*) as totalNum
-	FROM (SELECT TO_CHAR(BL.BDATE,'YYYY-MM-DD') AS BDATE, TO_CHAR(SYSDATE,'YYYY-MM-DD') AS TODAY
+	FROM (SELECT TO_CHAR(BL.BDATE,'YYYY-MM-DD') AS BDATE, TO_CHAR(SYSDATE,'YYYY-MM-DD') AS TODAY, pname, tel
 			FROM BOOK_LIST BL, PROTECTOR P
-			WHERE BL.PID = P.PID AND BLN = #{bln})
+			WHERE BL.PID = P.PID AND BLN = #{bln} <include refid="revSearch"></include>) 
 	WHERE BDATE >= TODAY
 	</select>
 	<select id="selectWeekQgcCnt" resultType="kr.co.sist.mkjg.clinic.domain.WeekQGCDayCnt">
@@ -110,7 +117,6 @@ GROUP BY DAY, RDATE
 	where bseq = #{bseq}
 	</update>
 	<select id="selectUseHistory" resultType="kr.co.sist.mkjg.clinic.domain.UseHistoryList" parameterType="kr.co.sist.mkjg.clinic.vo.UseHistory">
-	<![CDATA[
 	select num, pname, tel, pet_name, case when pet_type ='c' then '고양이'
 										  when pet_type ='d' then '강아지'
 											else '기타' end pet_type, bdate
@@ -121,19 +127,25 @@ GROUP BY DAY, RDATE
 							where bl.pid = p.pid
 							and bln = #{bln}
 							order by bdate desc)
-					where bdate <= today
+					<![CDATA[ where bdate <= today ]]>	<include refid="useSearch"></include>
 					order by rnum desc))
-	where rnum between #{startNum} and #{endNum}
+	where rnum between #{startNum} and #{endNum} 
 	order by num desc
-	]]>	
 	</select>
+	<sql id="useSearch">
+		<if test="status != null">
+			<if test="status=='고객명'">and pname like '%' || #{search} || '%'</if>
+			<if test="status=='이용날짜'">and bdate like '%' || #{search} || '%'</if>
+			<if test="status=='전화번호'">and tel like '%' || #{search} || '%'</if>
+		</if>
+	</sql>
 	<select id="selectUseHistoryCnt" resultType="int">
-	<![CDATA[	
 	select count(*) as cnt
 	from	(select to_char(bdate,'yyyy-mm-dd') bdate, to_char(sysdate,'yyyy-mm-dd') as today
 			from book_list bl, protector p
 			where bl.pid = p.pid
-			and bln = #{bln})
+			and bln = #{bln} <include refid="useSearch"></include>)
+	<![CDATA[	
 	where bdate <= today
 	]]>		
 	</select>
@@ -141,48 +153,90 @@ GROUP BY DAY, RDATE
 	<![CDATA[	
 	select rnum, pname, tel, pet_name, case when pet_type ='c' then '고양이'
 										  when pet_type ='d' then '강아지'
-											else '기타' end pet_type, bdate, msg, mid
-	from	(select rownum as r, rnum, pname, tel, pet_name, pet_type, bdate, msg, mid
-			from	(select rownum rnum, pname, tel, pet_name, pet_type, bdate, msg, mid
-					from	(select p.pname, p.tel, bl.pet_name, bl.pet_type, msg, mseq, to_char(bdate,'yyyy-mm-dd') bdate, to_char(sysdate,'yyyy-mm-dd') as today, mid
+											else '기타' end pet_type, mdate, msg, mid
+	from	(select rownum as r, rnum, pname, tel, pet_name, pet_type, mdate, msg, mid
+			from	(select rownum rnum, pname, tel, pet_name, pet_type, mdate, msg, mid
+					from	(select p.pname, p.tel, bl.pet_name, bl.pet_type, msg, mseq, to_char(mdate,'yyyy-mm-dd') mdate, to_char(sysdate,'yyyy-mm-dd') as today, mid
 							from MNTR m, book_List bl, PROTECTOR p
 							where m.bseq = bl.bseq and bl.pid = p.pid
 							and bl.bln = #{bln}
-							order by bdate)
-					where bdate <= today
+							order by mdate)
+					where mdate <= today
 					order by rnum desc))
 	where r between #{startNum} and #{endNum}
 		]]>
+	<include refid="search"></include>
 	</select>
+	<sql id="search">
+		<if test="status != null">
+			<if test="status=='고객명'">and pname like '%' || #{search} || '%'</if>
+			<if test="status=='이용날짜'">and mdate like '%' || #{search} || '%'</if>
+			<if test="status=='등록이'">and mid like '%' || #{search} || '%'</if>
+		</if>
+	</sql>
 	<select id="selectMtrTotalCnt" resultType="int">
 	<![CDATA[		
 	select count(*) as cnt
-	from	(select p.pname, p.tel, bl.pet_name, bl.pet_type, msg, mseq, to_char(bdate,'yyyy-mm-dd') bdate, to_char(sysdate,'yyyy-mm-dd') as today, mid
+	from	(select p.pname, p.tel, bl.pet_name, bl.pet_type, msg, mseq, to_char(mdate,'yyyy-mm-dd') mdate, to_char(sysdate,'yyyy-mm-dd') as today, mid
 			from MNTR m, book_List bl, PROTECTOR p
 			where m.bseq = bl.bseq and bl.pid = p.pid
 			and bl.bln = #{bln}
 			order by bdate)
-	where bdate <= today
-	]]>
+	where mdate <= today ]]> <include refid="search"></include>
 	</select>
-	<select id="selectUserQnaList" resultType="kr.co.sist.mkjg.clinic.domain.UserQnaList">
-	select rnum, pname, qtitle, qtype, to_char(qdate, 'yyyy-mm-dd') as qdate, rstatus, qgc_seq
+	<select id="selectUserQnaList" resultType="kr.co.sist.mkjg.clinic.domain.UserQnaList"> 
+	select rnum, pname, qtitle, qtype, qdate, rstatus, qgc_seq
+	from	(select rownum rnum, rnumber, pname, qtitle, qtype, qdate, rstatus, qgc_seq
+				from	(select rownum rnumber, pname, qtitle, qtype, qdate, rstatus, qgc_seq
+					from (select p.pname, qg.qtitle, qg.qtype, to_char(qg.qdate,'yyyy-mm-dd') qdate, qg.rstatus ,qg.qgc_seq
+							from QUESTION_GC qg, protector p
+							where qg.pid = p.pid and bln = #{bln}
+							order by qdate desc, rstatus)
+							<include refid="userSearch"></include> 
+							order by rnumber desc)
+							order by rnumber) 
+	where rnumber between #{startNum} and #{endNum}
+	</select>
+		<sql id="userSearch">
+		<if test="status != null">
+			<if test="status=='고객명'">where pname like '%' || #{search} || '%'</if>
+			<if test="status=='타입'">where qtype like '%' || #{search} || '%'</if>
+			<if test="status=='문의일자'">where qdate like '%' || #{search} || '%'</if>
+			<if test="status=='답변여부'">where rstatus like '%' || upper(#{search}) || '%'</if> 
+		</if>
+	</sql>
+	<select id="selectUserQnaTotalCnt" resultType="int">
+	select count(*)
 	from	(select rownum r, rnum, pname, qtitle, qtype, qdate, rstatus, qgc_seq
 			from	(select rownum rnum, pname, qtitle, qtype, qdate, rstatus, qgc_seq
 					from (select p.pname, qg.qtitle, qg.qtype, qg.qdate, qg.rstatus ,qg.qgc_seq
 							from QUESTION_GC qg, protector p
-							where qg.pid = p.pid and bln = #{bln}
+							where qg.pid = p.pid and bln = #{bln} 
 							order by qdate)
-					order by rnum desc))
-	where r between #{startNum} and #{endNum}
-	</select>
-	<select id="selectUserQnaTotalCnt" resultType="int">
-	select count(*) as cnt
-	from QUESTION_GC
-	where bln = #{bln}
+							<include refid="userSearch"></include>))
 	</select>
 	<select id="selectMgrQnaList" resultType="kr.co.sist.mkjg.clinic.domain.MgrQnaList">
-	select rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
+	select rnum, qtitle, qtype, wid, to_char(qdate,'yyyy-mm-dd') qdate, rstatus, qua_seq
+	from	(select rownum r, rnum, qtitle, qtype, wid, qdate, rstatus, qua_seq
+			from	(select  rnum, qtitle, qtype, wid, qdate, rstatus, qua_seq
+					from	(select rownum rnum, qtitle, qtype, wid, qdate, rstatus, qua_seq
+							from	(select qtitle, qtype, wid, qdate, rstatus, qua_seq
+									from QUESTION_UA
+									order by qdate))
+					order by qdate desc))
+	where r between #{startNum} and #{endNum} and wid = #{cId} <include refid="mgrSearch"></include>
+	order by rnum desc
+	</select>
+	<sql id="mgrSearch">
+		<if test="status != null">
+			<if test="status=='문의타입'">and qtype like '%' || #{search} || '%'</if>
+			<if test="status=='문의자'">and wid like '%' || #{search} || '%'</if>
+			<if test="status=='문의날짜'">and rdate like '%' || #{search} || '%'</if>
+			<if test="status=='답변유무'">and rstatus like '%' || upper(#{search}) || '%'</if>
+		</if>
+	</sql>
+	<select id="selectMgrQnaTotalCnt" resultType="int">
+	select count(*) cnt
 	from	(select rownum r, rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
 			from	(select  rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
 					from	(select rownum rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
@@ -190,12 +244,7 @@ GROUP BY DAY, RDATE
 									from QUESTION_UA
 									order by rdate))
 					order by rdate desc))
-	where r between #{startNum} and #{endNum} and wid = #{cId}
-	</select>
-	<select id="selectMgrQnaTotalCnt" resultType="int">
-	select count(*) cnt
-	from QUESTION_UA
-	where wid = #{cId}
+	where wid = #{cId} <include refid="mgrSearch"></include>
 	</select>
 	<insert id="insertClinic" parameterType="kr.co.sist.mkjg.clinic.vo.ClnRegData" statementType="CALLABLE">
 	INSERT INTO CLINIC	( BLN,CID,CLN_NAME,DIRECTOR,TEL,EMAIL,
@@ -210,10 +259,52 @@ GROUP BY DAY, RDATE
 		INSERT	INTO NIGHT_CARE(BLN,NOPEN,NCLOSE,DAY_OF_WEEK)
 		VALUES (#{cBln},#{openNightTime},#{endNightTime},#{week})
 	</insert>
-	<select id="idPwCheck" parameterType="kr.co.sist.mkjg.clinic.vo.IdPw" resultType="int">
+	<select id="idPwCheck" parameterType="kr.co.sist.mkjg.clinic.vo.ClinicIdCheck" resultType="int">
 	select count(*) cnt
 	from ceo
 	where cid =#{cId}
 	and pw = #{pass} 
+	</select>
+	<select id="empIdPwCheck" parameterType="kr.co.sist.mkjg.clinic.vo.ClinicIdCheck" resultType="int">
+	select count(*) cnt
+	from emp
+	where EID = #{cId}
+	and pw = #{pass}
+	</select>
+	<insert id="insertClnImg" parameterType="kr.co.sist.mkjg.clinic.vo.InsertClnImg" statementType="CALLABLE">
+	insert into cln_img ( bln, path, reg_id, reg_ip )
+	values ( #{bln}, #{path}, #{reg_id}, #{reg_ip} )
+	</insert> 
+	<insert id="insertClnQna" parameterType="kr.co.sist.mkjg.clinic.vo.MgrQnaData" statementType="CALLABLE">
+	insert into QUESTION_UA ( QUA_SEQ, QTITLE, QTEXT, WID, WTYPE, QDATE, QTYPE, WIP)
+	values ( qua_seq, #{title}, #{text}, #{cId}, #{ceoCheck}, to_char(sysdate,'yyyy-mm-dd'), #{qtype}, '127.0.0.1' )
+	</insert>
+	<select id="selectMgrQnaAnswer" parameterType="String" resultType="kr.co.sist.mkjg.clinic.domain.MgrQnaAnswer">
+	select qtitle, qtext, wid, qdate, qtype, rdate, reply
+	from QUESTION_UA
+	where qua_seq = #{qua_seq}
+	</select>
+	<select id="selectUserQna" parameterType="String" resultType="kr.co.sist.mkjg.clinic.domain.UserQnaView">
+    select qtitle, qtext, pid, to_char(qdate,'yyyy-mm-dd') qdate, qtype, qgc_seq
+    from QUESTION_GC
+    where qgc_seq = #{qgc_seq}
+	</select>
+	<select id="selectUserQnaReadOnly" parameterType="String" resultType="kr.co.sist.mkjg.clinic.domain.UserQnaAnswerReadOnly">
+	select qtitle, qtext, pid, to_char(qdate,'yyyy-mm-dd') qdate, qtype, reply, to_char(rdate,'yyyy-mm-dd') rdate, rid
+    from QUESTION_GC
+    where qgc_seq = #{qgc_seq}
+	</select>
+	<insert id="insertUserQnaAnswer" parameterType="kr.co.sist.mkjg.clinic.vo.UserQnaAnswer" statementType="CALLABLE">
+	update QUESTION_GC
+	set reply = #{reply}, rstatus = 'Y', rdate = sysdate ,rid = #{rid}, rip = #{rip}
+	where qgc_seq = #{qgc_seq}
+	</insert>
+	<select id="ceoIdSearch" parameterType="kr.co.sist.mkjg.clinic.vo.IdSearch" resultType="String">
+	select cid
+	from ceo
+	where cname = #{cName} 
+	and tel = #{cPhone}
+	and birthday = #{cBirth}
+	group by cid
 	</select>
 </mapper>

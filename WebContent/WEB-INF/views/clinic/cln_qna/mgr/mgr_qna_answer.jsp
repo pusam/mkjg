@@ -46,7 +46,35 @@
 	#endDate{background-color: #F5F5F5;}
 	#appendedInputButton{background-color: #F5F5F5;}
 	</style>
-</head>
+	<script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
+ <script type="text/javascript">
+ $(function(){
+	 $("#add").click(function() {
+		 var prev_val = $(this).val();
+		 if($("#type").val()=='none'){
+			 alert("타입선택을해주세요.");
+			 return
+		 }
+			var con = confirm("문의 하시겠습니까?");
+			if(con = true){
+				location.href="mgr_qna_OK.do";
+				$("#frm").submit();
+			}else{
+				$(this).val(prev_val)
+				return
+			}
+		}); 
+	 $("#cancle").click(function() { 
+			var con = confirm("목록으로 돌아가시겠습니까?");
+			if(con = true){
+				location.href="mgr_qna_list.do";
+			}else{
+				return
+			}
+		}); 
+ });
+</script>
+</head> 
 
 <body>
 	<header>
@@ -60,13 +88,13 @@
     <div class="container">
       <div class="row">
         <div class="span4">
-          <h3>mkjg<strong> 신고관리 </strong></h3>
+          <h3>mkjg<strong> 문의답변 </strong></h3>
         </div>
         <div class="span8">
           <ul class="breadcrumb notop">
             <li><a href="#">Home</a><span class="divider">/</span></li>
-            <li class="active">신고관리<span class="divider">/</span></li>
-            <li class="active">목록</li>
+            <li class="active">문의답변<span class="divider">/</span></li>
+            <li class="active">관리자 문의답변</li>
           </ul>
         </div>
       </div>
@@ -78,47 +106,40 @@
      <div class="span12">
 		 <section id="tables" class="doc">
             <div class="page-header">
-              <h3>답변하기</h3>
+              <h3>문의하기</h3>
             </div>
             <div align="center">
+            <form id="frm" name="frm" action="mgr_qna_OK.do">
             <table style="border: 1px solid #333; width: 500px;">
             	<tr>
             		<td>
-						<input type="text" value="ㅎㅎ"/>
+            			<select id="type" name="qtype">
+            				<option value="none">----문의타입----</option>
+            				<option value="1">홈페이지</option>
+            				<option value="2">오류</option>
+            				<option value="3">등록</option>
+            				<option value="4">기타</option>
+            			</select>
             		</td>
             	</tr>
             	<tr>
             		<td>
-            			<input type="text" value="작성자 : 쿠쿠쿠"/>
+						<input type="text" placeholder="제목" id="title" name="title"/>
             		</td>
             	</tr>
             	<tr>
             		<td>
-            			<textarea rows="8" cols="40" style="width: 500px"></textarea>
+            			<textarea rows="8" cols="40" style="width: 500px" placeholder="내용" id="text" name="text"></textarea>
+            		</td>
+            	</tr>
+            	<tr>
+            		<td style="text-align: right;">
+            			<input type="button" value="문의" id="add" name="add">
+            			<input type="button" value="취소" id="cancle" name="cancle">
             		</td>
             	</tr>
             </table>
-            </div>
-            <br/>
-            <br/>
-			<div align="center">
-            <table style="border: 1px solid #333;  width: 500px;">
-            	<tr>
-            		<td>
-						<input type="text" value="ㅎㅎ"/>
-            		</td>
-            	</tr>
-            	<tr>
-            		<td>
-            			<input type="text" value="작성자 : 쿠쿠쿠"/>
-            		</td>
-            	</tr>
-            	<tr>
-            		<td>
-            			<textarea rows="8" cols="40" style="width: 500px"></textarea>
-            		</td>
-            	</tr>
-            </table>
+            </form>
             </div>
           </section>
 	</div>

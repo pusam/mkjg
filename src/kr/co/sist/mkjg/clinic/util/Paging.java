@@ -79,29 +79,44 @@ public class Paging {
 		return endPage; 
 	}//end endPage
 	
-	public String indexList(int startPage, int endPage, int totalPage, int currentPage, String url) {
+	public String indexList(int startPage, int endPage, int totalPage, int currentPage, String url, String status, String search) {
 		int curpage = 0;
 		StringBuilder strList=new StringBuilder();
-		
 		if ( currentPage > pagenumber) {
 			curpage = startPage - 1; 
+			if(status==null) {
 			strList.append("<li><a href='").append(url).append("?currentPage=").append(curpage).append("'>&lt;&lt;</a></li>");
+			}else {
+				strList.append("<li><a href='").append(url).append("?currentPage=").append(curpage).append("&status=").append(status).append("&search=").append(search).append("'>&lt;&lt;</a></li>");
+			}
 		} 
 		curpage = startPage;
 
 		while (curpage <= endPage){
 
 			if (curpage == currentPage) {
+				if(status==null) {
 				strList.append("<li><a href='").append(url).append("?currentPage=").append(currentPage).append("'>").append(currentPage).append("</a></li>");
+				}else {
+					strList.append("<li><a href='").append(url).append("?currentPage=").append(currentPage).append("&status=").append(status).append("&search=").append(search).append("'>").append(currentPage).append("</a></li>");
+				}//end else
 			} else {
+				if(status==null) {
 				strList.append("<li><a href='").append(url).append("?currentPage=").append(curpage).append("'>").append(curpage).append("</a></li>");
+				}else {
+					strList.append("<li><a href='").append(url).append("?currentPage=").append(curpage).append("&status=").append(status).append("&search=").append(search).append("'>").append(curpage).append("</a></li>");
+				}//end else
 			}//end else
 			curpage++;
 		}//end while
 		
 		if ( totalPage > endPage) {
 			curpage = endPage + 1;
+			if(status==null) {
 			strList.append("<li><a href='").append(url).append("?currentPage=").append(curpage).append("'>&gt;&gt;</a></li>");
+			}else {
+				strList.append("<li><a href='").append(url).append("?currentPage=").append(curpage).append("&status=").append(status).append("&search=").append(search).append("'>&gt;&gt;</a></li>");
+			}
 		}
 		
 			return strList.toString();	

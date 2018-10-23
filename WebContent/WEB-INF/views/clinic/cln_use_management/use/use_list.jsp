@@ -46,6 +46,12 @@
 	#endDate{background-color: #F5F5F5;}
 	#appendedInputButton{background-color: #F5F5F5;}
 	</style>
+ <script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
+ <script type="text/javascript">
+	$("#searchClick").click(function(){
+		$("#frm").submit();
+	});//click
+ </script>
 </head>
 
 <body>
@@ -82,13 +88,15 @@
             </div>
             
             <div class="input-append" style="float: right;">
+           	<form id="frm" name="frm">
             		<select name="status" id="status" style="width: 150px; font-size: 14px; margin-right: 70px">
-						<option>고객명</option>
-						<option>전화번호</option>
-						<option>이용날짜</option>
+						<option value="고객명" ${use_status eq "고객명" ? "selected" :""}>고객명</option>
+						<option value="전화번호" ${use_status eq "전화번호" ? "selected" :""}>전화번호</option>
+						<option value="이용날짜" ${use_status eq "이용날짜" ? "selected" :""}>이용날짜</option>
 					</select>
-        	    <input class="span2" id="appendedInputButton" type="text"  placeholder="이름">
-					<button class="btn btn-inverse" type="submit" id="search">검색</button>
+        	    <input class="span2" id="search" name="search" type="text"  placeholder="이름" value="${use_search }">
+					<button class="btn btn-inverse" type="submit" id="searchClick">검색</button>
+			</form>
             </div>
               <table class="table table-hover">
                 <thead>

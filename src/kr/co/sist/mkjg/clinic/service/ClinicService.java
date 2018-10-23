@@ -8,13 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kr.co.sist.mkjg.clinic.dao.ClinicDAO;
+import kr.co.sist.mkjg.clinic.domain.MgrQnaAnswer;
 import kr.co.sist.mkjg.clinic.domain.MgrQnaList;
 import kr.co.sist.mkjg.clinic.domain.MtrList;
 import kr.co.sist.mkjg.clinic.domain.NoticeTitle;
 import kr.co.sist.mkjg.clinic.domain.RevList;
 import kr.co.sist.mkjg.clinic.domain.TodayReg;
 import kr.co.sist.mkjg.clinic.domain.UseHistoryList;
+import kr.co.sist.mkjg.clinic.domain.UserQnaAnswerReadOnly;
 import kr.co.sist.mkjg.clinic.domain.UserQnaList;
+import kr.co.sist.mkjg.clinic.domain.UserQnaView;
 import kr.co.sist.mkjg.clinic.domain.WeekQGCDayCnt;
 import kr.co.sist.mkjg.clinic.domain.WeekRegDayCnt;
 import kr.co.sist.mkjg.clinic.util.Paging;
@@ -23,9 +26,12 @@ import kr.co.sist.mkjg.clinic.vo.CeoAddJoin;
 import kr.co.sist.mkjg.clinic.vo.ClinicIdCheck;
 import kr.co.sist.mkjg.clinic.vo.ClinicInsert;
 import kr.co.sist.mkjg.clinic.vo.ClnRegData;
-import kr.co.sist.mkjg.clinic.vo.IdPw;
+import kr.co.sist.mkjg.clinic.vo.IdSearch;
+import kr.co.sist.mkjg.clinic.vo.InsertClnImages;
+import kr.co.sist.mkjg.clinic.vo.InsertClnImg;
 import kr.co.sist.mkjg.clinic.vo.MgrQna;
 import kr.co.sist.mkjg.clinic.vo.MgrQnaBlnCurrentPage;
+import kr.co.sist.mkjg.clinic.vo.MgrQnaData;
 import kr.co.sist.mkjg.clinic.vo.MtrBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.MtrNum;
 import kr.co.sist.mkjg.clinic.vo.RevBlnCurrentPage;
@@ -33,6 +39,7 @@ import kr.co.sist.mkjg.clinic.vo.RevPage;
 import kr.co.sist.mkjg.clinic.vo.UseBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.UseHistory;
 import kr.co.sist.mkjg.clinic.vo.UserQna;
+import kr.co.sist.mkjg.clinic.vo.UserQnaAnswer;
 import kr.co.sist.mkjg.clinic.vo.UserQnaBlnCurrentPage;
 
 @Component
@@ -147,17 +154,19 @@ public class ClinicService {
 		rp.setBln(rbcp.getBln());
 		rp.setStartNum(startNum);
 		rp.setEndNum(endNum);
+		rp.setStatus(rbcp.getStatus());
+		rp.setSearch(rbcp.getSearch());
 		
 		List<RevList> list = c_dao.selectRevList(rp);
 		return list;
 	}
 	
 	public String revPageIndexList(RevBlnCurrentPage rbcp) throws SQLException {
-		int totalCnt = c_dao.selectRevTotalCnt(rbcp.getBln());
+		int totalCnt = c_dao.selectRevTotalCnt(rbcp);
 		int totalPage = p.totalPage(totalCnt);
 		int startPage = p.startPage(rbcp.getCurrentPage());
 		int endPage = p.endPage(startPage, totalPage);
-		return p.indexList(startPage, endPage, totalPage, rbcp.getCurrentPage(), "reservation_list.do");
+		return p.indexList(startPage, endPage, totalPage, rbcp.getCurrentPage(), "reservation_list.do",rbcp.getStatus(), rbcp.getSearch());
 	}
 	
 	public JSONObject selectWeekQGCCnt(String bln) throws SQLException{
@@ -194,17 +203,19 @@ public class ClinicService {
 		uh.setBln(ubcp.getBln());
 		uh.setStartNum(startNum);
 		uh.setEndNum(endNum);
+		uh.setStatus(ubcp.getStatus());
+		uh.setSearch(ubcp.getSearch());
 		
 		List<UseHistoryList> list = c_dao.selectUseHistoryList(uh);
 		return list;
 	}
 	
 	public String useHistoryIndexList(UseBlnCurrentPage ubcp) throws SQLException {
-		int totalCnt = c_dao.selectUseHistoryCnt(ubcp.getBln());
+		int totalCnt = c_dao.selectUseHistoryCnt(ubcp);
 		int totalPage = p.totalPage(totalCnt);
 		int startPage = p.startPage(ubcp.getCurrentPage());
 		int endPage = p.endPage(startPage, totalPage);
-		return p.indexList(startPage, endPage, totalPage, ubcp.getCurrentPage(), "use_list.do");
+		return p.indexList(startPage, endPage, totalPage, ubcp.getCurrentPage(), "use_list.do", ubcp.getStatus(), ubcp.getSearch());
 	}
 	
 	public List<MtrList> selectMtrList(MtrBlnCurrentPage mbcp) throws SQLException{
@@ -215,6 +226,8 @@ public class ClinicService {
 		mn.setBln(mbcp.getBln());
 		mn.setStartNum(startNum);
 		mn.setEndNum(endNum);
+		mn.setSearch(mbcp.getSearch());
+		mn.setStatus(mbcp.getStatus());
 		
 		List<MtrList> list = null;
 		list = c_dao.selectMtrList(mn);
@@ -222,11 +235,11 @@ public class ClinicService {
 	}
 	
 	public String mtrIndexList(MtrBlnCurrentPage mbcp)throws SQLException{
-		int totalCnt = c_dao.selectMtrTotalCnt(mbcp.getBln());
+		int totalCnt = c_dao.selectMtrTotalCnt(mbcp);
 		int totalPage = p.totalPage(totalCnt);
 		int startPage = p.startPage(mbcp.getCurrentPage());
 		int endPage = p.endPage(startPage, totalPage);
-		return p.indexList(startPage, endPage, totalPage, mbcp.getCurrentPage(), "monitoring_list.do");
+		return p.indexList(startPage, endPage, totalPage, mbcp.getCurrentPage(), "monitoring_list.do",mbcp.getStatus(), mbcp.getSearch());
 	}
 	
 	public List<UserQnaList> selectUserQnaList(UserQnaBlnCurrentPage uqbcp) throws SQLException{
@@ -237,6 +250,8 @@ public class ClinicService {
 		uq.setBln(uqbcp.getBln());
 		uq.setStartNum(startNum);
 		uq.setEndNum(endNum);
+		uq.setStatus(uqbcp.getStatus());
+		uq.setSearch(uqbcp.getSearch());
 		
 		List<UserQnaList> list = null;
 		list = c_dao.selectUserQnaList(uq);
@@ -244,11 +259,11 @@ public class ClinicService {
 	}
 	
 	public String userQnaIndexList(UserQnaBlnCurrentPage uqbcp)throws SQLException{
-		int totalCnt = c_dao.selectUserQnaTotalCnt(uqbcp.getBln());
+		int totalCnt = c_dao.selectUserQnaTotalCnt(uqbcp);
 		int totalPage = p.totalPage(totalCnt);
 		int startPage = p.startPage(uqbcp.getCurrentPage());
 		int endPage = p.endPage(startPage, totalPage);
-		return p.indexList(startPage, endPage, totalPage, uqbcp.getCurrentPage(), "user_qna_list.do");
+		return p.indexList(startPage, endPage, totalPage, uqbcp.getCurrentPage(), "user_qna_list.do",uqbcp.getStatus(), uqbcp.getSearch());
 	}
 	
 	public List<MgrQnaList> selectMgrQnaList(MgrQnaBlnCurrentPage mqbcp) throws SQLException{
@@ -259,6 +274,8 @@ public class ClinicService {
 		mq.setCId(mqbcp.getCId());
 		mq.setStartNum(startNum);
 		mq.setEndNum(endNum);
+		mq.setStatus(mqbcp.getStatus());
+		mq.setSearch(mqbcp.getSearch());
 		
 		List<MgrQnaList> list = null;
 		list = c_dao.selectMgrQnaList(mq);
@@ -266,12 +283,12 @@ public class ClinicService {
 	}
 	
 	public String mgrQnaIndexList(MgrQnaBlnCurrentPage mqbcp)throws SQLException{
-		int totalCnt = c_dao.selectMgrTotalCnt(mqbcp.getCId());
+		int totalCnt = c_dao.selectMgrTotalCnt(mqbcp);
 		int totalPage = p.totalPage(totalCnt);
 		int startPage = p.startPage(mqbcp.getCurrentPage());
 		int endPage = p.endPage(startPage, totalPage);
-		return p.indexList(startPage, endPage, totalPage, mqbcp.getCurrentPage(), "mgr_qna_list.do");
-	}
+		return p.indexList(startPage, endPage, totalPage, mqbcp.getCurrentPage(), "mgr_qna_list.do",mqbcp.getStatus(), mqbcp.getSearch());
+	} 
 	
 	public int insertClinic(ClnRegData crd)throws SQLException{
 		
@@ -325,7 +342,6 @@ public class ClinicService {
 		int cnt =0;
 		
 		if("Y".equals(crd.getNight())) {
-			
 			switch(crd.getWeek()) {
 			case "¿ù¿äÀÏ" : crd.setWeek("1");
 			break;
@@ -348,12 +364,78 @@ public class ClinicService {
 		return cnt;
 	}
 	
-	public int selectIdPassCheck(IdPw ip)throws SQLException{
+	public int selectIdPassCheck(ClinicIdCheck cic)throws SQLException{
 		int cnt =0;
+		if("ceo".equals(cic.getCheck())) {
+			cnt = c_dao.selectCIdPassCheck(cic);
+		}
 		
-		cnt = c_dao.selectCIdPassCheck(ip);
+		if("emp".equals(cic.getCheck())) {
+			cnt = c_dao.selectEmpCIdPassCheck(cic);
+		}
 		
 		return cnt;
+	}
+	
+	public int insertClnImg(InsertClnImg ici)throws SQLException{
+		int cnt = 0;
+		InsertClnImages icis = new InsertClnImages();
+		for(int i=1; i<ici.getImages().size(); i++) {
+			if(ici.getImages().get(i)!=null) {
+				icis.setBln(ici.getBln());
+				icis.setPath(ici.getPath()+ici.getImages().get(i));
+				icis.setReg_id(ici.getReg_id());
+				icis.setReg_ip(ici.getReg_ip());
+				cnt+=c_dao.insertClnImg(icis);
+			}
+		}
+		return cnt;
+	}
+	
+	public int insertClnQna(MgrQnaData mqd)throws SQLException{
+		int cnt = 0;
+		int check = c_dao.selectCidCheck(mqd.getCId());
+		if(check==1) {
+			mqd.setCeoCheck("C");
+		}else {
+			mqd.setCeoCheck("E");
+		}
+		cnt = c_dao.insertClnQna(mqd);
+		return cnt;
+	}
+	
+	public List<MgrQnaAnswer> selectMgrQnaAnswer(String qua_seq)throws SQLException{
+		List<MgrQnaAnswer> list = null;
+		
+		list = c_dao.selectMgrQnaAnswer(qua_seq);
+		
+		return list;
+	}
+	
+	public List<UserQnaView> selectUserQna(String qgc_seq) throws SQLException{
+		List<UserQnaView> list = null; 
+		list = c_dao.selectUserQna(qgc_seq);
+		return list;
+	}
+	
+	public List<UserQnaAnswerReadOnly> selectUserQnaReadOnly(String qgc_seq) throws SQLException{
+		List<UserQnaAnswerReadOnly> list = null; 
+		list = c_dao.selectUserQnaReadOnly(qgc_seq);
+		return list;
+	}
+	
+	public int insertUserQnaAnswer(UserQnaAnswer uqa) throws SQLException{
+		int cnt = 0;
+		cnt = c_dao.insertUserQnaAnswer(uqa);
+		return cnt;
+	}
+	
+	public String selectCIdCheck(IdSearch is)throws SQLException{
+		String searchId = null;
+		if("ceo".equals(is.getCheck())) {
+			searchId = c_dao.selectCeoIdSearch(is);
+		}
+		return searchId;
 	}
 	
 }

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class MgrQnaBlnCurrentPage {
-	private String cId;
+	private String cId, status, search;
 	private int currentPage;
 }

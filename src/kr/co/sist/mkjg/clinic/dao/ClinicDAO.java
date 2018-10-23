@@ -7,24 +7,36 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import kr.co.sist.mkjg.clinic.domain.MgrQnaAnswer;
 import kr.co.sist.mkjg.clinic.domain.MgrQnaList;
 import kr.co.sist.mkjg.clinic.domain.MtrList;
 import kr.co.sist.mkjg.clinic.domain.NoticeTitle;
 import kr.co.sist.mkjg.clinic.domain.RevList;
 import kr.co.sist.mkjg.clinic.domain.TodayReg;
 import kr.co.sist.mkjg.clinic.domain.UseHistoryList;
+import kr.co.sist.mkjg.clinic.domain.UserQnaAnswerReadOnly;
 import kr.co.sist.mkjg.clinic.domain.UserQnaList;
+import kr.co.sist.mkjg.clinic.domain.UserQnaView;
 import kr.co.sist.mkjg.clinic.domain.WeekQGCDayCnt;
 import kr.co.sist.mkjg.clinic.domain.WeekRegDayCnt;
 import kr.co.sist.mkjg.clinic.vo.AprvlBseq;
 import kr.co.sist.mkjg.clinic.vo.CeoAddJoin;
+import kr.co.sist.mkjg.clinic.vo.ClinicIdCheck;
 import kr.co.sist.mkjg.clinic.vo.ClnRegData;
-import kr.co.sist.mkjg.clinic.vo.IdPw;
+import kr.co.sist.mkjg.clinic.vo.IdSearch;
+import kr.co.sist.mkjg.clinic.vo.InsertClnImages;
 import kr.co.sist.mkjg.clinic.vo.MgrQna;
+import kr.co.sist.mkjg.clinic.vo.MgrQnaBlnCurrentPage;
+import kr.co.sist.mkjg.clinic.vo.MgrQnaData;
+import kr.co.sist.mkjg.clinic.vo.MtrBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.MtrNum;
+import kr.co.sist.mkjg.clinic.vo.RevBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.RevPage;
+import kr.co.sist.mkjg.clinic.vo.UseBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.UseHistory;
 import kr.co.sist.mkjg.clinic.vo.UserQna;
+import kr.co.sist.mkjg.clinic.vo.UserQnaAnswer;
+import kr.co.sist.mkjg.clinic.vo.UserQnaBlnCurrentPage;
 
 @Component
 public class ClinicDAO {
@@ -59,7 +71,6 @@ public class ClinicDAO {
 	
 	public String selectCeoName(String cId) throws SQLException{
 		String name = sst.selectOne("selectCeoName", cId);
-		
 		return name;
 	}
 	
@@ -97,10 +108,10 @@ public class ClinicDAO {
 		return list;
 	}
 	
-	public int selectRevTotalCnt(String bln) throws SQLException{
+	public int selectRevTotalCnt(RevBlnCurrentPage rbcp) throws SQLException{
 		int regTotalCnt = 0;
 		
-		regTotalCnt = sst.selectOne("selectRegCnt", bln);
+		regTotalCnt = sst.selectOne("selectRegCnt", rbcp);
 		
 		return regTotalCnt;
 	}
@@ -118,10 +129,10 @@ public class ClinicDAO {
 		return cnt;
 	}
 	
-	public int selectUseHistoryCnt(String bln) throws SQLException{
+	public int selectUseHistoryCnt(UseBlnCurrentPage ubcp) throws SQLException{
 		int cnt = 0;
 		
-		cnt = sst.selectOne("selectUseHistoryCnt", bln);
+		cnt = sst.selectOne("selectUseHistoryCnt", ubcp);
 		
 		return cnt;
 	}
@@ -134,26 +145,24 @@ public class ClinicDAO {
 		return list;
 	}
 	
-	public int selectMtrTotalCnt(String bln) throws SQLException{
+	public int selectMtrTotalCnt(MtrBlnCurrentPage mbcp) throws SQLException{
 		int cnt = 0;
 		
-		cnt = sst.selectOne("selectMtrTotalCnt", bln);
+		cnt = sst.selectOne("selectMtrTotalCnt", mbcp);
 		
 		return cnt;
 	}
 	
 	public List<MtrList> selectMtrList(MtrNum mn)throws SQLException{
 		List<MtrList> list = null;
-		
 		list = sst.selectList("selectMtrList", mn);
-		
 		return list;
 	}
 	
-	public int selectUserQnaTotalCnt(String bln) throws SQLException{
+	public int selectUserQnaTotalCnt(UserQnaBlnCurrentPage uqbcp) throws SQLException{
 		int cnt = 0;
 		
-		cnt = sst.selectOne("selectUserQnaTotalCnt", bln);
+		cnt = sst.selectOne("selectUserQnaTotalCnt", uqbcp);
 		
 		return cnt;
 	}
@@ -166,10 +175,10 @@ public class ClinicDAO {
 		return list;
 	}
 	
-	public int selectMgrTotalCnt(String cId) throws SQLException{
+	public int selectMgrTotalCnt(MgrQnaBlnCurrentPage mqbcp) throws SQLException{
 		int cnt = 0;
 		
-		cnt = sst.selectOne("selectMgrQnaTotalCnt", cId);
+		cnt = sst.selectOne("selectMgrQnaTotalCnt", mqbcp);
 		
 		return cnt;
 	}
@@ -194,11 +203,58 @@ public class ClinicDAO {
 		return cnt;
 	}
 	
-	public int selectCIdPassCheck(IdPw ip)throws SQLException{
+	public int selectCIdPassCheck(ClinicIdCheck cic)throws SQLException{
 		int cnt =0;
-		cnt = sst.selectOne("idPwCheck",ip);
+		cnt = sst.selectOne("idPwCheck",cic);
+		return cnt;
+	}
+	
+	public int selectEmpCIdPassCheck(ClinicIdCheck cic)throws SQLException{
+		int cnt = 0;
+		cnt = sst.selectOne("empIdPwCheck", cic);
 		return cnt;
 	}
 
+	public int insertClnImg(InsertClnImages icis)throws SQLException{
+		int cnt = 0;
+		cnt = sst.insert("insertClnImg",icis);
+		return cnt;
+	}
+	
+	public int insertClnQna(MgrQnaData mqd)throws SQLException{
+		int cnt = 0;
+		cnt = sst.insert("insertClnQna",mqd);
+		return cnt;
+	}
+	
+	public List<MgrQnaAnswer> selectMgrQnaAnswer(String qua_seq)throws SQLException{
+		List<MgrQnaAnswer> list = null;
+		list = sst.selectList("selectMgrQnaAnswer",qua_seq);
+		return list;
+	}
+	
+	public List<UserQnaView> selectUserQna(String qgc_seq)throws SQLException{
+		List<UserQnaView> list = null;
+		list = sst.selectList("selectUserQna", qgc_seq); 
+		return list;
+	}
+	
+	public List<UserQnaAnswerReadOnly> selectUserQnaReadOnly(String qgc_seq)throws SQLException{
+		List<UserQnaAnswerReadOnly> list = null;
+		list = sst.selectList("selectUserQnaReadOnly", qgc_seq); 
+		return list;
+	}
+	
+	public int insertUserQnaAnswer(UserQnaAnswer uqa) throws SQLException{
+		int cnt=0;
+		cnt = sst.insert("insertUserQnaAnswer", uqa);
+		return cnt;
+	}
+	
+	public String selectCeoIdSearch(IdSearch is) throws SQLException{
+		String searchId = null; 
+		searchId = sst.selectOne("ceoIdSearch",is);
+		return searchId;
+	}
 	
 }

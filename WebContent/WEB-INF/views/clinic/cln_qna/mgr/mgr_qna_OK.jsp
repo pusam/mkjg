@@ -36,7 +36,15 @@
   <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
   <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-
+	<script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
+ <script type="text/javascript">
+ $(function(){
+	 $("#turn").click(function() { 
+		 alert("ㅇ")
+		location.href="mgr_qna_list.do";	 
+	 } 
+ });
+ </script>
 </head>
 
 <body>
@@ -72,10 +80,10 @@
       <div class="row">
         <div class="span12">
           <div class="centered">
-            <img src="http://localhost:8080/mkjg/images/ok.png">
+            <img src="http://localhost:8080/mkjg/assets/images/ok.png">
             <h1><strong>문의하기가 완료되었습니다.</strong></h1>
                 <div style="text-align: center;" >
-            	<button type="button" class="btn btn-large btn-color" id="home">HOME</button>
+            	<a href="mgr_qna_list.do"><button type="button" class="btn btn-large btn-color" id="turn" value="목록으로">목록으로</button></a>
             	<br/>
              </div>
           </div>

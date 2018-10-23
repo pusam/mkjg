@@ -7,7 +7,7 @@
 
 						<div class="span4">
 							<!-- logo -->
-							<a class="logo" href="index.html">
+							<a class="logo" href="main.do">
 								<h1>Plato</h1> <!-- <img src="assets/img/logo.png" alt="" /> -->
 							</a>
 							<!-- end logo -->
@@ -18,7 +18,7 @@
 								<div class="navbar-inner">
 									<nav>
 										<ul class="nav topnav">
-											<li class="dropdown"><a href="index_cln.do">Home</a></li>
+											<li class="dropdown"><a href="main.do">Home</a></li>
 											<li class="dropdown"><a href="hog_list.do">신고관리</a></li>
 											<li class="dropdown"><a href="">이용관리</a>
 												<ul class="dropdown-menu">

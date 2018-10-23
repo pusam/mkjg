@@ -42,6 +42,29 @@
 	#endDate{background-color: #F5F5F5;}
 	#appendedInputButton{background-color: #F5F5F5;}
 	</style>
+<script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
+ <script type="text/javascript">
+ $(function(){
+	$("#searchClick").click(function() {
+		$("#frm").submit();
+	});
+	$(".ansView").click(function() {
+	var con = "";
+	var aprvl=$(this).find(".rstatus").val();
+	var qgc_seq=$(this).find(".qgc_seq").val();
+	if(aprvl=='N'){
+	 con = confirm("답변이 등록되지 않았습니다. 답변을 등록하시겠습니까?");
+	}else{
+		con = confirm("답변을 확인하시겠습니까?");
+	}
+	if(con==true){
+	location.href="user_qna_answer_view.do?rstatus="+aprvl+"&qgc_seq="+qgc_seq;
+	}else{
+		return
+	}//end if
+	});//click
+ });//ready
+ </script>
 <!-- modal -->
 </head>
 
@@ -79,13 +102,16 @@
             </div>
             
             <div class="input-append" style="float: right;">
+            <form id="frm" name="frm">
             		<select name="status" id="status" style="width: 150px; font-size: 14px; margin-right: 70px">
-						<option selected="selected" style="line-height: 25px; border: 1px solid #6093e7; margin-bottom: 20px; height: 28px; border-radius: 3px"> 등록완료</option>
-						<option>처리대기</option>
-						<option>관리자거절</option>
+						<option value="고객명" ${user_qna_status eq "고객명" ? "selected" :""}>고객명</option>
+						<option value="타입" ${user_qna_status eq "타입" ? "selected" :""}>타입</option>
+						<option value="문의날짜" ${user_qna_status eq "문의날짜" ? "selected" :""}>문의날짜</option>
+						<option value="답변여부" ${user_qna_status eq "답변여부" ? "selected" :""}>답변여부</option>
 					</select>
-        	    <input class="span2" id="appendedInputButton" type="text"  placeholder="이름">
-					<button class="btn btn-inverse" type="submit" id="search">검색</button>
+        	    <input class="span2" id="search" name="search"  type="text" value="${user_qna_search }">
+					<button class="btn btn-inverse" type="submit" id="searchClick">검색</button>
+			</form>
             </div>
               <table class="table table-hover">
                 <thead>
@@ -94,7 +120,7 @@
 						<th width="120px">고객명</th>
 						<th width="150px">제목</th>
 						<th width="150px">타입</th>
-						<th width="150px">문의일짜</th>
+						<th width="150px">문의일자</th>
 						<th width="130px">답변여부</th>
 				</tr>
                 </thead>
@@ -106,7 +132,11 @@
                   		<td>${uq.qtitle }</td>
                   		<td>${uq.qtype }</td>
                   		<td>${uq.qdate }</td>
-                  		<td>${uq.rstatus } <input type="hidden" value="${uq.qgc_seq }"></td>
+                  		<form id ="frm2" name="frm2" action="user_qna_answer_view.do" method="GET">
+                  		<td><a href="#void" class="ansView">${uq.rstatus }
+                  		<input type="hidden" value="${uq.rstatus }" id="rstatus" name="rstatus" class="rstatus">
+                  		<input type="hidden" value="${uq.qgc_seq }" id="qgc_seq" name="qgc_seq" class="qgc_seq"></a></td>
+                  		</form>
 					</tr> 
 					</c:forEach>
                 </tbody>
