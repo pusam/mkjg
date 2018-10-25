@@ -2,7 +2,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="emp.selectMapper" >
+<mapper namespace="emp.selectMapper">
 	<select id="EmpListAll" resultType="kr.co.sist.mkjg.clinic.domain.EmpListDomain">
 	<![CDATA[
 		SELECT num, bln, ename, eid, email, tel, addr, addr_detail
@@ -11,7 +11,7 @@
 			FROM(
 		SELECT rownum num, bln, ename, eid, email, tel, addr, addr_detail
 			FROM emp
-		WHERE bln=#{bln}
+		WHERE (bln=#{bln}) and upper(eid) like '%'||upper(#{keyword})||'%'
 			ORDER BY num desc)
 			ORDER BY rnum desc)
 		WHERE rnum between #{start} and #{end}
@@ -20,7 +20,7 @@
 	
 	<select id="totalEmpCount" resultType="int">
 		SELECT count(*) from emp
-		where bln=#{bln}
+		WHERE (bln=#{bln})  and upper(eid) like '%'||upper(#{keyword})||'%'
 	</select>	
 	
 	<select id="idCheck" parameterType="String" resultType="int">
@@ -48,33 +48,49 @@
 	
 	<select id="hogListAll" resultType="kr.co.sist.mkjg.clinic.domain.HogListDomain">
 	<![CDATA[
-		SELECT num, pid, pname, pet_name, tel, to_char(bdate,'yyyy-mm-dd') as bdate , bln, cl_status, cl_seq
+		SELECT num, pid, pname, pet_name, tel, bdate, cl_status, bseq, cl_title, cl_seq
 			FROM(
-		SELECT rownum rnum,num, pid, pname, pet_name, tel, bdate, bln, cl_status, cl_seq
+		SELECT rownum rnum, num, pid, pname, pet_name, tel, to_char(bdate,'yyyy-mm-dd') as bdate, cl_status, bseq, cl_title, cl_seq
 			FROM(
-		SELECT rownum num, bll.pid, pro.pname, bk.pet_name, pro.tel, bk.bdate, bll.bln, cl.cl_status,bll.cl_seq
-			FROM protector pro, bl_list bll, book_list bk,admin ad, claim cl
-		WHERE pro.pid = bll.pid and pro.pid = bk.pid and ad.aid = bll.aid and cl.cl_seq = bll.cl_seq and bll.bln=#{bln}
+		SELECT rownum num, cl.pid, pro.pname, bk.pet_name, bk.bdate, pro.tel, cl.cl_status, cl.bseq, cl.cl_title, cl.cl_seq
+			FROM protector pro, book_list bk, claim cl
+		WHERE (pro.pid = bk.pid and bk.bseq = cl.bseq and cl.bln=#{bln} and cl.wtype='C') and upper(cl.pid) like '%'||upper(#{keyword})||'%'
 			ORDER BY num desc)
 			ORDER BY rnum desc)
 		WHERE rnum between #{start} and #{end}
 		]]> 
 	</select>
-	
 	<select id="totalHogCount" resultType="int">
-		SELECT count(*) from bl_list
-		where bln=#{bln}
+		SELECT count(*) from claim
+		WHERE (bln=#{bln}) and upper(pid) like '%'||upper(#{keyword})||'%'
 	</select>	
 	
+	<insert id="insertHog">
+		INSERT INTO claim(cl_seq, bseq, cl_title, cl_text, wid, wtype, wip, wdate, aid, cl_status, bln, pid, aip)
+		VALUES(c_seq, #{bseq}, #{cl_title}, #{cl_text}, #{wid}, 'C', '127.0.0.1', sysdate, 'atest09', 'R', #{bln}, #{pid}, '127.0.0.1')
+	</insert>
+	
+	<select id="hogAddView" resultType="kr.co.sist.mkjg.clinic.vo.HogAddView">
+	SELECT bseq, pid, bln
+		FROM book_list
+	WHERE bseq=#{bseq} and bln=#{bln}
+	</select>
+	
 	<select id="hogView" resultType="kr.co.sist.mkjg.clinic.vo.hogInfo">
-		SELECT pid, pname, pet_name, tel, to_char(wdate,'yyyy-mm-dd') as wdate, cl_text, msg, cl_seq, bln
+		SELECT pid, pname, pet_name, tel, wdate, cl_text, msg, bseq, bln, cl_title, cl_seq
 			FROM(
-		SELECT pro.pid, pro.pname, bk.pet_name, pro.tel, cl.wdate, cl.cl_text, cl.msg, bll.cl_seq, bll.bln
-			FROM protector pro, bl_list bll, book_list bk, claim cl
-		WHERE pro.pid=bll.pid and pro.pid=bk.pid and cl.cl_seq = bll.cl_seq and bll.bln=#{bln} )
+		SELECT cl.pid, pro.pname, bk.pet_name, pro.tel,  to_char(cl.wdate,'yyyy-mm-dd') as wdate, cl.cl_text, cl.msg, cl.bseq, cl.bln, cl.cl_title,
+				cl.cl_seq
+			FROM protector pro, book_list bk, claim cl
+		WHERE pro.pid = bk.pid and bk.bseq = cl.bseq and cl.bln=#{bln} )
 		WHERE cl_seq=#{cl_seq}
 	</select>
 	
+	<select id="ceoChk" resultType="kr.co.sist.mkjg.clinic.vo.ClinicIdCheck">
+	SELECT cid
+		FROM ceo
+	WHERE cid=#{cId} and pw=#{pass}
+	</select>
 	<select id="clnView" resultType="kr.co.sist.mkjg.clinic.vo.clnInfoView">
 	SELECT cln_name, bln, director, tel, email, open_time, close_time, night_yn, post, sido, 
 				sigungu, emd, addr_detail, cut_yn, hstl_yn, intro, nopen, nclose
@@ -85,12 +101,18 @@
 	WHERE cl.bln = nc.bln)
 	WHERE bln=#{bln}
 	</select>
+	
+	<select id="clnImg" resultType="kr.co.sist.mkjg.clinic.vo.clnImgVO">
+	SELECT substr(path,(instr(path,'/',-1)+1)) as path,bln
+	FROM cln_img
+	WHERE bln=#{bln}
+	</select>
 	 
  	<update id="UpdateCln">
 	UPDATE clinic
 		SET tel=#{tel}, email=#{email},night_yn=#{night_yn} ,hstl_yn=#{hstl_yn}, cut_yn=#{cut_yn},
 			 open_time=#{open_time}, close_time=#{close_time},
-			 subject=#{subject}, intro=#{intro}, addr=#{addr}, addr_detail=#{addr_detail}
+			 subject=#{subject}, intro=#{intro}, addr2=#{addr}, addr_detail=#{addr_detail}
 	WHERE bln=#{bln}
 	</update>
 	
@@ -102,20 +124,20 @@
 	
 	<select id="totalNoticeCount" resultType="int">
 		SELECT count(*) FROM notice
-		WHERE reciever = '2' or reciever = '0'
+		WHERE (reciever = '2' or reciever = '0') and aid like '%'||#{keyword}||'%'
 	</select>	
 	
 	<select id="noticeListAll" resultType="kr.co.sist.mkjg.clinic.domain.NoticeListDomain">
-		select num, ntitle, to_char(reg_date,'yyyy-mm-dd') as reg_date, not_seq, aid
+		SELECT num, ntitle, to_char(reg_date,'yyyy-mm-dd') as reg_date, not_seq, aid
 			from(
-		select rownum rnum, num, ntitle, reg_date, not_seq, aid
+		SELECT rownum rnum, num, ntitle, reg_date, not_seq, aid
 			from(
-		select rownum num, ntitle, reg_date, not_seq, aid
+		SELECT rownum num, ntitle, reg_date, not_seq, aid
 			from notice
-		where reciever = '0' or reciever = '2'
+		WHERE (reciever = '0' or reciever = '2') and aid like '%'||#{keyword}||'%'
 			order by num desc)
 			order by rnum desc)
-		where rnum between #{start} and #{end}
+		WHERE rnum between #{start} and #{end}
 	</select>
 	
 			
@@ -124,5 +146,25 @@
 			FROM notice
 		WHERE not_seq = #{not_seq}
 	</select>
+	
+	<select id="treatmentView" resultType="kr.co.sist.mkjg.clinic.vo.treatmentView">
+		SELECT bseq, pname, tel, pet_name, pet_type, pet_age, bdate, btime, (SELECT msg FROM care WHERE bseq=#{bseq}) as msg, bln, pid
+			FROM(
+		SELECT bl.bseq, pro.pname, pro.tel, bl.pet_name, bl.pet_type, bl.pet_age, bl.bdate, bl.btime, bl.bln, pro.pid
+			FROM protector pro, book_list bl
+		WHERE pro.pid = bl.pid and bl.bseq=#{bseq})
+	</select>
+	
+	<update id="updateTreatment">
+	UPDATE care
+		SET msg=#{msg}, wdate=sysdate, wip='127.0.0.1', wid=#{wid}
+	WHERE bseq=#{bseq} and bln=#{bln}
+	</update>
+	
+	<insert id="insertTreatment">
+	INSERT INTO care
+	VALUES(#{bseq}, #{pid}, #{bln}, #{msg}, sysdate, #{wid}, '127.0.0.1')
+	</insert>
+	
 	
 </mapper>

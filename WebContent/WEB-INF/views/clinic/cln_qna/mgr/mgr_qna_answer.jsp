@@ -42,9 +42,7 @@
 <link rel="apple-touch-icon-precomposed"
 	href="assets/ico/apple-touch-icon-57-precomposed.png">
 	<style type="text/css">
-	#startDate{background-color: #F5F5F5;}
-	#endDate{background-color: #F5F5F5;}
-	#appendedInputButton{background-color: #F5F5F5;}
+	textarea{resize: none}
 	</style>
 	<script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
  <script type="text/javascript">
@@ -56,7 +54,7 @@
 			 return
 		 }
 			var con = confirm("문의 하시겠습니까?");
-			if(con = true){
+			if(con == true){
 				location.href="mgr_qna_OK.do";
 				$("#frm").submit();
 			}else{
@@ -66,7 +64,7 @@
 		}); 
 	 $("#cancle").click(function() { 
 			var con = confirm("목록으로 돌아가시겠습니까?");
-			if(con = true){
+			if(con == true){
 				location.href="mgr_qna_list.do";
 			}else{
 				return
@@ -110,7 +108,7 @@
             </div>
             <div align="center">
             <form id="frm" name="frm" action="mgr_qna_OK.do">
-            <table style="border: 1px solid #333; width: 500px;">
+            <table style="border: 1px solid #A6A6A6; width: 500px;">
             	<tr>
             		<td>
             			<select id="type" name="qtype">
@@ -124,18 +122,18 @@
             	</tr>
             	<tr>
             		<td>
-						<input type="text" placeholder="제목" id="title" name="title"/>
+						<input type="text" placeholder="제목을 입력해주세요" id="title" name="title"/>
             		</td>
             	</tr>
             	<tr>
             		<td>
-            			<textarea rows="8" cols="40" style="width: 500px" placeholder="내용" id="text" name="text"></textarea>
+            			<textarea rows="8" cols="40" style="width: 500px" placeholder="내용을 입력해주세요" id="text" name="text"></textarea>
             		</td>
             	</tr>
             	<tr>
             		<td style="text-align: right;">
-            			<input type="button" value="문의" id="add" name="add">
-            			<input type="button" value="취소" id="cancle" name="cancle">
+            			<input type="button" value="문의" id="add" name="add" class="btn btn-inverse">
+            			<input type="button" value="취소" id="cancle" name="cancle" class="btn btn-inverse">
             		</td>
             	</tr>
             </table>

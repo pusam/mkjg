@@ -41,6 +41,10 @@
 	href="assets/ico/apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed"
 	href="assets/ico/apple-touch-icon-57-precomposed.png">
+<style type="text/css">
+	#thTitle{background-color: #393939; color: white;}	
+	#search{border: 1px solid #D5D5D5;} 
+</style>
  <script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
  <script type="text/javascript">
  $(function(){
@@ -86,18 +90,18 @@
             
             <div class="input-append" style="float: right;">
             <form id="frm" name="frm">
-            		<select name="status" id="status" style="width: 150px; font-size: 14px; margin-right: 70px">
+            		<select name="status" id="status" style="width: 150px; font-size: 14px;">
 						<option value="고객명" ${mtrStatus eq "고객명" ? "selected" :""}>고객명</option>
 						<option value="이용날짜" ${mtrStatus eq "이용날짜" ? "selected" :""}>이용날짜</option>
 						<option value="등록이" ${mtrStatus eq "등록이" ? "selected" :""}>등록이</option>
 					</select>
-        	    <input class="span2" id="search" name="search" type="text" style="border: 1px solid #333;" value="${mtrSearch}">
+        	    <input class="span2" id="search" name="search" type="text" value="${mtrSearch}">
 					<button class="btn btn-inverse" type="submit" id="searchClick">검색</button>
 			</form>
             </div>
               <table class="table table-hover">
                 <thead>
-                  <tr style="font-size: 16px;">
+                  <tr style="font-size: 16px;" id="thTitle">
 					<th width="50px">번호</th>
 					<th width="100px">고객명</th>
 					<th width="100px">전화번호</th>

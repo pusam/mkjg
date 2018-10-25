@@ -43,8 +43,14 @@
 		});		
 	});
 	function list(page){
-		 location.href="${path}/mkjg/employee_list.do?curPage="+page;
-	}
+		var searchID = document.getElementById("searchID").value;
+			if(searchID==""){
+				 location.href="${path}/mkjg/employee_list.do?curPage="+page;
+			}//end if
+			if(searchID!=""){
+				 location.href="${path}/mkjg/employee_list.do?curPage="+page+"&keyword="+searchID;
+			}//end if
+		}//list
 </script>
 </head>
 
@@ -78,12 +84,14 @@
      <div class="span12">
 		 <section id="tables" class="doc">
             <div class="page-header">
-              <h3>목록</h3>
+              <h3>직원 목록</h3>
             </div>
+             <form name="frm" method="post" action="${path}/mkjg/employee_list.do"> 
              <div id="search" style="float: right;">
-        	    <input class="span2" id="searchID" type="text"  placeholder="아이디" style="background-color: #f5f5f5; height: 23px;">&nbsp;&nbsp;&nbsp;
-				<button class="btn btn-inverse" type="button" id="searchbtn" style="margin-bottom: 10px;">검색</button>
+        	    <input class="span2" id="searchID" type="text"  placeholder="아이디"  name="keyword" value="${map.keyword}" style="background-color: #f5f5f5; height: 23px;">&nbsp;&nbsp;&nbsp;
+				<button class="btn btn-inverse" type="submit" id="searchbtn" style="margin-bottom: 10px;">검색</button>
 			</div>
+			</form>
               <table class="table table-hover">
                 <thead>
                   <tr style="font-size: 16px;">
@@ -109,7 +117,7 @@
                 </tbody>
               </table>
             <div class="pagination" style="text-align: center;">
-            <ul>
+           <ul>
               <li>
               <c:if test="${map.pageMaker.curBlock>1}">
              	 <a href="javascript:list('${map.pageMaker.prevPage}')">Prev</a>

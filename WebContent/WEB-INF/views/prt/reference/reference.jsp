@@ -11,24 +11,24 @@ License URI: http://www.themevault.net/license/-->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="http://211.63.89.152/mkjg/common/prt/images/icons/cicon.png"/>
+        <link rel="icon" href="http://localhost:8080/mkjg/common/prt/images/icons/cicon.png"/>
         <title>맡겨주개</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="http://211.63.89.152/mkjg/common/prt/css/bootstrap.min.css" rel="stylesheet">
-        <link href="http://211.63.89.152/mkjg/common/prt/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="http://localhost:8080/mkjg/common/prt/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://localhost:8080/mkjg/common/prt/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Custom styles for this template -->
-        <link href="http://211.63.89.152/mkjg/common/prt/css/style2.css" rel="stylesheet">
-        <link href="http://211.63.89.152/mkjg/common/prt/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
-        <link rel="stylesheet" href="http://211.63.89.152/mkjg/common/prt/css/lightbox.min.css">
-        <link href="http://211.63.89.152/mkjg/common/prt/css/responsive.css" rel="stylesheet">
-        <script src="http://211.63.89.152/mkjg/common/prt/js/jquery.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/jquery.imagesloaded.js"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/masonry.pkgd.min.js"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/instafeed.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/custom.js" type="text/javascript"></script>
+        <link href="http://localhost:8080/mkjg/common/prt/css/style2.css" rel="stylesheet">
+        <link href="http://localhost:8080/mkjg/common/prt/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://localhost:8080/mkjg/common/prt/css/lightbox.min.css">
+        <link href="http://localhost:8080/mkjg/common/prt/css/responsive.css" rel="stylesheet">
+        <script src="http://localhost:8080/mkjg/common/prt/js/jquery.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/jquery.imagesloaded.js"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/masonry.pkgd.min.js"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/instafeed.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/custom.js" type="text/javascript"></script>
         <style>
             .grid {
                 background: rgba(0,0,0,0);
@@ -63,7 +63,7 @@ License URI: http://www.themevault.net/license/-->
                             <div class="col-md-2 col-sm-6 col-xs-6">
                                 <div id="logo">
                                     <!--<a href="index.html"><img src="images/logo.png" alt="logo"></a>-->
-                                    <a href="index.do"><img src="http://211.63.89.152/mkjg/common/prt/images/icons/icon.png"/><span style="font-size:40px;">MKJG</span></a>
+                                    <a href="index.do"><img src="http://localhost:8080/mkjg/common/prt/images/icons/icon.png"/><span style="font-size:40px;">MKJG</span></a>
                                 </div>                       
                             </div>
                             <div class="col-sm-6 visible-sm">
@@ -116,28 +116,28 @@ License URI: http://www.themevault.net/license/-->
                         <div class="grid hover-effect">
                             <div class="grid-sizer"></div>
                             <div class="grid-item percent37 gallery-image">
-                                <a class="example-image-link img-responsive" href="http://211.63.89.152/mkjg/common/prt/images/gallery1-1.jpg" data-lightbox="example-1"><img src="http://211.63.89.152/mkjg/common/prt/images/gallery1.png" class="img-responsive" alt="gallery1"></a>
+                                <a class="example-image-link img-responsive" href="http://localhost:8080/mkjg/common/prt/images/gallery1-1.jpg" data-lightbox="example-1"><img src="http://localhost:8080/mkjg/common/prt/images/gallery1.png" class="img-responsive" alt="gallery1"></a>
                             </div>
                             <div class="grid-item percent25 gallery-image">
-                                <a class="example-image-link img-responsive" href="http://211.63.89.152/mkjg/common/prt/images/gallery2-2.jpg" data-lightbox="example-1"><img src="http://211.63.89.152/mkjg/common/prt/images/gallery2.png" class="img-responsive" alt="gallery1"></a>
+                                <a class="example-image-link img-responsive" href="http://localhost:8080/mkjg/common/prt/images/gallery2-2.jpg" data-lightbox="example-1"><img src="http://localhost:8080/mkjg/common/prt/images/gallery2.png" class="img-responsive" alt="gallery1"></a>
                             </div>
                             <div class="grid-item percent37 gallery-image">
-                                <a class="example-image-link img-responsive" href="http://211.63.89.152/mkjg/common/prt/images/gallery3-3.jpg" data-lightbox="example-1"><img src="http://211.63.89.152/mkjg/common/prt/images/gallery3.png" class="img-responsive" alt="gallery1"></a>
+                                <a class="example-image-link img-responsive" href="http://localhost:8080/mkjg/common/prt/images/gallery3-3.jpg" data-lightbox="example-1"><img src="http://localhost:8080/mkjg/common/prt/images/gallery3.png" class="img-responsive" alt="gallery1"></a>
                             </div>
                             <div class="grid-item percent25 gallery-image">
-                                <a class="example-image-link img-responsive" href="http://211.63.89.152/mkjg/common/prt/images/gallery4-4.jpg" data-lightbox="example-1"><img src="http://211.63.89.152/mkjg/common/prt/images/gallery4.png" class="img-responsive" alt="gallery1"></a>
+                                <a class="example-image-link img-responsive" href="http://localhost:8080/mkjg/common/prt/images/gallery4-4.jpg" data-lightbox="example-1"><img src="http://localhost:8080/mkjg/common/prt/images/gallery4.png" class="img-responsive" alt="gallery1"></a>
                             </div>
                             <div class="grid-item percent37 gallery-image">
-                                <a class="example-image-link img-responsive" href="http://211.63.89.152/mkjg/common/prt/images/gallery5-5.jpg" data-lightbox="example-1"><img src="http://211.63.89.152/mkjg/common/prt/images/gallery5.png" class="img-responsive" alt="gallery1"></a>
+                                <a class="example-image-link img-responsive" href="http://localhost:8080/mkjg/common/prt/images/gallery5-5.jpg" data-lightbox="example-1"><img src="http://localhost:8080/mkjg/common/prt/images/gallery5.png" class="img-responsive" alt="gallery1"></a>
                             </div>
                             <div class="grid-item percent20 gallery-image">
-                                <a class="example-image-link img-responsive" href="http://211.63.89.152/mkjg/common/prt/images/gallery6-6.jpg" data-lightbox="example-1"><img src="http://211.63.89.152/mkjg/common/prt/images/gallery6.png" class="img-responsive" alt="gallery1"></a>
+                                <a class="example-image-link img-responsive" href="http://localhost:8080/mkjg/common/prt/images/gallery6-6.jpg" data-lightbox="example-1"><img src="http://localhost:8080/mkjg/common/prt/images/gallery6.png" class="img-responsive" alt="gallery1"></a>
                             </div>
                             <div class="grid-item percent20 gallery-image">
-                                <a class="example-image-link img-responsive" href="http://211.63.89.152/mkjg/common/prt/images/gallery7-7.jpg" data-lightbox="example-1"><img src="http://211.63.89.152/mkjg/common/prt/images/gallery7.png" class="img-responsive" alt="gallery1"></a>
+                                <a class="example-image-link img-responsive" href="http://localhost:8080/mkjg/common/prt/images/gallery7-7.jpg" data-lightbox="example-1"><img src="http://localhost:8080/mkjg/common/prt/images/gallery7.png" class="img-responsive" alt="gallery1"></a>
                             </div>
                             <div class="grid-item percent20 gallery-image">
-                                <a class="example-image-link img-responsive" href="http://211.63.89.152/mkjg/common/prt/images/gallery8-8.jpg" data-lightbox="example-1"><img src="http://211.63.89.152/mkjg/common/prt/images/gallery8.png" class="img-responsive" alt="gallery1"></a> 
+                                <a class="example-image-link img-responsive" href="http://localhost:8080/mkjg/common/prt/images/gallery8-8.jpg" data-lightbox="example-1"><img src="http://localhost:8080/mkjg/common/prt/images/gallery8.png" class="img-responsive" alt="gallery1"></a> 
                             </div>
                         </div>
                     </div>

@@ -117,16 +117,16 @@ var qgcCnt= ${week_QGC_Day_Cnt}
               <ul id="images" class="rs-slider">
                 <li class="group">
                   <a href="#">
-				            <img src="http://localhost:8080/mkjg/assets/img/slides/refine/slide1.png" alt="" />
+				            <img src="http://localhost:8080/mkjg/assets/img/main1.png" style="height: 350px"/>
 				        </a>
                 </li>
                 <li class="group">
                   <a href="#" class="slide-parent">
-				            <img src="http://localhost:8080/mkjg/assets/img/slides/refine/slide2.png" alt=""/>
+				            <img src="http://localhost:8080/mkjg/assets/img/main2.jpg" style="height: 350px"/>
 				        </a>
                 </li>
                 <li class="group">
-                  <img src="http://localhost:8080/mkjg/assets/img/slides/refine/slide3.png" alt="" />
+                  <img src="http://localhost:8080/mkjg/assets/img/main3.jpg" style="height: 350px"/>
                 </li>
               </ul>
         </div>

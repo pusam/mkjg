@@ -10,22 +10,22 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="http://211.63.89.152/mkjg/common/prt/images/icons/cicon.png"/>
+        <link rel="icon" href="http://localhost:8080/mkjg/common/prt/images/icons/cicon.png"/>
         <title>맡겨주개</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="http://211.63.89.152/mkjg/common/prt/css/bootstrap.min.css" rel="stylesheet">
-        <link href="http://211.63.89.152/mkjg/common/prt/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="http://localhost:8080/mkjg/common/prt/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://localhost:8080/mkjg/common/prt/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Custom styles for this template -->
-        <link href="http://211.63.89.152/mkjg/common/prt/css/style.css" rel="stylesheet">
-        <link href="http://211.63.89.152/mkjg/common/prt/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
-        <link rel="stylesheet" href="http://211.63.89.152/mkjg/common/prt/css/lightbox.min.css">
-        <link href="http://211.63.89.152/mkjg/common/prt/css/responsive.css" rel="stylesheet">
-        <script src="http://211.63.89.152/mkjg/common/prt/js/jquery.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/instafeed.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/custom.js" type="text/javascript"></script>
+        <link href="http://localhost:8080/mkjg/common/prt/css/style.css" rel="stylesheet">
+        <link href="http://localhost:8080/mkjg/common/prt/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://localhost:8080/mkjg/common/prt/css/lightbox.min.css">
+        <link href="http://localhost:8080/mkjg/common/prt/css/responsive.css" rel="stylesheet">
+        <script src="http://localhost:8080/mkjg/common/prt/js/jquery.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/instafeed.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/custom.js" type="text/javascript"></script>
     <style type="text/css">
     	#clinic_content{width:1000px; float:center; margin:0px auto; text-align:center;}
     	#cln_info_tab{text-align: center; margin:0px auto;}
@@ -51,8 +51,8 @@
                         <div class="row">
                             <div class="col-md-2 col-sm-6 col-xs-6">
                                 <div id="logo">
-                                    <!--<a href="index.html"><img src="http://211.63.89.152/mkjg/common/prt/images/logo.png" alt="logo"></a>-->
-                                    <a href="index.jsp"><img src="http://211.63.89.152/mkjg/common/prt/images/icons/icon.png" width="50"/><span style="font-size:45px;">MKJG</span></a>
+                                    <!--<a href="index.html"><img src="http://localhost:8080/mkjg/common/prt/images/logo.png" alt="logo"></a>-->
+                                    <a href="index.jsp"><img src="http://localhost:8080/mkjg/common/prt/images/icons/icon.png" width="50"/><span style="font-size:45px;">MKJG</span></a>
                                 </div>                       
                             </div>
                             <div class="col-sm-6 visible-sm">
@@ -71,12 +71,12 @@
                                     </div>
                                     <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                         <ul class="list-unstyled nav1 cl-effect-10">
-                                            <li><a data-hover="HOME" class="active" href="http://211.63.89.152/mkjg/prt/index.jsp"><span>HOME</span></a></li>
-                                            <li><a data-hover="알림"  href="http://211.63.89.152/mkjg/prt/notice.jsp"><span>알림</span></a></li>
-                                            <li><a data-hover="병원찾기"  href="http://211.63.89.152/mkjg/prt/search_clinic.jsp"><span><b>병원찾기</b></span></a></li>
-                                            <li><a data-hover="고객센터" href="http://211.63.89.152/mkjg/prt/custom_center.jsp"><span>고객센터</span></a></li>
-                                            <li><a data-hover="마이페이지" href="http://211.63.89.152/mkjg/prt/mypage.jsp"><span>마이페이지</span></a></li>
-                                            <li><a data-hover="참조" href="http://211.63.89.152/mkjg/prt/reference.jsp"><span>참조</span></a></li>
+                                            <li><a data-hover="HOME" class="active" href="http://localhost:8080/mkjg/prt/index.jsp"><span>HOME</span></a></li>
+                                            <li><a data-hover="알림"  href="http://localhost:8080/mkjg/prt/notice.jsp"><span>알림</span></a></li>
+                                            <li><a data-hover="병원찾기"  href="http://localhost:8080/mkjg/prt/search_clinic.jsp"><span><b>병원찾기</b></span></a></li>
+                                            <li><a data-hover="고객센터" href="http://localhost:8080/mkjg/prt/custom_center.jsp"><span>고객센터</span></a></li>
+                                            <li><a data-hover="마이페이지" href="http://localhost:8080/mkjg/prt/mypage.jsp"><span>마이페이지</span></a></li>
+                                            <li><a data-hover="참조" href="http://localhost:8080/mkjg/prt/reference.jsp"><span>참조</span></a></li>
                                         </ul>
 
                                     </div>
@@ -92,7 +92,7 @@
 
 
             <!--end-->
-            <section class="image-head-wrapper" style="background-image: url('http://211.63.89.152/mkjg/common/prt/images/cbanner.png');">
+            <section class="image-head-wrapper" style="background-image: url('http://localhost:8080/mkjg/common/prt/images/cbanner.png');">
                 <div class="inner-wrapper">
                 </div>
             </section>
@@ -104,7 +104,7 @@
 					<div id="clinic_content">
 						<div id="clinic_info">
 						<label id="clnlabel">병원상세정보</label>
-						<img src="http://211.63.89.152/mkjg/common/prt/images/prt/star4.png" id="clnstar"/><br/>
+						<img src="http://localhost:8080/mkjg/common/prt/images/prt/star4.png" id="clnstar"/><br/>
 						<label id="clnname" class="clnhead">쌍용병원38</label>
 						<a href="cln_review.do"><label id="clnreview" class="clnhead">리뷰</label></a>
 						<a href="cln_ask.do"><label id="clnask" class="clnhead">문의하기</label></a>
@@ -120,7 +120,7 @@
 							<th></th>
 						</tr>
 						<tr>
-							<td colspan="4" rowspan="8"><img src="http://211.63.89.152/mkjg/common/prt/images/cln/cln38.png" style="float:left; text-align:left;"/></td>
+							<td colspan="4" rowspan="8"><img src="http://localhost:8080/mkjg/common/prt/images/cln/cln38.png" style="float:left; text-align:left;"/></td>
 							<td>  </td>
 							<td class="titletab">사업자번호</td>
 							<td class="contenttab">0000000038</td>
@@ -161,9 +161,9 @@
 							<td class="contenttab">N</td>
 						</tr>
 						<tr>
-							<td><img src="http://211.63.89.152/mkjg/common/prt/images/cln/cln38_0.png"/></td>
-							<td><img src="http://211.63.89.152/mkjg/common/prt/images/cln/cln38_1.png"/></td>
-							<td><img src="http://211.63.89.152/mkjg/common/prt/images/cln/cln38_2.png"/></td>
+							<td><img src="http://localhost:8080/mkjg/common/prt/images/cln/cln38_0.png"/></td>
+							<td><img src="http://localhost:8080/mkjg/common/prt/images/cln/cln38_1.png"/></td>
+							<td><img src="http://localhost:8080/mkjg/common/prt/images/cln/cln38_2.png"/></td>
 							<td id="clnimg4" class="imgtab"></td>
 							<td>  </td>
 							<td class="titletab">병원소개</td>

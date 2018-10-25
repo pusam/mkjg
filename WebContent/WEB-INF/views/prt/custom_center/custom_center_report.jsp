@@ -12,22 +12,22 @@ License URI: http://www.themevault.net/license/-->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="http://211.63.89.152/mkjg/common/prt/images/icons/cicon.png"/>
+        <link rel="icon" href="http://localhost:8080/mkjg/common/prt/images/icons/cicon.png"/>
         <title>맡겨주개</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="http://211.63.89.152/mkjg/common/prt/css/bootstrap.min.css" rel="stylesheet">
-        <link href="http://211.63.89.152/mkjg/common/prt/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="http://localhost:8080/mkjg/common/prt/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://localhost:8080/mkjg/common/prt/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Custom styles for this template -->
-        <link href="http://211.63.89.152/mkjg/common/prt/css/style2.css" rel="stylesheet">
-        <link href="http://211.63.89.152/mkjg/common/prt/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
-        <link rel="stylesheet" href="http://211.63.89.152/mkjg/common/prt/css/lightbox.min.css">
-        <link href="http://211.63.89.152/mkjg/common/prt/css/responsive.css" rel="stylesheet">
-        <script src="http://211.63.89.152/mkjg/common/prt/js/jquery.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/instafeed.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/custom.js" type="text/javascript"></script>
+        <link href="http://localhost:8080/mkjg/common/prt/css/style2.css" rel="stylesheet">
+        <link href="http://localhost:8080/mkjg/common/prt/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://localhost:8080/mkjg/common/prt/css/lightbox.min.css">
+        <link href="http://localhost:8080/mkjg/common/prt/css/responsive.css" rel="stylesheet">
+        <script src="http://localhost:8080/mkjg/common/prt/js/jquery.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/instafeed.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/custom.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
 	$("#btnReport").click(function(){
@@ -74,7 +74,7 @@ tbody tr:nth-child(odd) { /* background-color: #FFF600; */ }
                             <div class="col-md-2 col-sm-6 col-xs-6">
                                 <div id="logo">
                                     <!--<a href="index.html"><img src="images/logo.png" alt="logo"></a>-->
-                                     <a href="http://211.63.89.152/mkjg/WEB-INF/views/prt/index.jsp"><img src="http://211.63.89.152/mkjg/common/prt/images/icons/icon.png"/><span style="font-size:40px;">MKJG</span></a>
+                                     <a href="http://localhost:8080/mkjg/WEB-INF/views/prt/index.jsp"><img src="http://localhost:8080/mkjg/common/prt/images/icons/icon.png"/><span style="font-size:40px;">MKJG</span></a>
                                 </div>                       
                             </div>
                             <div class="col-sm-6 visible-sm">
@@ -113,7 +113,7 @@ tbody tr:nth-child(odd) { /* background-color: #FFF600; */ }
             </header>
 
             <!--end-->
-            <section class="image-head-wrapper" style="/* background-image: url('http://211.63.89.152/mkjg/common/prt/images/banner2.jpg'); */ border:1px solid #333;">
+            <section class="image-head-wrapper" style="/* background-image: url('http://localhost:8080/mkjg/common/prt/images/banner2.jpg'); */ border:1px solid #333;">
                 <div class="inner-wrapper" style="/* border:4px solid #333; */ color:white; border-top:4px solid #E6B9B8;border-bottom:4px solid #E6B9B8;">
                     <h2>고객센터</h2>
                 </div>
@@ -125,8 +125,8 @@ tbody tr:nth-child(odd) { /* background-color: #FFF600; */ }
             <section class="blog">
                 <div class="container">
                     <div class="row">
-                    	<div id="sub_title_top"><img src="http://211.63.89.152/mkjg/common/prt/images/mini_home.png" style="margin-bottom:3px;"/> &gt; 고객센터 &gt; 신고하기</div>
-                    	<div id="sub_title"><div id="move_title"><img src="http://211.63.89.152/mkjg/common/prt/images/icons/report.png" style="width:45px;height:40px;margin-top:-5px;"/>&nbsp; 신고하기</div></div>
+                    	<div id="sub_title_top"><img src="http://localhost:8080/mkjg/common/prt/images/mini_home.png" style="margin-bottom:3px;"/> &gt; 고객센터 &gt; 신고하기</div>
+                    	<div id="sub_title"><div id="move_title"><img src="http://localhost:8080/mkjg/common/prt/images/icons/report.png" style="width:45px;height:40px;margin-top:-5px;"/>&nbsp; 신고하기</div></div>
                      	<div id="report_list">
 						<form id="frm" method="get"> 
 							<table id="tab">
@@ -191,7 +191,7 @@ tbody tr:nth-child(odd) { /* background-color: #FFF600; */ }
 						</div>
                         <aside class="col-md-3 col-sm-4 col-xs-12">
                             <div class="blog-list">
-                                <h3><img src="http://211.63.89.152/mkjg/common/prt/images/icons/customer_center.png" style="width:35px;"/><font style="margin-left:10px;">고객센터</font></h3>
+                                <h3><img src="http://localhost:8080/mkjg/common/prt/images/icons/customer_center.png" style="width:35px;"/><font style="margin-left:10px;">고객센터</font></h3>
                                 <ul>
                                     <li><a href="custom_center_ask.do"><i class="fa fa-caret-right"></i>문의하기</a></li>
                                     <li><a href="custom_center_report.do"><i class="fa fa-caret-right"></i>신고하기</a></li>

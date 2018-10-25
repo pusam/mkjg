@@ -45,6 +45,8 @@
 	#startDate{background-color: #F5F5F5;}
 	#endDate{background-color: #F5F5F5;}
 	#appendedInputButton{background-color: #F5F5F5;}
+	#thTitle{background-color: #393939; color: white;}
+	#search{border: 1px solid #D5D5D5;} 
 	</style>
  <script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
  <script type="text/javascript">
@@ -89,7 +91,7 @@
             
             <div class="input-append" style="float: right;">
            	<form id="frm" name="frm">
-            		<select name="status" id="status" style="width: 150px; font-size: 14px; margin-right: 70px">
+            		<select name="status" id="status" style="width: 150px; font-size: 14px;">
 						<option value="고객명" ${use_status eq "고객명" ? "selected" :""}>고객명</option>
 						<option value="전화번호" ${use_status eq "전화번호" ? "selected" :""}>전화번호</option>
 						<option value="이용날짜" ${use_status eq "이용날짜" ? "selected" :""}>이용날짜</option>
@@ -100,13 +102,13 @@
             </div>
               <table class="table table-hover">
                 <thead>
-                  <tr style="font-size: 16px;">
-						<th width="50px">번호</th>
-						<th width="120px">고객명</th>
-						<th width="150px">전화번호</th>
-						<th width="130px">동물이름</th>
-						<th width="100px">종류</th>
-						<th width="100px">이용날짜</th>
+                  <tr id="thTitle" style="font-size: 16px;">
+						<th width="130px">번호</th>
+						<th width="180px">고객명</th>
+						<th width="200px">전화번호</th>
+						<th width="180px">동물이름</th>
+						<th width="150px">종류</th>
+						<th width="150px">이용날짜</th>
 				</tr>
                 </thead>
                 <tbody>
@@ -119,6 +121,7 @@
 						<td>${uhl.pet_type}</td>
 						<td>${uhl.bdate}</td>
 						<td><input type="hidden" value="${uhl.bseq}"></td>
+						<td><input type="hidden" value="${uhl.mseq }"></td>
 					</tr>
 					</c:forEach>
                 </tbody>

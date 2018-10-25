@@ -103,12 +103,12 @@ SELECT CASE WHEN DAY='월' THEN 1
 				WHEN DAY='토' THEN 6
 				WHEN DAY='일' THEN 7
 			END AS DAY, COUNT(*) AS CNT
-FROM		(SELECT TO_CHAR(RDATE,'DY') AS DAY, TO_CHAR(RDATE,'YYYY-MM-DD') AS RDATE
+FROM		(SELECT TO_CHAR(QDATE,'DY') AS DAY, TO_CHAR(QDATE,'YYYY-MM-DD') AS QDATE
 			FROM QUESTION_GC
-			WHERE RDATE >= TRUNC(SYSDATE, 'IW')
-			AND RDATE < TRUNC(SYSDATE, 'IW') + 7
+			WHERE QDATE >= TRUNC(SYSDATE, 'IW')
+			AND QDATE < TRUNC(SYSDATE, 'IW') + 7
 			AND BLN =#{bln})
-GROUP BY DAY, RDATE
+GROUP BY DAY, QDATE
 	]]>
 	</select>
 	<update id="updateBookAprvl" parameterType="String">
@@ -119,10 +119,10 @@ GROUP BY DAY, RDATE
 	<select id="selectUseHistory" resultType="kr.co.sist.mkjg.clinic.domain.UseHistoryList" parameterType="kr.co.sist.mkjg.clinic.vo.UseHistory">
 	select num, pname, tel, pet_name, case when pet_type ='c' then '고양이'
 										  when pet_type ='d' then '강아지'
-											else '기타' end pet_type, bdate
+											else '기타' end pet_type, bdate, bseq
 	from	(select rownum num, rnum, pname, tel, pet_name, pet_type, bdate, bseq
 			from	(select rownum rnum, pname, tel, pet_name, pet_type, bdate, bseq
-					from	(select pname, tel, pet_name, pet_type, to_char(bdate,'yyyy-mm-dd') bdate, to_char(sysdate,'yyyy-mm-dd') as today, bseq
+					from	(select pname, tel, pet_name, pet_type, to_char(bdate,'yyyy-mm-dd') bdate, to_char(sysdate,'yyyy-mm-dd') as today, bl.bseq
 							from book_list bl, protector p
 							where bl.pid = p.pid
 							and bln = #{bln}
@@ -185,7 +185,8 @@ GROUP BY DAY, RDATE
 	where mdate <= today ]]> <include refid="search"></include>
 	</select>
 	<select id="selectUserQnaList" resultType="kr.co.sist.mkjg.clinic.domain.UserQnaList"> 
-	select rnum, pname, qtitle, qtype, qdate, rstatus, qgc_seq
+	select rnum, pname, qtitle, case when qtype ='1' then '진료문의'
+			when qtype ='2' then '날짜문의' when qtype='3' then '상품문의' else '기타' end qtype, qdate, rstatus, qgc_seq
 	from	(select rownum rnum, rnumber, pname, qtitle, qtype, qdate, rstatus, qgc_seq
 				from	(select rownum rnumber, pname, qtitle, qtype, qdate, rstatus, qgc_seq
 					from (select p.pname, qg.qtitle, qg.qtype, to_char(qg.qdate,'yyyy-mm-dd') qdate, qg.rstatus ,qg.qgc_seq
@@ -217,7 +218,8 @@ GROUP BY DAY, RDATE
 	</select>
 	<select id="selectMgrQnaList" resultType="kr.co.sist.mkjg.clinic.domain.MgrQnaList">
 	select rnum, qtitle, qtype, wid, to_char(qdate,'yyyy-mm-dd') qdate, rstatus, qua_seq
-	from	(select rownum r, rnum, qtitle, qtype, wid, qdate, rstatus, qua_seq
+	from	(select rownum r, rnum, qtitle, case when qtype ='1' then '홈페이지'
+			when qtype ='2' then '오류' when qtype='3' then '등록' else '기타' end qtype, wid, qdate, rstatus, qua_seq
 			from	(select  rnum, qtitle, qtype, wid, qdate, rstatus, qua_seq
 					from	(select rownum rnum, qtitle, qtype, wid, qdate, rstatus, qua_seq
 							from	(select qtitle, qtype, wid, qdate, rstatus, qua_seq
@@ -280,17 +282,20 @@ GROUP BY DAY, RDATE
 	values ( qua_seq, #{title}, #{text}, #{cId}, #{ceoCheck}, to_char(sysdate,'yyyy-mm-dd'), #{qtype}, '127.0.0.1' )
 	</insert>
 	<select id="selectMgrQnaAnswer" parameterType="String" resultType="kr.co.sist.mkjg.clinic.domain.MgrQnaAnswer">
-	select qtitle, qtext, wid, qdate, qtype, rdate, reply
+	select qtitle, qtext, wid, qdate, case when qtype ='1' then '홈페이지'
+			when qtype ='2' then '오류' when qtype='3' then '등록' else '기타' end qtype, rdate, reply
 	from QUESTION_UA
 	where qua_seq = #{qua_seq}
 	</select>
 	<select id="selectUserQna" parameterType="String" resultType="kr.co.sist.mkjg.clinic.domain.UserQnaView">
-    select qtitle, qtext, pid, to_char(qdate,'yyyy-mm-dd') qdate, qtype, qgc_seq
+    select qtitle, qtext, pid, to_char(qdate,'yyyy-mm-dd') qdate, case when qtype ='1' then '진료문의'
+			when qtype ='2' then '날짜문의' when qtype='3' then '상품문의' else '기타' end qtype, qgc_seq
     from QUESTION_GC
     where qgc_seq = #{qgc_seq}
 	</select>
 	<select id="selectUserQnaReadOnly" parameterType="String" resultType="kr.co.sist.mkjg.clinic.domain.UserQnaAnswerReadOnly">
-	select qtitle, qtext, pid, to_char(qdate,'yyyy-mm-dd') qdate, qtype, reply, to_char(rdate,'yyyy-mm-dd') rdate, rid
+	select qtitle, qtext, pid, to_char(qdate,'yyyy-mm-dd') qdate, case when qtype ='1' then '진료문의'
+			when qtype ='2' then '날짜문의' when qtype='3' then '상품문의' else '기타' end qtype, reply, to_char(rdate,'yyyy-mm-dd') rdate, rid
     from QUESTION_GC
     where qgc_seq = #{qgc_seq}
 	</select>
@@ -305,6 +310,58 @@ GROUP BY DAY, RDATE
 	where cname = #{cName} 
 	and tel = #{cPhone}
 	and birthday = #{cBirth}
-	group by cid
 	</select>
+	<select id="empIdSearch" parameterType="kr.co.sist.mkjg.clinic.vo.IdSearch" resultType="String">
+	select eid
+	from emp
+	where ename = #{cName}
+	and tel = #{cPhone}
+	and birthday = #{cBirth}
+	</select>
+	<select id="ceoPwSearch" parameterType="kr.co.sist.mkjg.clinic.vo.PwSearch" resultType="String">
+	select cid
+	from ceo
+	where cname = #{cName} 
+	and tel = #{cPhone}
+	and birthday = #{cBirth}
+	and cid = #{cId}
+	</select>
+	<select id="empPwSearch" parameterType="kr.co.sist.mkjg.clinic.vo.PwSearch" resultType="String">
+	select eid
+	from emp
+	where ename = #{cName}
+	and tel = #{cPhone}
+	and birthday = #{cBirth}
+	and eid = #{cId}
+	</select>
+	<select id="clinicAprvl" parameterType="String" resultType="String">
+	select aprvl_yn
+	from clinic
+	where bln = #{bln}
+	</select>
+	<update id="ceoPassUpdate" parameterType="kr.co.sist.mkjg.clinic.vo.CIdCPass">
+	update ceo
+	set pw = #{cPass}
+	where cid = #{cId}
+	</update>
+	<update id="empPassUpdate" parameterType="kr.co.sist.mkjg.clinic.vo.CIdCPass">
+	update emp
+	set pw = #{cPass}
+	where eid = #{cId}
+	</update>
+	<insert id="mtrInsert" parameterType="kr.co.sist.mkjg.clinic.vo.MtrInsert" statementType="CALLABLE">
+	insert into mntr (MSEQ, BSEQ, MID, MIP, MDATE, MSG, bln)
+	values (M_SEQ, #{bseq}, #{mid}, #{mip}, sysdate, #{reply}, #{bln} )
+	</insert>
+	<select id="mseq" parameterType="kr.co.sist.mkjg.clinic.vo.MtrMseq" resultType="String">
+	select max(mseq) mseq
+	from mntr
+	where mid = #{cid}
+	and to_char(mdate,'yyyy-mm-dd') = #{date}
+	and bln = #{bln}
+	</select>
+	<insert id="mtrImgInsert" parameterType="kr.co.sist.mkjg.clinic.vo.MtrImgInsert"  statementType="CALLABLE">
+	insert into mntr_img ( mseq, path )
+	values( #{mseq}, #{path} )
+	</insert>
 </mapper>

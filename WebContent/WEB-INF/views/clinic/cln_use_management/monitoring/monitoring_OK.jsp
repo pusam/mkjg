@@ -75,8 +75,7 @@
             <img src="http://localhost:8080/mkjg/assets/images/ok.png">
             <h1><strong>모니터링 등록이 완료되었습니다.</strong></h1>
                 <div style="text-align: center;" >
-            	<button type="button" class="btn btn-large btn-color" id="join">HOME</button>
-            	<button type="button" class="btn btn-large btn-inverse" id="back">목록</button><br/>
+            	<a href="monitoring_list.do"><button type="button" class="btn btn-large btn-inverse" id="back">목록</button></a><br/>
              </div>
           </div>
         </div>

@@ -297,7 +297,7 @@
 						<div class="span4">
 							<!-- logo -->
 							<a class="logo" href="index_cln.do">
-								<h1>Plato</h1> <!-- <img src="assets/img/logo.png" alt="" /> -->
+								<h1>MKJG</h1> <!-- <img src="assets/img/logo.png" alt="" /> -->
 							</a>
 							<!-- end logo -->
 						</div>
@@ -312,14 +312,7 @@
     <div class="container">
       <div class="row">
         <div class="span4">
-          <h3>mkjg<strong> 업체관리 </strong></h3>
-        </div>
-        <div class="span8">
-          <ul class="breadcrumb notop">
-            <li><a href="#">Home</a><span class="divider">/</span></li>
-            <li class="active">업체관리<span class="divider">/</span></li>
-            <li class="active">사업자 업체 등록</li>
-          </ul>
+          <h3>mkjg<strong> 회원가입 </strong></h3>
         </div>
       </div>
     </div>
@@ -336,41 +329,41 @@
           <table>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="아이디" id="cId" name="cId" value="ㅇ">
-                <input type="button" value="중복체크" id="cIdCheck" name="cIdCheck"><br/>
+                <input class="input-xxlarge" type="text" placeholder="아이디" id="cId" name="cId">
+                <input type="button" value="중복체크" id="cIdCheck" name="cIdCheck" class="btn btn-inverse"><br/>
                 <span id="cIdOut"></span><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="password" placeholder="비밀번호" id="cPass" name="cPass" value="ㅇ"><br/>
+                <input class="input-xxlarge" type="password" placeholder="비밀번호" id="cPass" name="cPass"><br/>
                 <span id="cPassOut"></span><br/>
-                <input class="input-xxlarge" type="password" placeholder="비밀번호 확인" id="cPassCheck" name="cPassCheck" value="ㅇ"><br/>
+                <input class="input-xxlarge" type="password" placeholder="비밀번호 확인" id="cPassCheck" name="cPassCheck"><br/>
                 <span id="cPassCheckOut"></span><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="이름" id="cName" name="cName" value="ㅇ"><br/>
+                <input class="input-xxlarge" type="text" placeholder="이름" id="cName" name="cName"><br/>
                 <span id="cNameOut"></span><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="핸드폰번호  입력예시) 010-0000-0000" id="cPhone" name="cPhone" maxlength="13" value="010-2222-1857"><br/>
+                <input class="input-xxlarge" type="text" placeholder="핸드폰번호  입력예시) 010-0000-0000" id="cPhone" name="cPhone" maxlength="13"><br/>
                 <span id="cPhoneOut"></span><br/>
             </td>
            </tr>
 			<tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="생년월일 입력예시)19900101" id="cBirth" name="cBirth" maxlength="8" value="19901217"><br/>
+                <input class="input-xxlarge" type="text" placeholder="생년월일 입력예시)19900101" id="cBirth" name="cBirth" maxlength="8"><br/>
                 <span id="cBirthOut"></span><br/>
              </td>
             </tr>
 			<tr>
           	<td>
 				<input type="text" id="sample4_postcode" placeholder="우편번호" class="input-large" readonly="readonly">
-				<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="display: inline-block;"><br>
+				<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="display: inline-block;" class="btn btn-inverse"><br>
 				<input type="text" id="sample4_roadAddress" placeholder="도로명주소" style="display: inline-block;" readonly="readonly">
 				<input type="text" id="sample4_jibunAddress" placeholder="지번주소" style="display: inline-block;" readonly="readonly"><br/>
 				<input type="text" placeholder="상세주소" id="detailAddr" name="detailAddr"><br/>
@@ -379,9 +372,9 @@
           </tr>
            <tr>
           	<td >
-                <input class="input-middle" type="text" placeholder="이메일" id="cMail1" name="cMail1" maxlength="7" style="display: inline-block;" value="ㅇ">
+                <input class="input-middle" type="text" placeholder="이메일" id="cMail1" name="cMail1" maxlength="7" style="display: inline-block;">
                 &nbsp;&nbsp;@&nbsp;&nbsp;
-                <input class="input-middle" type="text" placeholder="직접입력" id="cMail2" name="cMail2" maxlength="7" style="display: inline-block; width: 200px" value="ㅇ">
+                <input class="input-middle" type="text" placeholder="직접입력" id="cMail2" name="cMail2" maxlength="7" style="display: inline-block; width: 200px">
                 <select style="width: 100px" id="selDomain">
                 	<option value="none">직접 입력</option>
                 	<option>naver.com</option>
@@ -394,7 +387,7 @@
           <td style="text-align: center;">
           <span id="Alert" style="font-size: 20px;"></span>&nbsp;&nbsp;&nbsp;
           <button type="button" class="btn btn-inverse" id="add">회원가입</button>
-          <a href="index.do"><button type="button" class="btn btn-inverse" id="cancle">취소</button></a><br/><br/>
+          <a href="index_cln.do"><button type="button" class="btn btn-inverse" id="cancle">취소</button></a><br/><br/>
           </td>
           </tr>
           </table>

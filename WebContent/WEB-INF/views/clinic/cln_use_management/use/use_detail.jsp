@@ -14,7 +14,7 @@
 <!-- styles -->
 <link href="http://localhost:8080/mkjg/assets/css/bootstrap.css" rel="stylesheet">
 <link href="http://localhost:8080/mkjg/assets/css/bootstrap-responsive.css" rel="stylesheet">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <link href="http://localhost:8080/mkjg/assets/css/docs.css" rel="stylesheet">
 <link href="http://localhost:8080/mkjg/assets/css/prettyPhoto.css" rel="stylesheet">
 <link href="http://localhost:8080/mkjg/assets/js/google-code-prettify/prettify.css"
@@ -43,83 +43,70 @@
 	href="assets/ico/apple-touch-icon-57-precomposed.png">
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<style type="text/css">
-		#hName{background-color: #F5F5F5; height: 30px;}
-		#cNum{background-color: #F5F5F5; height: 30px;}
-		#cName{background-color: #F5F5F5; height: 30px;}
-		#phone{background-color: #F5F5F5; height: 30px;}
-		#treatment{background-color: #F5F5F5; height: 30px;}
-		#open{background-color: #F5F5F5; height: 30px;}
-		#close{background-color: #F5F5F5; height: 30px;}
-		#post{background-color: #F5F5F5; height: 30px;}
-		#addr1{background-color: #F5F5F5; height: 30px;}
-		#addr2{background-color: #F5F5F5; height: 30px;}
-		#intro{background-color: #F5F5F5; height: 270px;}
+		#bseq{background-color: #F5F5F5; height: 30px;}
+		#pname{background-color: #F5F5F5; height: 30px;}
+		#tel{background-color: #F5F5F5; height: 30px;}
+		#pet_name{background-color: #F5F5F5; height: 30px;}
+		#pet_type{background-color: #F5F5F5; height: 30px;}
+		#pet_age{background-color: #F5F5F5; height: 30px;}
+		#bdate{background-color: #F5F5F5; height: 30px;}
+		#btime{background-color: #F5F5F5; height: 30px;}
+		#msg{background-color: #F5F5F5; height: 300px;}
 	</style>
 	
 	<script type="text/javascript">
+
+	
 	$(function(){
-		$("#modi").click(function(){
-			var chkPhone = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-			var storePhone = /^\d{2,3}-\d{3,4}-\d{4}$/;
-			var time = /^\d{2}:\d{2}$/;
-			
-			if($("#phone").val() == ""){
-				alertCenter("#phone", "#Alert", "핸드폰 번호를 입력해주세요.");
-				return;
-			}else if( !chkPhone.test( $("#phone").val() )){
-				alertCenter("#phone", "#Alert", "핸드폰 번호를 확인해주세요. (ex: 010-1111-5555)");
-				return;
-            }//end else if
-			
-			if($("#treatment").val() == ""){
-				alertCenter("#treatment", "#Alert", " 진료과목을 입력해주세요");
-				return;
-			}//end if
-			
-			if($("#open").val() == "" || $("#close").val() == ""){
-				alertCenter("#close", "#Alert", " 운영시간을 입력해주세요.");
-				return;
-			}else if( !time.test( $("#open").val() )){
-				alertCenter("#close", "#Alert", "오픈시간을 확인해주세요. (ex: 12:00)");
-				return;
-            }else if( !time.test( $("#close").val() )){
-				alertCenter("#close", "#Alert", "클로즈시간을 확인해주세요. (ex: 20:00)");
-				return;
-            }//end else if
-			
-			if($("#post").val() == ""){
-				alertCenter("#post", "#Alert", "우편번호를 입력해주세요");
-				return;
-			}else if( !chkPost.test( $("#post").val() )){
-				alertCenter("#post", "#Alert", "우편번호를 확인해주세요");
-				return;
-	   	 }//end else if
-	   	 
-			if($("#addr1").val() == ""){
-				alertCenter("#addr1", "#Alert", "주소를 입력해주세요");
-				return;
-			}//end if
-	   	 
-			if($("#addr2").val() == ""){
-				alertCenter("#addr2", "#Alert", "상세주소를 입력해주세요");
-				return;
-			}//end if
-			
-			if($("#intro").val() == ""){
-				alertCenter("#intro", "#Alert", " 소개글을 입력해주세요.");
-				return;
-			}//end if
-			
+		$("#add").click(function(){
+			var bseq = document.getElementById("bseq").value;
+			var msg = document.getElementById("reason").value;
+			var pid = document.getElementById("pid").value; 
+			$.ajax({
+		            type : 'POST',
+		            data : {msg, pid, bseq}, 
+		            url : "use_detail_reason.do",
+		            dataType : "json",
+		            success : function(json) {
+		            		location.href="${path}/mkjg/use_detail_OK.do";
+		            },// success
+		            error: function(error){
+		            	alert("에러");
+		            }// error
+			});//ajax
 		});//click
-		}); //ready
 		
-		function alertCenter(id, alertId, msg){
-			$(id).focus();
-			$(alertId).html(msg);
-			$(alertId).css("color","#FF0000");
-			$(alertId).fadeOut(1000).fadeIn(1000).fadeOut(1000).fadeIn(1000).fadeOut(1000)
-			$(alertId).focus();
-		}//alertCenter
+		$("#modi").click(function(){
+			var bseq = document.getElementById("bseq").value;
+			var msg = document.getElementById("reason").value;
+			$.ajax({
+            type : 'POST',
+	            data : {msg, bseq},
+	            url : "use_detail_reason_modi.do",
+	            dataType : "json",
+	            success : function(json) { 
+	            		location.href="${path}/mkjg/use_detail_modi_OK.do";
+	            },// success
+	            error: function(error){
+	            	alert("에러");
+	            }// error
+			});//ajax
+		});//click
+		
+		$("#back").click(function(){
+			history.back();
+		});	
+		
+		$("#hogAdd").click(function(){
+			var bseq = document.getElementById("bseq").value;
+			location.href="${path}/mkjg/hog_register.do?bseq="+bseq; 
+		});
+		
+		$("#mtrAdd").click(function(){
+			$("#frm").submit();
+		});		
+		
+		}); //ready
 
 		</script>
 
@@ -157,78 +144,88 @@
               <h3>이용 내역 상세 보기</h3>
             </div>
           
+          <form id="frm" name="frm" action="mtr_add.do" method="POST">
           <div class="controls docs-input-sizes" style="float: left;">
           <table>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="고객번호" id="hName" name="hName"><br/>
+                <input class="input-xxlarge" type="text" placeholder="고객번호" readonly="readonly" id="bseq" name="bseq" value="${view.bseq}"><br/><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="고객명" id="cNum" name="cNum"><br/>
+                <input class="input-xxlarge" type="text" placeholder="고객아이디" readonly="readonly" id="pid" name="pid" value="${view.pid}"><br/><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="전화번호" id="cNum" name="cNum"><br/>
+                <input class="input-xxlarge" type="text" placeholder="고객명" readonly="readonly" id="pname" name="pname" value="${view.pname}"><br/><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="애완동물 이름" id="cName" name="cName"><br/>
+                <input class="input-xxlarge" type="text" placeholder="전화번호" readonly="readonly" id="tel" name="tel" value="${view.tel}"><br/><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="동물종류" id="phone" name="phone" maxlength="13"><br/>
+                <input class="input-xxlarge" type="text" placeholder="애완동물 이름" readonly="readonly" id="pet_name" name="pet_name" value="${view.pet_name}"><br/><br/>
+            </td>
+          </tr>
+          <tr>
+          	<td >
+                <input class="input-xxlarge" type="text" placeholder="동물종류" id="phone" readonly="readonly" name="pet_type" value="${view.pet_type}"><br/><br/>
             </td>
            </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="나이/개월" id="phone" name="phone" maxlength="13"><br/>
+                <input class="input-xxlarge" type="text" placeholder="나이/개월" id="phone" readonly="readonly" name="pet_age" value="${view.pet_age}"><br/><br/>
             </td>
            </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="방문날짜" id="phone" name="phone" maxlength="13"><br/>
+                <input class="input-xxlarge" type="text" placeholder="방문날짜" id="phone" readonly="readonly" name="bdate" value="${view.bdate}"><br/><br/>
             </td>
            </tr>
            <tr>
           	<td>
-                <input class="input-xxlarge" type="text" placeholder="방문시간" id="post" name="post"><br/>
+                <input class="input-xxlarge" type="text" placeholder="방문시간" id="post" readonly="readonly" name="btime" value="${view.btime}"><br/><br/>
+           </td>
+           </tr>
+            <tr>
+          <td style="text-align: right;">
+            	<button type="button" class="btn btn-inverse" id="hogAdd">신고</button>
+          <c:if test="${view.msg==null}">
+             	<button type="button" class="btn btn-inverse" id="add">등록</button>
+          </c:if>
+          <c:if test="${view.msg!=null}">
+             	<button type="button" class="btn btn-inverse" id="modi">수정</button>
+          </c:if>
+            	<button type="button" class="btn btn-inverse" id="mtrAdd">모니터링등록</button>
+            	<button type="button" class="btn btn-inverse" id="back">목록</button>
+          </td>
+          </tr>
+          </table>
+
+           </div>
+            <div class="controls docs-input-sizes" style="float: left; margin-left: 80px;">
+       	   <table>
+          	<tr>
+          		<td>
+          		 <textarea name="msg" rows="15" cols="35" maxlength="1000" style="width: 500px;" id="reason" placeholder="진료내역">${view.msg}</textarea>
+          		</td>
+          	</tr>
+          	<tr>
+          	<td>
+                <input class="hidden" type="text" id="bln" readonly="readonly" name="bln" value="${view.bln}">
+           </td>
+          	<td>
+                <input type="hidden" id="mseq" readonly="readonly" name="mseq" value="${mseq}">
            </td>
            </tr>
           </table>
-           </div>
-            <div class="controls docs-input-sizes" style="float: left; margin-left: 80px;">
-          <table>
-          	<tr>
-          		<td>
-          		특이사항
-          		</td>
-          	</tr>
-	         <tr>
-		         <td>
-		         <textarea name="intro" rows="10" cols="25" maxlength="1000" style="width: 450px"></textarea>
-		         </td>
-	         </tr>
-          	<tr>
-          		<td>
-          		진단내역
-          		</td>
-          	</tr>
-	         <tr>
-		         <td>
-		         <textarea name="intro" rows="10" cols="25" maxlength="1000" style="width: 450px"></textarea>
-		         </td>
-	         </tr>
-          </table>
-                <div style="float: right;">
-            	<button type="button" class="btn btn-inverse" id="add">돌아가기</button>
-              </div>
           </div>
-          
+          </form>
 	</div>
 	</div>
 	</div>

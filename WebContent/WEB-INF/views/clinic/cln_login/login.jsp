@@ -67,10 +67,12 @@ $(function(){
 });//ready
 </script>
 <style type="text/css">
-#headerDiv{ margin: auto 0px; height: 250px; margin-bottom: 20px;}
+#headerDiv{ margin: auto 0px; height: 100px; margin-bottom: 20px;}
 #cId{width: 400px; height: 50px; margin: auto 0px; margin-bottom: 20px; border:  1px solid #BDBDBD}
 #pass{width: 400px; height: 50px; margin: auto 0px; margin-bottom: 20px; border: 1px solid #BDBDBD}
 #login{width: 410px; height: 70px; margin: auto 0px; margin-bottom: 20px;}
+#main_font{font-size: 110px; font-family: serif; color: black; margin-top: 50px;} 
+#main_logo{height: 120px; margin-bottom: 60px;}
 </style>
 </head>
 
@@ -82,15 +84,11 @@ $(function(){
 			<div class=" cbp-af-inner">
 				<div class="container">
 					<div class="row">
-
 						<div class="span4">
-							<!-- logo -->
 							<a class="logo" href="index_cln.do">
-								<h1>Plato</h1> <!-- <img src="assets/img/logo.png" alt="" /> -->
+								<h1>MKJG</h1> <!-- <img src="assets/img/logo.png" alt="" /> -->
 							</a>
-							<!-- end logo -->
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -115,7 +113,8 @@ $(function(){
         <div class="span12">
           <div class="centered">
             <div id="headerDiv">
-				<img src="http://localhost:8080/mkjg/assets/img/dog.jpg" style="width: 600px; height: 250px;"/>
+				<img src="http://localhost:8080/mkjg/assets/img/login.png" id="main_logo">
+				<span id="main_font"><strong>MKJG</strong></span>
 				</div>
 				<div id="containerDiv">
 				<form action="index_cln.do" method="post" name="frm" id="frm">
@@ -128,7 +127,7 @@ $(function(){
              	</div>
              	<div>
 				<a href="id_search.do">아이디 찾기</a> |
-				<a href="#">비밀번호 찾기</a> |
+				<a href="pw_search.do">비밀번호 찾기</a> |
 				<a href="join.do">회원가입</a>
 				</div>
           </div>

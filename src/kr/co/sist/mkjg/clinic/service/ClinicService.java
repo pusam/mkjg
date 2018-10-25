@@ -22,6 +22,7 @@ import kr.co.sist.mkjg.clinic.domain.WeekQGCDayCnt;
 import kr.co.sist.mkjg.clinic.domain.WeekRegDayCnt;
 import kr.co.sist.mkjg.clinic.util.Paging;
 import kr.co.sist.mkjg.clinic.vo.AprvlBseq;
+import kr.co.sist.mkjg.clinic.vo.CIdCPass;
 import kr.co.sist.mkjg.clinic.vo.CeoAddJoin;
 import kr.co.sist.mkjg.clinic.vo.ClinicIdCheck;
 import kr.co.sist.mkjg.clinic.vo.ClinicInsert;
@@ -33,7 +34,11 @@ import kr.co.sist.mkjg.clinic.vo.MgrQna;
 import kr.co.sist.mkjg.clinic.vo.MgrQnaBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.MgrQnaData;
 import kr.co.sist.mkjg.clinic.vo.MtrBlnCurrentPage;
+import kr.co.sist.mkjg.clinic.vo.MtrImgInsert;
+import kr.co.sist.mkjg.clinic.vo.MtrInsert;
+import kr.co.sist.mkjg.clinic.vo.MtrMseq;
 import kr.co.sist.mkjg.clinic.vo.MtrNum;
+import kr.co.sist.mkjg.clinic.vo.PwSearch;
 import kr.co.sist.mkjg.clinic.vo.RevBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.RevPage;
 import kr.co.sist.mkjg.clinic.vo.UseBlnCurrentPage;
@@ -41,6 +46,7 @@ import kr.co.sist.mkjg.clinic.vo.UseHistory;
 import kr.co.sist.mkjg.clinic.vo.UserQna;
 import kr.co.sist.mkjg.clinic.vo.UserQnaAnswer;
 import kr.co.sist.mkjg.clinic.vo.UserQnaBlnCurrentPage;
+import kr.co.sist.mkjg.protector.util.Encryption;
 
 @Component
 public class ClinicService {
@@ -141,6 +147,9 @@ public class ClinicService {
 	public int insertCeo(CeoAddJoin caj)throws SQLException{
 		int cnt = 0;
 		
+		String pw = caj.getCPass();
+		pw = Encryption.changeSHA512(pw);
+		caj.setCPass(pw);
 		cnt = c_dao.insertCeo(caj);
 		
 		return cnt; 
@@ -366,6 +375,9 @@ public class ClinicService {
 	
 	public int selectIdPassCheck(ClinicIdCheck cic)throws SQLException{
 		int cnt =0;
+		String pw = cic.getPass();
+		pw = Encryption.changeSHA512(pw);
+		cic.setPass(pw);
 		if("ceo".equals(cic.getCheck())) {
 			cnt = c_dao.selectCIdPassCheck(cic);
 		}
@@ -434,8 +446,71 @@ public class ClinicService {
 		String searchId = null;
 		if("ceo".equals(is.getCheck())) {
 			searchId = c_dao.selectCeoIdSearch(is);
+		}else {
+			searchId = c_dao.selectEmpIdSearch(is);
 		}
 		return searchId;
 	}
 	
+	public String selectCPwCheck(PwSearch ps)throws SQLException{
+		String searchPw = null;
+		if("ceo".equals(ps.getCheck())) {
+			searchPw = c_dao.selectCeoPwSearch(ps);
+		}else {
+			searchPw = c_dao.selectEmpPwSearch(ps);
+		}
+		return searchPw;
+	}
+	
+	public String selectClinicAprvl(String bln) throws SQLException{
+		String aprvl = null;
+		aprvl = c_dao.selectClinicAprvl(bln);
+		return aprvl;
+	}
+	
+	public int updateCPass(CIdCPass cicp)throws SQLException{
+		int cnt = 0;
+		String pw = cicp.getCPass();
+		pw = Encryption.changeSHA512(pw);
+		cicp.setCPass(pw);
+		if("ceo".equals(cicp.getCheck())) {
+		cnt = c_dao.updateCeoPass(cicp);
+		}else {
+			cnt = c_dao.updateEmpPass(cicp);
+		}
+		return cnt;
+	}
+	
+	public int insertMtr(MtrInsert mi)throws SQLException{
+		int cnt = 0;
+		
+		cnt = c_dao.insertMtr(mi);
+		
+		return cnt;
+	}
+	
+	public String mtrMseq(MtrMseq mm)throws SQLException{
+		String mseq = null;
+		
+		mseq = c_dao.mtrMseq(mm);
+		
+		return mseq;
+	}
+	
+	public int mtrImgInsert(MtrInsert mi)throws SQLException{
+		int cnt = 0;
+		MtrImgInsert mii = new MtrImgInsert();
+		for(int i=1; i<mi.getImages().size(); i++) {
+			if(mi.getImages().get(i)!=null || "null".equals(mi.getImages().get(i))) {
+				mii.setMseq(mi.getMseq());
+				mii.setPath(mi.getPath()+mi.getImages().get(i));
+				cnt+=c_dao.mtrImgMseq(mii);
+			}
+		}
+		return cnt;
+	}
+	
+	
+	
 }
+

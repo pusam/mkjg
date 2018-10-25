@@ -19,34 +19,31 @@
         </div>
         <div class="span3">
           <div class="widget">
-            <h5>Browse pages</h5>
+            <h5>반려동물 관련 법령</h5>
             <ul class="list list-ok">
-              <li><a href="#">Lorem ipsum dolor sit amet</a></li>
-              <li><a href="#">Tamquam ponderum at eum, nibh dicta offendit mei</a></li>
-              <li><a href="#">Vix no vidisse dolores intellegam</a></li>
-              <li><a href="#">Est virtute feugiat accommodare eu</a></li>
+              <li><a href="http://www.law.go.kr/LSW/LsiJoLinkP.do?docType=&lsNm=%EB%8F%99%EB%AC%BC%EB%B3%B4%ED%98%B8%EB%B2%95&joNo=&languageType=KO&paras=1#0000">
+              동물보호법</a></li>
+              <li><a href="http://www.law.go.kr/LSW/LsiJoLinkP.do?docType=&lsNm=%EC%82%AC%EB%A3%8C%EA%B4%80%EB%A6%AC%EB%B2%95&joNo=&languageType=KO&paras=1#">
+              사료관리법</a></li>
+              <li><a href="http://www.law.go.kr/LSW/LsiJoLinkP.do?docType=&lsNm=%EA%B0%80%EC%B6%95%EC%A0%84%EC%97%BC%EB%B3%91+%EC%98%88%EB%B0%A9%EB%B2%95&joNo=&languageType=KO&paras=1#">
+              가축전염병 예방법</a></li>
+              <li><a href="http://www.law.go.kr/LSW/LsiJoLinkP.do?docType=&lsNm=%EC%88%98%EC%9D%98%EC%82%AC%EB%B2%95&joNo=&languageType=KO&paras=1#">
+              수의사법</a></li>
             </ul>
           </div>
         </div>
         <div class="span3">
-          <div class="widget">
-            <h5>Flickr photostream</h5>
-            <div class="flickr_badge">
-              <script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=8&amp;display=random&amp;size=s&amp;layout=x&amp;source=user&amp;user=34178660@N03"></script>
-            </div>
-            <div class="clear"></div>
-          </div>
         </div>
         <div class="span3">
           <div class="widget">
-            <h5>Keep updated</h5>
+            <h5>네이버 검색</h5>
             <p>
               Enter your email to subcribe newsletter
             </p>
             <form>
               <div class="input-append">
                 <input class="span2" id="appendedInputButton" type="text">
-                <button class="btn btn-color" type="submit">Subscribe</button>
+                <button class="btn btn-color" type="submit">검색</button>
               </div>
             </form>
             <ul class="social-network">
@@ -64,14 +61,11 @@
       <div class="container">
         <div class="row">
           <div class="span6">
-            <p>
-              &copy; Plato - All right reserved
-            </p>
           </div>
           <div class="span6">
             <div class="pull-right">
               <div class="credits">
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                Designed by <a href="">4 Class group3</a>
               </div>
             </div>
           </div>

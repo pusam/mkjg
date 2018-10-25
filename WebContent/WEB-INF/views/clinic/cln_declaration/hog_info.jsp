@@ -43,11 +43,13 @@
 	href="assets/ico/apple-touch-icon-57-precomposed.png">
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<style type="text/css">
-		#cusId{background-color: #F5F5F5; height: 25px;}
-		#cusName{background-color: #F5F5F5; height: 25px;}
-		#petName{background-color: #F5F5F5; height: 25px;}
-		#phone{background-color: #F5F5F5; height: 25px;}
-		#date{background-color: #F5F5F5; height: 25px;}
+		#pid{background-color: #F5F5F5; height: 25px;}
+		#bseq{background-color: #F5F5F5; height: 25px;}
+		#pname{background-color: #F5F5F5; height: 25px;}
+		#pet_name{background-color: #F5F5F5; height: 25px;}
+		#tel{background-color: #F5F5F5; height: 25px;}
+		#wdate{background-color: #F5F5F5; height: 25px;}
+		#cl_title{background-color: #F5F5F5; height: 25px;}
 		#reason{background-color: #F5F5F5;}
 		#refuse{background-color: #F5F5F5;}
 	</style>
@@ -57,6 +59,7 @@
 		$("#back").click(function(){
 			history.back();
 		});	
+		
 	});	
 		</script>
 
@@ -102,26 +105,43 @@
           	<br/><br/>
             </td>
           </tr>
+           <tr>
+          	<td >
+          	<input class="input-xxlarge" type="text" id="bseq" name="bseq" readonly="readonly" value="${view.cl_seq}">
+          	<br/><br/>
+            </td>
+          </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" id="cusName" name="pname" readonly="readonly"  value="${view.pname}">
+          	<input class="input-xxlarge" type="text" id="bseq" name="bseq" readonly="readonly" value="${view.bseq}">
+          	<br/><br/>
+            </td>
+          </tr>
+          <tr>
+          	<td >
+                <input class="input-xxlarge" type="text" id="pname" name="pname" readonly="readonly"  value="${view.pname}">
                 <br/><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" id="petName" name="pet_name" readonly="readonly"  value="${view.pet_name}">
+                <input class="input-xxlarge" type="text" id="pet_name" name="pet_name" readonly="readonly"  value="${view.pet_name}">
                 <br/><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" id="phone" name="tel"readonly="readonly"  value="${view.tel}"><br/><br/>
+                <input class="input-xxlarge" type="text" id="tel" name="tel"readonly="readonly"  value="${view.tel}"><br/><br/>
             </td>
            </tr>
            <tr>
           	<td >
-                <input class="input-xlarge" type="text" id="date" name="wdate" readonly="readonly" value="${view.wdate}"><br/><br/>
+                <input class="input-xlarge" type="text" id="wdate" name="wdate" readonly="readonly" value="${view.wdate}"><br/><br/>
+            </td>
+           </tr>
+            <tr>
+          	<td >
+                <input class="input-xxlarge" type="text" id="cl_title" name="cl_title" readonly="readonly" value="${view.cl_title}"><br/><br/>
             </td>
            </tr>
            <tr>
@@ -146,7 +166,7 @@
           </tr>
           <tr>
           	<td >
-                <input type="hidden" id="seq" name="cl_seq" readonly="readonly" value="${view.cl_seq}"><br/><br/>
+                <input type="hidden" id="bseq" name="bseq" readonly="readonly" value="${view.cl_seq}"><br/><br/>
             </td>
            </tr>
           </table>

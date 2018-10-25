@@ -46,24 +46,16 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
    
 	<script type='text/javascript'>
-	
-	$(function(){
-			$("#add").click(function(){
-				location.href="${path}/mkjg/hog_register.do";
-			});		
-		
-			$('.input-daterange').datepicker({
-  				 autoclose: true,
-  				 format:'yyyy-mm-dd'
-			});
-		});
-	
 	function list(page){
-		 location.href="${path}/mkjg/hog_list.do?curPage="+page;
-		}
-	
+			var searchID = document.getElementById("searchID").value;
+		if(searchID==""){
+			 location.href="${path}/mkjg/hog_list.do?curPage="+page;
+		}//end if
+		if(searchID!=""){
+			 location.href="${path}/mkjg/hog_list.do?curPage="+page+"&keyword="+searchID;
+		}//end if
+		}// list
 </script>
-	
 	
 	<style type="text/css">
 	#startDate{background-color: #F5F5F5;}
@@ -103,22 +95,14 @@
      <div class="span12">
 		 <section id="tables" class="doc">
             <div class="page-header">
-              <h3>목록</h3>
+              <h3>신고 목록</h3>
             </div>
-            <div class="input-daterange input-group" id="datepicker" style="position: relative; top: 38px; left: 100px; width: 500px;" >
-   				 <input type="text" class="input-sm form-control" name="startDate"  id="startDate" placeholder="시작날짜" style="display: inline-block;"/>
-    		    &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;
-  			     <input type="text" class="input-sm form-control" name="endDate"  id="endDate" placeholder="끝날짜" style="display: inline-block;"/>
-			</div>
+			 <form name="frm" method="post" action="${path}/mkjg/hog_list.do">
 			<div id="searchContent" style="float: right;">
-            		<select name="status" id="status" style="width: 150px; font-size: 14px; margin-right: 70px">
-						<option selected="selected" style="line-height: 25px; border: 1px solid #6093e7; margin-bottom: 20px; height: 28px; border-radius: 3px"> 등록완료</option>
-						<option>처리대기</option>
-						<option>관리자거절</option>
-					</select>
-        	    <input class="span2" id="searchID" type="text"  placeholder="아이디" style="background-color: #f5f5f5; height: 23px;">&nbsp;&nbsp;&nbsp;
+        	    <input class="span2" id="searchID" type="text"  placeholder="아이디" name="keyword" value="${map.keyword}" style="background-color: #f5f5f5; height: 23px;">&nbsp;&nbsp;&nbsp;
 				<button class="btn btn-inverse" type="submit" id="searchbtn" style="margin-bottom: 10px;">검색</button>
             </div>
+            </form>
               <table class="table table-hover">
                 <thead>
                   <tr style="font-size: 16px;">
@@ -126,6 +110,7 @@
 						<th width="80px">고객아이디</th>
 						<th width="120px">고객명</th>
 						<th width="120px">애완동물 이름</th>
+						<th width="120px">제목</th>
 						<th width="150px">전화번호</th>
 						<th width="130px">최근 이용 날짜</th>
 						<th width="100px">처리결과</th>
@@ -136,8 +121,9 @@
 							<tr>
 								<td>${row.num}</td>
 								<td>${row.pid}</td>
-								<td><a href="${path}/mkjg/hog_info.do?cl_seq=${row.cl_seq}">${row.pname}</a></td>
+								<td>${row.pname}</td>
 								<td>${row.pet_name}</td>
+								<td><a href="${path}/mkjg/hog_info.do?cl_seq=${row.cl_seq}">${row.cl_title}</a></td>
 								<td>${row.tel}</td>
 								<td>${row.bdate}</td>
 								<td>${row.cl_status}</td>
@@ -145,7 +131,7 @@
 					</c:forEach> 
                 </tbody>
               </table>
-            <div class="pagination" style="text-align: center;">
+           <div class="pagination" style="text-align: center;">
             <ul>
               <li>
               <c:if test="${map.pageMaker.curBlock>1}">
@@ -164,9 +150,6 @@
               </li>
             </ul>
           </div>
-             <div style="float: right;">
-            	<button type="button" class="btn btn-inverse" id="add">추가</button>
-              </div>
           </section>
 	</div>
 	</div>

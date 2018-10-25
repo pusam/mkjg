@@ -402,55 +402,20 @@
          	 <td>
          	 <div class="row">
        			 <ul class="portfolio-area da-thumbs">
-       			 
+       			<c:forEach var="img" items="${img}" end="5">
         		  <li class="portfolio-item" data-id="id-0" data-type="web">
             	 <div>
                 <div class="image-wrapp">
-                  <img src="http://localhost:8080/mkjg/images/1.jpg" alt="Portfolio name" title="" />
+                <img src="upload/${img.bln}/${img.path}" alt="img" name="path" />
                   <article class="da-animate da-slideFromRight">
-                    <a class="zoom" data-pretty="prettyPhoto" href="http://localhost:8080/mkjg/images/1.jpg">
+                    <a class="zoom" data-pretty="prettyPhoto" href="upload/${view.bln}/${img.path}">
 							<i class="icon-bg-light icon-zoom-in icon-circled icon-2x"></i>
-					</a>
+					</a> 
                   </article>
-              </div>
-            </div>
-          </li>
-          <li class="portfolio-item" data-id="id-0" data-type="web">
-            	 <div>
-                <div class="image-wrapp">
-                  <img src="http://localhost:8080/mkjg/images/2.jpg" alt="Portfolio name" title="" />
-                  <article class="da-animate da-slideFromRight">
-                    <a class="zoom" data-pretty="prettyPhoto" href="http://localhost:8080/mkjg/images/2.jpg">
-							<i class="icon-bg-light icon-zoom-in icon-circled icon-2x"></i>
-					</a>
-                  </article>
-                </div>
-              </div>
-          </li>
-          <li class="portfolio-item" data-id="id-0" data-type="web">
-            	 <div >
-                <div class="image-wrapp">
-                  <img src="http://localhost:8080/mvc_login/common/img/placeholder_large3.jpg" alt="Portfolio name" title="" />
-                  <article class="da-animate da-slideFromRight">
-                    <a class="zoom" data-pretty="prettyPhoto" href="http://localhost:8080/mvc_login/common/img/placeholder_large3.jpg">
-							<i class="icon-bg-light icon-zoom-in icon-circled icon-2x"></i>
-					</a>
-                  </article>
-                </div>
-            </div>
-          </li>
-          <li class="portfolio-item" data-id="id-0" data-type="web">
-            	 <div>
-                <div class="image-wrapp">
-                  <img src="http://localhost:8080/mkjg/assets/images/ok.png" alt="Portfolio name" title="" />
-                  <article class="da-animate da-slideFromRight">
-                    <a class="zoom" data-pretty="prettyPhoto" href="http://localhost:8080/mkjg/assets/images/ok.png">
-							<i class="icon-bg-light icon-zoom-in icon-circled icon-2x"></i>
-					</a>
-                  </article>
-                </div>
-              </div>
-          </li>
+            	  </div>
+           	 </div>
+         	 </li>
+         </c:forEach>
           </ul>
           </div>
 	          </td>

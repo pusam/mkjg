@@ -4,6 +4,5 @@ import lombok.Data;
 
 @Data
 public class treatmentView {
-	private String pid, pname, pet_name, tel, bdate;
-
+	private String bseq, pname, tel, pet_name, pet_type, pet_age, bdate, btime, msg, bln, pid; 
 }

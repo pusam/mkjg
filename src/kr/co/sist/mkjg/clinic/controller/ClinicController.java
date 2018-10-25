@@ -6,7 +6,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import java.io.File;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -39,6 +41,7 @@ import kr.co.sist.mkjg.clinic.domain.UserQnaView;
 import kr.co.sist.mkjg.clinic.service.ClinicService;
 import kr.co.sist.mkjg.clinic.util.SessionCheck;
 import kr.co.sist.mkjg.clinic.vo.AprvlBseq;
+import kr.co.sist.mkjg.clinic.vo.CIdCPass;
 import kr.co.sist.mkjg.clinic.vo.CeoAddJoin;
 import kr.co.sist.mkjg.clinic.vo.ClinicIdCheck;
 import kr.co.sist.mkjg.clinic.vo.ClnRegData;
@@ -47,10 +50,15 @@ import kr.co.sist.mkjg.clinic.vo.InsertClnImg;
 import kr.co.sist.mkjg.clinic.vo.MgrQnaBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.MgrQnaData;
 import kr.co.sist.mkjg.clinic.vo.MtrBlnCurrentPage;
+import kr.co.sist.mkjg.clinic.vo.MtrInsert;
+import kr.co.sist.mkjg.clinic.vo.MtrMseq;
+import kr.co.sist.mkjg.clinic.vo.PwSearch;
 import kr.co.sist.mkjg.clinic.vo.RevBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.UseBlnCurrentPage;
+import kr.co.sist.mkjg.clinic.vo.UseHistoryInfo;
 import kr.co.sist.mkjg.clinic.vo.UserQnaAnswer;
 import kr.co.sist.mkjg.clinic.vo.UserQnaBlnCurrentPage;
+import kr.co.sist.mkjg.protector.util.RandomPass;
 
 @Controller
 @SessionAttributes({"cId","bln","cName"})
@@ -378,9 +386,11 @@ public class ClinicController {
 	@RequestMapping(value="main.do", method=GET)
 	public String main(HttpSession session, Model model, ClinicIdCheck cic)throws SQLException{
 		String bln = (String)session.getAttribute("bln");
-		
+		String aprvl = "Y";
+		aprvl = cs.selectClinicAprvl(bln);
 		List<NoticeTitle> noticeTitlelist = cs.selectNoticeTitle();
 		model.addAttribute("notice_title_list", noticeTitlelist);
+		if("Y".equals(aprvl)) {
 		
 		List<TodayReg> todayReglist = cs.selectTodayReg(bln);
 		model.addAttribute("today_reg_list", todayReglist);
@@ -392,6 +402,9 @@ public class ClinicController {
 		model.addAttribute("week_QGC_Day_Cnt", weekQGCDayCnt);
 		
 		url = "clinic/cln_main/cln_main_approval_OK";
+		}else {
+			url = "clinic/cln_main/cln_main_approval";
+		}
 		return url;
 	}
 	
@@ -461,8 +474,82 @@ public class ClinicController {
 		String searchId = null;
 		searchId = cs.selectCIdCheck(is);
 		model.addAttribute("searchId", searchId);
-		System.out.println(searchId);
 		return searchId;
+	}
+	
+	@RequestMapping(value="pw_search.do", method=GET)
+	public String pwSearch()throws SQLException {
+		url = "clinic/cln_login/pw_search";
+		return url;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="pw_search_process.do", method=POST)
+	public String pwSearchProcess(PwSearch ps, Model model)throws SQLException {
+		String searchPw = null;
+		String cId = cs.selectCPwCheck(ps);
+		if("".equals(cId) || cId != null) {
+			searchPw = RandomPass.getRamdomPassword(10);
+			CIdCPass cicp = new CIdCPass();
+			cicp.setCId(cId);
+			cicp.setCPass(searchPw);
+			cicp.setCheck(ps.getCheck());
+			cs.updateCPass(cicp);
+		}
+		return searchPw;
+	}
+	
+	@RequestMapping(value="mtr_add.do", method=POST)
+	public String mtrAdd(UseHistoryInfo uhi, Model model)throws SQLException{
+		model.addAttribute("bseq", uhi.getBseq());
+		model.addAttribute("pname", uhi.getPname());
+		model.addAttribute("tel", uhi.getTel());
+		model.addAttribute("bdate", uhi.getBdate());
+		
+		url = "clinic/cln_use_management/monitoring/monitoring_add";
+		return url;
+	}
+	
+	@RequestMapping(value="mtr_add_process.do", method= {GET,POST})
+	public String mtrAddProcess(HttpServletRequest request, HttpSession session,String bseq)throws Exception{
+		File f = new File("C:/dev/workspace/mkjg/WebContent/upload_mtr/"+bseq+"/");
+		if(!f.exists()) {
+			f.mkdirs();
+		}
+		//1.파일업로드 객체 생성
+		String repository="C:/dev/workspace/mkjg/WebContent/upload_mtr/"+bseq+"/";
+		int maxSize=1024*1024*10;
+		 
+		MultipartRequest mr=new MultipartRequest(request,repository,maxSize,"UTF-8",new DefaultFileRenamePolicy());
+		List<String> saveFiles = new ArrayList<>();
+		Enumeration files = mr.getFileNames();
+		String fileName= "";
+		while(files.hasMoreElements()) {
+			fileName = (String)files.nextElement();
+			saveFiles.add(mr.getFilesystemName(fileName));
+		}
+		MtrInsert mi = new MtrInsert();
+		mi.setBseq(bseq);
+		mi.setMid((String)session.getAttribute("cId"));
+		mi.setReply(mr.getParameter("reply"));
+		mi.setMip("127.0.0.1");
+		mi.setImages(saveFiles);
+		mi.setPath(repository);
+		mi.setBln((String)session.getAttribute("bln"));
+		
+		if(cs.insertMtr(mi)==1) {
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			MtrMseq mm = new MtrMseq();
+			mm.setBln((String)session.getAttribute("bln"));
+			mm.setCid((String)session.getAttribute("cId"));
+			mm.setDate(sdf.format(date));
+			mi.setMseq(cs.mtrMseq(mm));
+			cs.mtrImgInsert(mi);
+			url = "clinic/cln_use_management/monitoring/monitoring_OK";
+		};
+		
+		return url;
 	}
 	
 }//class

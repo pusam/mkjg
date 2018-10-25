@@ -48,8 +48,14 @@
 		});		
 	});
 	function list(page){
-		 location.href="${path}/mkjg/notice_list.do?curPage="+page;
-	}
+		var seaSubject = document.getElementById("seaSubject").value;
+		if(seaSubject==""){
+			 location.href="${path}/mkjg/notice_list.do?curPage="+page;
+		}//end if
+		if(seaSubject!=""){
+			 location.href="${path}/mkjg/notice_list.do?curPage="+page+"&keyword="+seaSubject;
+		}//end if
+	}//list
 </script>
 </head>
 
@@ -71,7 +77,7 @@
           <ul class="breadcrumb notop">
             <li><a href="#">Home</a><span class="divider">/</span></li>
             <li class="active">공지사항<span class="divider">/</span></li>
-            <li class="active">목록</li>
+            <li class="active">공지사항</li>
           </ul>
         </div>
       </div>
@@ -85,10 +91,12 @@
             <div class="page-header">
               <h3>목록</h3>
             </div>
+            <form name="frm" method="get" action="${path}/mkjg/notice_list.do"> 
             <div id="search" style="float: right;">
-        	    <input class="span2" id="seaSubject" type="text"  placeholder="아이디" style="background-color: #f5f5f5; height: 23px;">&nbsp;&nbsp;&nbsp;
+        	    <input class="span2" id="seaSubject" type="text"  placeholder="아이디" name="keyword" value="${map.keyword}" style="background-color: #f5f5f5; height: 23px;">&nbsp;&nbsp;&nbsp;
 				<button class="btn btn-inverse" type="submit" id="searchbtn" style="margin-bottom: 10px;">검색</button>
 			</div>
+			</form>
               <table class="table table-hover" style="width: 1000px; margin-left: 50px;">
                 <thead>
                   <tr style="font-size: 16px;">

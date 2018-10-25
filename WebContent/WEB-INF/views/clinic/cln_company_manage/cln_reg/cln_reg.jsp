@@ -55,6 +55,11 @@
 		#openMM{background-color: #F5F5F5; height: 30px;}
 		#endHH{background-color: #F5F5F5; height: 30px;}
 		#endMM{background-color: #F5F5F5; height: 30px;}
+		#week{background-color: #F5F5F5; height: 30px;}
+		#openNightHH{background-color: #F5F5F5; height: 30px;} 
+		#openNightMM{background-color: #F5F5F5; height: 30px;}
+		#endNightHH{background-color: #F5F5F5; height: 30px;}
+		#endNightMM{background-color: #F5F5F5; height: 30px;}
 		#sample4_postcode{background-color: #F5F5F5; height: 30px;}
 		#sample4_execDaumPostcode{background-color: #F5F5F5; height: 30px;}
 		#sample4_roadAddress{background-color: #F5F5F5; height: 30px;}
@@ -81,6 +86,10 @@
 	$(function(){
 		var LOC_X = 0; 
 		var LOC_Y = 0; 
+		
+		$("#cancle").click(function() {
+			location.replace("main.do")
+		})
 		
 		$("#night").click(function() {
 			if($("#night").is(":checked")){
@@ -323,33 +332,33 @@
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="병원명" id="hName" name="hName" value="한독"><br/>
+                <input class="input-xxlarge" type="text" placeholder="병원명" id="hName" name="hName"><br/>
                 <span id="hNameOut"></span><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="사업자번호" id="cBln" name="cBln" value="0000000030"><br/>
+                <input class="input-xxlarge" type="text" placeholder="사업자번호" id="cBln" name="cBln"><br/>
                 <span id="cBlnOut"></span><br/>
             </td>
           </tr>
           <tr>
           	<td >
-				<input class="input-xxlarge" type="text" placeholder="원장명" id="cName" name="cName" value="천재"><br/>
+				<input class="input-xxlarge" type="text" placeholder="원장명" id="cName" name="cName"><br/>
                 <span id="cNameOut"></span><br/>
             </td>
           </tr>
           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="핸드폰번호  입력예시) 010-0000-0000" id="cPhone" name="cPhone" maxlength="13" value="010-2222-1857"><br/>
+                <input class="input-xxlarge" type="text" placeholder="핸드폰번호  입력예시) 010-0000-0000" id="cPhone" name="cPhone" maxlength="13"><br/>
                 <span id="cPhoneOut"></span><br/>
             </td>
            </tr>
            <tr>
           	<td >
-                <input class="input-middle" type="text" placeholder="이메일" id="cMail1" name="cMail1" maxlength="7" style="display: inline-block;" value="genius">
+                <input class="input-middle" type="text" placeholder="이메일" id="cMail1" name="cMail1" maxlength="7" style="display: inline-block;">
                 &nbsp;&nbsp;@&nbsp;&nbsp;
-                <input class="input-middle" type="text" placeholder="직접입력" id="cMail2" name="cMail2" maxlength="7" style="display: inline-block; width: 200px" value="naver.com">
+                <input class="input-middle" type="text" placeholder="직접입력" id="cMail2" name="cMail2" maxlength="7" style="display: inline-block; width: 200px">
                 <select style="width: 100px" id="selDomain">
                 	<option value="none">직접 입력</option>
                 	<option>naver.com</option>
@@ -438,7 +447,7 @@
            <tr>
           	<td>
 				<input type="text" id="sample4_postcode" name="sample4_postcode" placeholder="우편번호" class="input-large" readonly="readonly">
-				<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="display: inline-block;"><br>
+				<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="display: inline-block;" class="btn btn-inverse"><br>
 				<input type="text" id="sample4_roadAddress" name="sample4_roadAddress" placeholder="도로명주소" style="display: inline-block;" readonly="readonly">
 				<input type="text" id="sample4_jibunAddress" name="sample4_jibunAddress" placeholder="지번주소" style="display: inline-block;" readonly="readonly"><br/>
 				<input type="text" placeholder="상세주소" id="detailAddr" name="detailAddr"><br/>
@@ -467,7 +476,7 @@
           <td style="text-align: right;">
           <span id="Alert" style="font-size: 20px;"></span>&nbsp;&nbsp;&nbsp;
           <button type="button" class="btn btn-inverse" id="add">업체등록</button>
-           <button type="button" class="btn btn-inverse" id="cancle">취소</button><br/><br/>
+          <button type="button" class="btn btn-inverse" id="cancle">취소</button><br/><br/>
           </td>
           </tr>
           </table>

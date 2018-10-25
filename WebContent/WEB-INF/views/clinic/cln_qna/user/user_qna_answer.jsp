@@ -42,9 +42,8 @@
 <link rel="apple-touch-icon-precomposed"
 	href="assets/ico/apple-touch-icon-57-precomposed.png">
 	<style type="text/css">
-	#startDate{background-color: #F5F5F5;}
-	#endDate{background-color: #F5F5F5;}
-	#appendedInputButton{background-color: #F5F5F5;}
+	th{background-color: #393939; color: white;}
+	textarea{background-color: white; resize: none;}
 	</style>
 	<script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
  <script type="text/javascript">
@@ -117,7 +116,7 @@
             	</tr>
             	<tr>
             		<td style="text-align: left">
-            			<textarea rows="8" cols="40" style="width: 500px; text-align: left;" id="text" name="text" readonly="readonly">
+            			<textarea rows="8" cols="40" style="width: 500px; text-align: left;" id="text" name="text" readonly="readonly" >
             			${uq.qtext}
             			</textarea>
             		</td>
@@ -131,13 +130,13 @@
             	</tr>
             	<tr>
             		<td>
-            			<textarea rows="8" cols="40" style="width: 500px" id="reply" name="reply">
+            			<textarea rows="8" cols="40" style="width: 500px;" id="reply" name="reply">
             			</textarea>
             		</td>
             	</tr>
             	<tr>
-            		<td><input type="button" value="답변하기" id="btnAnswer" style="float: right;">
-            		<input type="button" value="목록보기" id="btnList" style="float: right;"></td>
+            		<td><input type="button" value="답변하기" id="btnAnswer" style="float: right;" class="btn btn-inverse">
+            		<input type="button" value="목록보기" id="btnList" style="float: right;" class="btn btn-inverse"></td>
             	</tr>
             </table>
             <input type="hidden" id="qgc_seq" name="qgc_seq" value="${uq.qgc_seq}">

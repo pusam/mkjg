@@ -47,80 +47,61 @@
  	<link rel="stylesheet" href="http://localhost:8080/mkjg/assets/css/bootstrap-datepicker3.min.css">
 
 	<style type="text/css">
-		#cusId{background-color: #F5F5F5; height: 25px;}
-		#cusName{background-color: #F5F5F5; height: 25px;}
-		#petName{background-color: #F5F5F5; height: 25px;}
-		#phone{background-color: #F5F5F5; height: 25px;}
-		#date{background-color: #F5F5F5; height: 25px;}
-		#reason{background-color: #F5F5F5;}
+		#bseq{background-color: #F5F5F5; height: 25px;}
+		#pid{background-color: #F5F5F5; height: 25px;}
+		#cl_title{background-color: #F5F5F5; height: 25px;}
+		#cl_text{background-color: #F5F5F5; }
 	</style>
 	
 	<script type="text/javascript">
 	
 	$(function(){
-		
-	    $("#date").datepicker({
-	        calendarWeeks: true,
-	        todayHighlight: true,
-	        autoclose: true,
-	        format: 'yyyy-mm-dd'
-	    });  
-	    
 		$("#add").click(function(){
 	var chkId =/^[a-z][a-z\d]{3,20}$/
-	var chkName=/^[가-힝]{2,10}$/
-	var chkPetName=/^[가-힝a-z]{1,10}$/
-	var chkPhone = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
 	
 	
-	if($("#cusId").val() == ""){
-		alertCenter("#cusId", "#Alert", "아이디를 입력해주세요.");
+	if($("#pid").val() == ""){
+		alertCenter("#pid", "#Alert", "아이디를 입력해주세요.");
 		return;
-	}else if( !chkId.test( $("#cusId").val() )){
-		alertCenter("#cusId", "#Alert", "아이디는 영문 소문자 혹은 소문자와 숫자 혼합으로 3~20자 입력해주세요");
-		return;
-    }//end else if
+    }//end if
     
-	if($("#cusName").val() == ""){
-		alertCenter("#cusName", "#Alert", "이름을 입력해주세요.");
-		return;
-	}else if( !chkName.test( $("#cusName").val() )){
-		alertCenter("#cusName", "#Alert", "이름은 최소 2자 한글로만 작성해주세요.");
-		return;
-    }//end else if
-    
-	if($("#petName").val() == ""){
-		alertCenter("#petName", "#Alert", "애완동물의 이름을 입력해주세요.");
-		return;
-	}else if( !chkPetName.test( $("#petName").val() )){
-		alertCenter("#petName", "#Alert", "애완동물의 이름을 확인해주세요");
-		return;
-    }//end else if
-	
-	if($("#phone").val() == ""){
-		alertCenter("#phone", "#Alert", "핸드폰 번호를 입력해주세요.");
-		return;
-	}else if( !chkPhone.test( $("#phone").val() )){
-		alertCenter("#phone", "#Alert", "핸드폰 번호를 확인해주세요. (ex: 010-1111-5555)");
-		return;
-    }//end else if
-    
-	if($("#reason").val() == ""){
-		alertCenter("#reason", "#Alert", "사유를 작성해주세요");
+	if($("#bseq").val() == ""){
+		alertCenter("#bseq", "#Alert", "고객 예약 번호를 입력해주세요.");
 		return;
 	}//end if
 	
-	
-	
+	if($("#cl_title").val() == ""){
+		alertCenter("#cl_title", "#Alert", "신고 제목을 입력주세요.");
+		return;
+	}//end if
     
+	if($("#cl_text").val() == ""){
+		alertCenter("#cl_text", "#Alert", "신고 사유를 작성해주세요");
+		return;
+	}//end if
+	
+	var bseq = $("#bseq").val();
+	var pid = $("#pid").val();
+	var cl_title = $("#cl_title").val();
+	var cl_text = $("#cl_text").val();
+	var bln = $("#bln").val();
+	
+	$.ajax({
+        type : 'POST',
+        data : {pid, bseq, cl_title, cl_text, bln},
+        url : "hog_register_ok.do",
+        dataType : "json",
+        success : function(json) {
+        		location.href="${path}/mkjg/hog_OK.do";
+        },// success
+        error: function(error){
+        	alert("에러");
+        }// error
+	});//ajax
     
 	});//click
 	
-
-	
 }); //ready
-
-
 
 function alertCenter(id, alertId, msg){
 	$(id).focus();
@@ -168,37 +149,33 @@ function alertCenter(id, alertId, msg){
           
           <div class="controls docs-input-sizes" style="margin-left: 300px;">
           <table>
-          <tr>
+           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="고객아이디" id="cusId" name="cusId" maxlength="20"><br/><br/>
+                <input class="input-xxlarge" type="text" placeholder="예약번호 B_0000000xxx" id="bseq" name="bseq" value="${view.bseq}" readonly="readonly" maxlength="13"><br/><br/>
             </td>
           </tr>
-          <tr>
+          
+           <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="고객명" id="cusName" name="cusName" maxlength="10"><br/><br/>
+                <input class="input-xxlarge" type="text" placeholder="고객아이디" id="pid" name="pid" value="${view.pid}" readonly="readonly" maxlength="20"><br/><br/>
             </td>
           </tr>
-          <tr>
+            <tr>
           	<td >
-                <input class="input-xxlarge" type="text" placeholder="애완동물이름" id="petName" name="petName" maxlength="10"><br/><br/>
+                <input class="input-xxlarge" type="text" placeholder="제목" id="cl_title" name="cl_title" maxlength="100"><br/><br/>
             </td>
           </tr>
-          <tr>
-          	<td>
-                <input class="input-xxlarge" type="text" placeholder="전화번호" id="phone" name="phone" maxlength="13"><br/><br/>
-            </td>
-           </tr>
+           
            <tr>
           	<td>
-               <input type="text" class="form-control" id="date" name="id" placeholder="날짜" readonly="readonly" style="display: inline-block;">
-               <br/><br/>
-            </td>
-           </tr>
-           <tr>
-          	<td>
-                <textarea name="reason" rows="10" cols="35" maxlength="1000" style="width: 530px;" id="reason" placeholder="사유"></textarea>
+                <textarea name="reason" rows="10" cols="35" maxlength="1000" style="width: 530px;" id="cl_text" name="cl_text" placeholder="사유"></textarea>
            </td>
            </tr>
+              <tr>
+          	<td >
+                <input class="hidden" type="text" id="bln" name="bln" value="${view.bln}" readonly="readonly"><br/><br/>
+            </td>
+          </tr>
            <tr>
            <td>
            <span id="Alert" style="font-size: 20px;"></span>

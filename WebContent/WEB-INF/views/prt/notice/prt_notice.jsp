@@ -12,23 +12,23 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="http://211.63.89.152/mkjg/common/prt/images/icons/picon.png"/>
+        <link rel="icon" href="http://localhost:8080/mkjg/common/prt/images/icons/picon.png"/>
         <title>맡겨주개</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="http://211.63.89.152/mkjg/common/prt/css/bootstrap.min.css" rel="stylesheet">
-        <link href="http://211.63.89.152/mkjg/common/prt/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="http://localhost:8080/mkjg/common/prt/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://localhost:8080/mkjg/common/prt/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Custom styles for this template -->
-        <link href="http://211.63.89.152/mkjg/common/prt/css/prt_style.css" rel="stylesheet">
-        <link href="http://211.63.89.152/mkjg/common/prt/css/style.css" rel="stylesheet">
-        <link href="http://211.63.89.152/mkjg/common/prt/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
-        <link rel="stylesheet" href="http://211.63.89.152/mkjg/common/prt/css/lightbox.min.css">
-        <link href="http://211.63.89.152/mkjg/common/prt/css/responsive.css" rel="stylesheet">
-        <script src="http://211.63.89.152/mkjg/common/prt/js/jquery.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/instafeed.min.js" type="text/javascript"></script>
-        <script src="http://211.63.89.152/mkjg/common/prt/js/custom.js" type="text/javascript"></script>
+        <link href="http://localhost:8080/mkjg/common/prt/css/prt_style.css" rel="stylesheet">
+        <link href="http://localhost:8080/mkjg/common/prt/css/style.css" rel="stylesheet">
+        <link href="http://localhost:8080/mkjg/common/prt/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://localhost:8080/mkjg/common/prt/css/lightbox.min.css">
+        <link href="http://localhost:8080/mkjg/common/prt/css/responsive.css" rel="stylesheet">
+        <script src="http://localhost:8080/mkjg/common/prt/js/jquery.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/instafeed.min.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/mkjg/common/prt/js/custom.js" type="text/javascript"></script>
    <script type="text/javascript">
    $(function(){
 		
@@ -81,8 +81,8 @@
                         <div class="row">
                             <div class="col-md-2 col-sm-6 col-xs-6">
                                 <div id="logo">
-                                    <!--<a href="index.html"><img src="http://211.63.89.152/mkjg/common/prt/images/logo.png" alt="logo"></a>-->
-                                    <a href="prt_index.do"><img src="http://211.63.89.152/mkjg/common/prt/images/icons/cicon.png" width="50"/><span style="font-size:45px;">MKJG</span></a>
+                                    <!--<a href="index.html"><img src="http://localhost:8080/mkjg/common/prt/images/logo.png" alt="logo"></a>-->
+                                    <a href="prt_index.do"><img src="http://localhost:8080/mkjg/common/prt/images/icons/cicon.png" width="50"/><span style="font-size:45px;">MKJG</span></a>
                                 </div>                       
                             </div>
                             <div class="col-sm-6 visible-sm">
@@ -101,12 +101,12 @@
                                     </div>
                                     <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                         <ul class="list-unstyled nav1 cl-effect-10">
-                                            <li><a data-hover="HOME" class="active" href="http://211.63.89.152/mkjg/prt_index.do"><span>HOME</span></a></li>
-                                            <li><a data-hover="알림"  href="http://211.63.89.152/mkjg/prt_notice.do"><span>알림</span></a></li>
-                                            <li><a data-hover="병원 찾기"  href="http://211.63.89.152/mkjg/cln_search.do"><span>병원 찾기</span></a></li>
-                                            <li><a data-hover="고객 센터" href="http://211.63.89.152/mkjg/custom_center_ask.do"><span>고객 센터</span></a></li>
-                                            <li><a data-hover="마이 페이지" href="http://211.63.89.152/mkjg/mypage_history.do"><span>마이 페이지</span></a></li>
-                                            <li><a data-hover="참조" href="http://211.63.89.152/mkjg/reference.do"><span>참조</span></a></li>
+                                            <li><a data-hover="HOME" class="active" href="http://localhost:8080/mkjg/prt_index.do"><span>HOME</span></a></li>
+                                            <li><a data-hover="알림"  href="http://localhost:8080/mkjg/prt_notice.do"><span>알림</span></a></li>
+                                            <li><a data-hover="병원 찾기"  href="http://localhost:8080/mkjg/cln_search.do"><span>병원 찾기</span></a></li>
+                                            <li><a data-hover="고객 센터" href="http://localhost:8080/mkjg/custom_center_ask.do"><span>고객 센터</span></a></li>
+                                            <li><a data-hover="마이 페이지" href="http://localhost:8080/mkjg/mypage_history.do"><span>마이 페이지</span></a></li>
+                                            <li><a data-hover="참조" href="http://localhost:8080/mkjg/reference.do"><span>참조</span></a></li>
                                         </ul>
 
                                     </div>
@@ -122,7 +122,7 @@
 
 
             <!--end-->
-            <section class="image-head-wrapper" style="background-image: url('http://211.63.89.152/mkjg/common/prt/images/prt/intro_banner1.png');">
+            <section class="image-head-wrapper" style="background-image: url('http://localhost:8080/mkjg/common/prt/images/prt/intro_banner1.png');">
                 <div class="inner-wrapper">
                 </div>
             </section>

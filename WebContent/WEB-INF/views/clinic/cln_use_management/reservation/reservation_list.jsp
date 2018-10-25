@@ -42,9 +42,8 @@
 <link rel="apple-touch-icon-precomposed"
 	href="assets/ico/apple-touch-icon-57-precomposed.png">
 	<style type="text/css">
-	#startDate{background-color: #F5F5F5;}
-	#endDate{background-color: #F5F5F5;}
-	#appendedInputButton{background-color: #F5F5F5;}
+	#thTitle{background-color: #393939; color: white;}
+	#search{border: 1px solid #D5D5D5;} 
 	</style>
 </head>
  <script src="http://localhost:8080/mkjg/assets/js/jquery.js"></script>
@@ -53,7 +52,7 @@
 $(function(){
 	$(".aprvl").click(function(){
 		var con = confirm("정말 승인하시겠습니까?");
-		if(con = true){
+		if(con == true){
 		var aprvl=$(this).text();
 		var ap_obj=$(this);
 		var bseq=$(this).find("input").val();
@@ -131,7 +130,7 @@ $(function(){
             
             <div class="input-append" style="float: right;">
             <form id="frm" name="frm">
-            		<select name="status" id="status" style="width: 150px; font-size: 14px; margin-right: 70px">
+            		<select name="status" id="status" style="width: 150px; font-size: 14px;">
 						<option value="고객명" ${revStatus eq "고객명" ? "selected" :""}>고객명</option>
 						<option value="전화번호" ${revStatus eq "전화번호" ? "selected" :""}>전화번호</option>
 						<option value="예약날짜" ${revStatus eq "예약날짜" ? "selected" :""}>예약날짜</option>
@@ -142,7 +141,7 @@ $(function(){
             </div>
               <table class="table table-hover">
                 <thead>
-                  <tr style="font-size: 16px;">
+                  <tr style="font-size: 16px;" id="thTitle">
 						<th width="50px">번호</th>
 						<th width="80px">고객명</th>
 						<th width="120px">전화번호</th>

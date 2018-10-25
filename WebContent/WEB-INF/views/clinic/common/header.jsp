@@ -8,7 +8,7 @@
 						<div class="span4">
 							<!-- logo -->
 							<a class="logo" href="main.do">
-								<h1>Plato</h1> <!-- <img src="assets/img/logo.png" alt="" /> -->
+								<h1>MKJG</h1> <!-- <img src="assets/img/logo.png" alt="" /> -->
 							</a>
 							<!-- end logo -->
 						</div>

@@ -13,7 +13,7 @@
   <!-- styles -->
   <link href="http://localhost:8080/mkjg/assets/css/bootstrap.css" rel="stylesheet">
 <link href="http://localhost:8080/mkjg/assets/css/bootstrap-responsive.css" rel="stylesheet">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <link href="http://localhost:8080/mkjg/assets/css/docs.css" rel="stylesheet">
 <link href="http://localhost:8080/mkjg/assets/css/prettyPhoto.css" rel="stylesheet">
 <link href="http://localhost:8080/mkjg/assets/js/google-code-prettify/prettify.css"
@@ -36,6 +36,14 @@
   <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
   <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+  
+  <script type="text/javascript">
+	$(function(){
+		$("#back").click(function(){
+			location.href="${path}/mkjg/hog_list.do";
+		});		
+	});
+	</script>
 
 </head>
 
@@ -72,10 +80,9 @@
       <div class="row">
         <div class="span12">
           <div class="centered">
-            <img src="http://localhost:8080/mkjg/assets/images/ok.png">
+            <img src="http://localhost:8080/mkjg/assets/img/ok.png">
             <h1><strong>해당 고객의 진상등록 신청이 완료되었습니다.</strong></h1>
                 <div style="text-align: center;" >
-            	<button type="button" class="btn btn-large btn-color" id="join">HOME</button>
             	<button type="button" class="btn btn-large btn-inverse" id="back">목록</button><br/>
              </div>
           </div>

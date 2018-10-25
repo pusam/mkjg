@@ -20,6 +20,7 @@ import kr.co.sist.mkjg.clinic.domain.UserQnaView;
 import kr.co.sist.mkjg.clinic.domain.WeekQGCDayCnt;
 import kr.co.sist.mkjg.clinic.domain.WeekRegDayCnt;
 import kr.co.sist.mkjg.clinic.vo.AprvlBseq;
+import kr.co.sist.mkjg.clinic.vo.CIdCPass;
 import kr.co.sist.mkjg.clinic.vo.CeoAddJoin;
 import kr.co.sist.mkjg.clinic.vo.ClinicIdCheck;
 import kr.co.sist.mkjg.clinic.vo.ClnRegData;
@@ -29,7 +30,11 @@ import kr.co.sist.mkjg.clinic.vo.MgrQna;
 import kr.co.sist.mkjg.clinic.vo.MgrQnaBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.MgrQnaData;
 import kr.co.sist.mkjg.clinic.vo.MtrBlnCurrentPage;
+import kr.co.sist.mkjg.clinic.vo.MtrImgInsert;
+import kr.co.sist.mkjg.clinic.vo.MtrInsert;
+import kr.co.sist.mkjg.clinic.vo.MtrMseq;
 import kr.co.sist.mkjg.clinic.vo.MtrNum;
+import kr.co.sist.mkjg.clinic.vo.PwSearch;
 import kr.co.sist.mkjg.clinic.vo.RevBlnCurrentPage;
 import kr.co.sist.mkjg.clinic.vo.RevPage;
 import kr.co.sist.mkjg.clinic.vo.UseBlnCurrentPage;
@@ -256,5 +261,61 @@ public class ClinicDAO {
 		searchId = sst.selectOne("ceoIdSearch",is);
 		return searchId;
 	}
+	
+	public String selectEmpIdSearch(IdSearch is) throws SQLException{
+		String searchId = null; 
+		searchId = sst.selectOne("empIdSearch",is);
+		return searchId;
+	}
+	
+	public String selectCeoPwSearch(PwSearch ps)throws SQLException{
+		String searchPw = null;
+		searchPw = sst.selectOne("ceoPwSearch", ps);
+		return searchPw;
+	}
+	
+	public String selectEmpPwSearch(PwSearch ps) throws SQLException{
+		String searchPw = null;
+		searchPw = sst.selectOne("empPwSearch", ps);
+		return searchPw;
+	}
+	
+	public String selectClinicAprvl(String bln) throws SQLException{
+		String aprvl = null;
+		aprvl = sst.selectOne("clinicAprvl", bln);
+		return aprvl;
+	}
+	
+	public int updateCeoPass(CIdCPass cicp) throws SQLException{
+		int cnt = 0;
+		cnt = sst.update("ceoPassUpdate",cicp);
+		return cnt;
+	}
+	
+	public int updateEmpPass(CIdCPass cicp) throws SQLException{
+		int cnt = 0;
+		cnt = sst.update("empPassUpdate",cicp);
+		return cnt;
+	}
+	
+	public int insertMtr(MtrInsert mi)throws SQLException{
+		int cnt=0;
+		cnt = sst.insert("mtrInsert",mi);
+		return cnt;
+	}
+	
+	public String mtrMseq(MtrMseq mm)throws SQLException{
+		String mseq = null;
+		mseq = sst.selectOne("mseq", mm);
+		return mseq;
+	}
+	
+	public int mtrImgMseq(MtrImgInsert mii)throws SQLException{
+		int cnt = 0;
+		cnt = sst.insert("mtrImgInsert", mii);
+		return cnt;
+	}
+	
+	
 	
 }
