@@ -132,7 +132,7 @@ $(function(){
             <form id="frm" name="frm">
             		<select name="status" id="status" style="width: 150px; font-size: 14px;">
 						<option value="고객명" ${revStatus eq "고객명" ? "selected" :""}>고객명</option>
-						<option value="전화번호" ${revStatus eq "전화번호" ? "selected" :""}>전화번호</option>
+						<option value="승인여부" ${revStatus eq "승인여부" ? "selected" :""}>승인여부</option>
 						<option value="예약날짜" ${revStatus eq "예약날짜" ? "selected" :""}>예약날짜</option>
 					</select>
         	    <input class="span2" id="search" name="search" type="text"  placeholder="이름" value="${revSearch }">

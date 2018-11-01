@@ -63,35 +63,33 @@
 	values( #{cId}, #{cPass}, #{cName}, #{cPost}, #{cAddr1}, #{cAddr2}, #{cMail}, #{cBirth}, #{cPhone}, #{cIp}, #{loc_X}, #{loc_Y} )
 	</insert>
 	<select id="selectRevList" resultType="kr.co.sist.mkjg.clinic.domain.RevList" parameterType="kr.co.sist.mkjg.clinic.vo.RevPage">
-	select rnum, pname, tel, pet_name, pet_type, bdate, btime, aprvl_yn, bseq
-	from	(select rownum rnum, r, pname, tel, pet_name, pet_type, bdate, btime, aprvl_yn, bseq
-				from		(select rownum as r, pname, tel, pet_name,
-							 	case when pet_type ='c' then '고양이'
-									  when pet_type ='d' then '강아지'
-										else '기타' end pet_type
-										, bdate, btime, aprvl_yn, bseq
-							from (select p.pname, p.tel, bl.pet_name, bl.pet_type, to_char(bl.bdate,'yyyy-mm-dd') as bdate, bl.btime, bl.aprvl_yn, to_char(bl.reg_date,'yyyy-mm_dd') as reg_date, to_char(sysdate,'yyyy-mm-dd') as today, bseq
-										from book_list bl, protector p
-										where bl.pid = p.pid and bln = #{bln}
-										order by bdate, btime, aprvl_yn desc)
-							where bdate >= today
-							order by r desc))
-	where r between #{startNum} and #{endNum}<include refid="revSearch"></include>
-	order by r asc
+select rnum, pname, tel, pet_name, pet_type, bdate, btime, aprvl_yn, bseq
+from	(select rownum as r, rnum, pname, tel, pet_name, pet_type, bdate, btime, aprvl_yn, bseq
+		from	(select rownum as rnum, pname, tel, pet_name,
+				 		 	case when pet_type ='c' then '고양이'
+		 					  when pet_type ='d' then '강아지'
+							else '기타' end pet_type, bdate, btime, aprvl_yn, bseq
+				from (select p.pname, p.tel, bl.pet_name, bl.pet_type, to_char(bl.bdate,'yyyy-mm-dd') as bdate, bl.btime, bl.aprvl_yn, to_char(bl.reg_date,'yyyy-mm_dd') as reg_date, to_char(sysdate,'yyyy-mm-dd') as today, bseq
+						from book_list bl, protector p
+						where bl.pid = p.pid and bln = #{bln} 
+						order by bdate, btime, aprvl_yn desc)
+				where bdate >= today <include refid="revSearch"></include>
+				order by rnum desc))
+where r between #{startNum} and #{endNum}
 	</select>
 	<sql id="revSearch">
 		<if test="status != null">
 			<if test="status=='고객명'"> and pname like '%' || #{search} || '%'</if>
 			<if test="status=='예약날짜'"> and bdate like '%' || #{search} || '%'</if>
-			<if test="status=='전화번호'"> and tel like '%' || #{search} || '%'</if>
+			<if test="status=='승인여부'"> and aprvl_yn like '%' || upper(#{search}) || '%'</if>
 		</if>
 	</sql>
 	<select id="selectRegCnt" resultType="int">
 	SELECT count(*) as totalNum
 	FROM (SELECT TO_CHAR(BL.BDATE,'YYYY-MM-DD') AS BDATE, TO_CHAR(SYSDATE,'YYYY-MM-DD') AS TODAY, pname, tel
 			FROM BOOK_LIST BL, PROTECTOR P
-			WHERE BL.PID = P.PID AND BLN = #{bln} <include refid="revSearch"></include>) 
-	WHERE BDATE >= TODAY
+			WHERE BL.PID = P.PID AND BLN = #{bln}) 
+	WHERE BDATE >= TODAY <include refid="revSearch"></include>
 	</select>
 	<select id="selectWeekQgcCnt" resultType="kr.co.sist.mkjg.clinic.domain.WeekQGCDayCnt">
 	<![CDATA[
@@ -225,27 +223,23 @@ GROUP BY DAY, QDATE
 							from	(select qtitle, qtype, wid, qdate, rstatus, qua_seq
 									from QUESTION_UA
 									order by qdate))
-					order by qdate desc))
+					order by qdate desc)
+					order by rnum desc)
 	where r between #{startNum} and #{endNum} and wid = #{cId} <include refid="mgrSearch"></include>
-	order by rnum desc
 	</select>
 	<sql id="mgrSearch">
 		<if test="status != null">
 			<if test="status=='문의타입'">and qtype like '%' || #{search} || '%'</if>
 			<if test="status=='문의자'">and wid like '%' || #{search} || '%'</if>
-			<if test="status=='문의날짜'">and rdate like '%' || #{search} || '%'</if>
+			<if test="status=='문의날짜'">and qdate like '%' || #{search} || '%'</if>
 			<if test="status=='답변유무'">and rstatus like '%' || upper(#{search}) || '%'</if>
 		</if>
 	</sql>
 	<select id="selectMgrQnaTotalCnt" resultType="int">
-	select count(*) cnt
-	from	(select rownum r, rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
-			from	(select  rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
-					from	(select rownum rnum, qtitle, qtype, wid, rdate, rstatus, qua_seq
-							from	(select qtitle, qtype, wid, rdate, rstatus, qua_seq
-									from QUESTION_UA
-									order by rdate))
-					order by rdate desc))
+	select count(*) as cnt
+	from (select case when qtype ='1' then '홈페이지'
+			when qtype ='2' then '오류' when qtype='3' then '등록' else '기타' end qtype, wid, qdate, rstatus
+			from QUESTION_UA)
 	where wid = #{cId} <include refid="mgrSearch"></include>
 	</select>
 	<insert id="insertClinic" parameterType="kr.co.sist.mkjg.clinic.vo.ClnRegData" statementType="CALLABLE">

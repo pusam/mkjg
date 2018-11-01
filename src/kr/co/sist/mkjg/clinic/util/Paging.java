@@ -79,6 +79,17 @@ public class Paging {
 		return endPage; 
 	}//end endPage
 	
+	/**
+	 * 인덱스 리스트를 구하는 일
+	 * @param startPage
+	 * @param endPage
+	 * @param totalPage
+	 * @param currentPage
+	 * @param url
+	 * @param status
+	 * @param search
+	 * @return
+	 */
 	public String indexList(int startPage, int endPage, int totalPage, int currentPage, String url, String status, String search) {
 		int curpage = 0;
 		StringBuilder strList=new StringBuilder();
@@ -117,7 +128,7 @@ public class Paging {
 			}else {
 				strList.append("<li><a href='").append(url).append("?currentPage=").append(curpage).append("&status=").append(status).append("&search=").append(search).append("'>&gt;&gt;</a></li>");
 			}
-		}
+		} 
 		
 			return strList.toString();	
 		

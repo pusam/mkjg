@@ -60,6 +60,10 @@ import kr.co.sist.mkjg.clinic.vo.UserQnaAnswer;
 import kr.co.sist.mkjg.clinic.vo.UserQnaBlnCurrentPage;
 import kr.co.sist.mkjg.protector.util.RandomPass;
 
+/**
+ * @author kdh
+ * 사업자 controller
+ */
 @Controller
 @SessionAttributes({"cId","bln","cName"})
 public class ClinicController {
@@ -69,6 +73,14 @@ public class ClinicController {
 	private String url = "";
 	private SessionCheck sc = new SessionCheck();
 	
+	/**
+	 * 
+	 * @param request
+	 * @param model
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="companyReg.do", method=POST)
 	public String action( HttpServletRequest request, Model model, HttpSession session) throws Exception {
 		String bln = (String)session.getAttribute("bln");
@@ -76,6 +88,7 @@ public class ClinicController {
 		if(!f.exists()) {
 			f.mkdirs();
 		}
+		
 		//1.파일업로드 객체 생성
 		String repository="C:/dev/workspace/mkjg/WebContent/upload/"+bln+"/";
 		int maxSize=1024*1024*10;
@@ -298,35 +311,8 @@ public class ClinicController {
 		return url; 
 	}
 
-	//인덱스두를 받으면 리턴이 동적으로 되야되고
-	//세션이없으면 다 로그인으로 빠짐
 	@RequestMapping(value="index_cln.do", method= {POST,GET})
-	//public String index(HttpSession session, Model model, String id, String pass, String check, ClinicIdCheck cic) throws SQLException{
 	public String index(HttpSession session, Model model, ClinicIdCheck cic) throws SQLException{
-//		if(cic.getCId()==null || cic.getPass() == null) {
-//			url="clinic/cln_login/login";
-//		}else { // null이 아니면 로직체크해서 메인 페이지로 이동시킴, aprvl이 N, Y인 로직도 추가해야함
-//			model.addAttribute("cId", cic.getCId()); // 사업자 아이디 세션 할당
-//			String bln = cs.selectBln(cic);
-//			model.addAttribute("bln", bln); // 사업자 등록번호 세션 할당
-//			//아이디 또는 패스워드가 null이면 다시 로그인 화면으로 이동시킴
-//			
-//			String name = cs.selectName(cic);
-//			model.addAttribute("cName", name); // 사업자 이름 세션 할당
-//					
-//			List<NoticeTitle> noticeTitlelist = cs.selectNoticeTitle();
-//			model.addAttribute("notice_title_list", noticeTitlelist);
-//			
-//			List<TodayReg> todayReglist = cs.selectTodayReg(bln);
-//			model.addAttribute("today_reg_list", todayReglist);
-//			
-//			JSONObject weekRegDayCnt = cs.selectWeekRegDayCnt(bln);
-//			model.addAttribute("week_reg_day_cnt", weekRegDayCnt);
-//			
-//			JSONObject weekQGCDayCnt = cs.selectWeekQGCCnt(bln);
-//			model.addAttribute("week_QGC_Day_Cnt", weekQGCDayCnt);
-//			url = "clinic/cln_main/cln_main_approval_OK";
-//		}//end else
 		url="clinic/cln_login/login";
 		return url; 
 	}//login
